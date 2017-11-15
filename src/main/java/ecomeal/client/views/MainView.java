@@ -9,7 +9,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-import ecomeal.client.constants.EcomealConstant;
+import ecomeal.client.constants.EcomealConstants;
 
 @DesignRoot
 public class MainView extends VerticalLayout implements View {
@@ -25,12 +25,12 @@ public class MainView extends VerticalLayout implements View {
 
         Button basketButton = new Button("Liste des Paniers");
         basketButton.addClickListener(e -> {
-        	navigator.navigateTo(EcomealConstant.BASKET_VIEW);
+        	navigator.navigateTo(EcomealConstants.BASKET_VIEW);
         });
         
         Button productButton = new Button("Liste des Produits");
         productButton.addClickListener(e -> {
-        	navigator.navigateTo(EcomealConstant.PRODUCT_VIEW);
+        	navigator.navigateTo(EcomealConstants.PRODUCT_VIEW);
         });
         
         buttons.addComponents(basketButton, productButton);

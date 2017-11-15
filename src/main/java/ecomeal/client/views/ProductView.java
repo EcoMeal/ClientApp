@@ -7,7 +7,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 
-import ecomeal.client.constants.EcomealConstant;
+import ecomeal.client.constants.EcomealConstants;
 
 public class ProductView extends HorizontalLayout implements View {
 	
@@ -20,7 +20,7 @@ public class ProductView extends HorizontalLayout implements View {
 
         Button button = new Button("Go to Main View");
         button.addClickListener(e -> {
-        	navigator.navigateTo(EcomealConstant.MAIN_VIEW);
+        	navigator.navigateTo(EcomealConstants.MAIN_VIEW);
         });
         addComponents(button, title);
     }

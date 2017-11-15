@@ -9,7 +9,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
 
-import ecomeal.client.constants.EcomealConstant;
+import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.views.MainView;
 import ecomeal.client.views.BasketView;
 
@@ -27,8 +27,8 @@ public class MainUI extends UI {
         navigator = new Navigator(this, this);
 
         // Create and register the views
-        navigator.addView(EcomealConstant.BASKET_VIEW, new BasketView(navigator));
-        navigator.addView(EcomealConstant.MAIN_VIEW, new MainView(navigator));
+        navigator.addView(EcomealConstants.BASKET_VIEW, new BasketView(navigator));
+        navigator.addView(EcomealConstants.MAIN_VIEW, new MainView(navigator));
         
         
     }

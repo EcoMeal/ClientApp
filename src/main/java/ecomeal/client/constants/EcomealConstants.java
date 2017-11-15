@@ -1,6 +1,6 @@
 package ecomeal.client.constants;
 
-public class EcomealConstant {
+public class EcomealConstants {
 
 	public static final String MAIN_VIEW = "";
 	public static final String BASKET_VIEW = "Paniers";
