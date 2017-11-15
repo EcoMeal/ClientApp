@@ -1,4 +1,4 @@
-package Ecomeal.client.ui;
+package ecomeal.client.ui;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -9,9 +9,9 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
 
-import Ecomeal.client.constants.EcomealConstant;
-import Ecomeal.client.views.MainView;
-import Ecomeal.client.views.PanierView;
+import ecomeal.client.constants.EcomealConstant;
+import ecomeal.client.views.MainView;
+import ecomeal.client.views.BasketView;
 
 @Theme("mytheme")
 public class MainUI extends UI {
@@ -27,8 +27,8 @@ public class MainUI extends UI {
         navigator = new Navigator(this, this);
 
         // Create and register the views
-        navigator.addView(EcomealConstant.PANIERVIEW, new PanierView(navigator));
-        navigator.addView(EcomealConstant.MAINVIEW, new MainView(navigator));
+        navigator.addView(EcomealConstant.BASKET_VIEW, new BasketView(navigator));
+        navigator.addView(EcomealConstant.MAIN_VIEW, new MainView(navigator));
         
         
     }

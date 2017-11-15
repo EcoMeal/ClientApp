@@ -1,4 +1,4 @@
-package Ecomeal.client.views;
+package ecomeal.client.views;
 
 import com.vaadin.annotations.DesignRoot;
 import com.vaadin.navigator.Navigator;
@@ -7,10 +7,9 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 
-import Ecomeal.client.constants.EcomealConstant;
+import ecomeal.client.constants.EcomealConstant;
 
 @DesignRoot
 public class MainView extends VerticalLayout implements View {
@@ -24,17 +23,17 @@ public class MainView extends VerticalLayout implements View {
         
         HorizontalLayout buttons = new HorizontalLayout();
 
-        Button buttonPanier = new Button("Liste des Paniers");
-        buttonPanier.addClickListener(e -> {
-        	navigator.navigateTo(EcomealConstant.PANIERVIEW);
+        Button basketButton = new Button("Liste des Paniers");
+        basketButton.addClickListener(e -> {
+        	navigator.navigateTo(EcomealConstant.BASKET_VIEW);
         });
         
-        Button buttonIngredient = new Button("Liste des Ingrédients");
-        buttonIngredient.addClickListener(e -> {
-        	Notification.show("Pas encore de vue");
+        Button productButton = new Button("Liste des Produits");
+        productButton.addClickListener(e -> {
+        	navigator.navigateTo(EcomealConstant.PRODUCT_VIEW);
         });
         
-        buttons.addComponents(buttonPanier, buttonIngredient);
+        buttons.addComponents(basketButton, productButton);
         addComponents(titre, buttons);
     }
 

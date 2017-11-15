@@ -1,0 +1,33 @@
+package ecomeal.client.views;
+
+import com.vaadin.navigator.Navigator;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+
+import ecomeal.client.constants.EcomealConstant;
+
+public class BasketView extends HorizontalLayout implements View {
+	
+	private static final long serialVersionUID = -419142715000622537L;
+
+	public BasketView(Navigator navigator) {
+        setSizeFull();
+        
+        Label title = new Label("Voici la Liste des Paniers");
+
+        Button button = new Button("Go to Main View");
+        button.addClickListener(e -> {
+        	navigator.navigateTo(EcomealConstant.MAIN_VIEW);
+        });
+        addComponents(button, title);
+    }
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+}
