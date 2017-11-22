@@ -10,8 +10,7 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
 
 import ecomeal.client.constants.EcomealConstants;
-import ecomeal.client.views.MainView;
-import ecomeal.client.views.BasketView;
+import ecomeal.client.views.*;
 
 @Theme("mytheme")
 public class MainUI extends UI {
@@ -29,6 +28,7 @@ public class MainUI extends UI {
         // Create and register the views
         navigator.addView(EcomealConstants.BASKET_VIEW, new BasketView(navigator));
         navigator.addView(EcomealConstants.MAIN_VIEW, new MainView(navigator));
+        navigator.addView(EcomealConstants.HORAIRE_VIEW, new HoraireView(navigator));
         
         
     }

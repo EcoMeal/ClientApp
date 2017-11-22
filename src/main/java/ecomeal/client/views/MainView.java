@@ -33,7 +33,12 @@ public class MainView extends VerticalLayout implements View {
         	navigator.navigateTo(EcomealConstants.PRODUCT_VIEW);
         });
         
-        buttons.addComponents(basketButton, productButton);
+        Button horaireButton = new Button("Choix des horaires");
+        horaireButton.addClickListener(e -> {
+        	navigator.navigateTo(EcomealConstants.HORAIRE_VIEW);
+        });
+        
+        buttons.addComponents(basketButton, productButton, horaireButton);
         addComponents(titre, buttons);
     }
 
