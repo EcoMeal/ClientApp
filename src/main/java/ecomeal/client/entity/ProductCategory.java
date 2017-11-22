@@ -6,7 +6,9 @@ public class ProductCategory {
 	
 	private String name;
 	
-	public ProductCategory() {	
+	public ProductCategory(int id, String name) {
+		this.id = id;
+		this.name = name;
 	}
 
 	public int getId() {

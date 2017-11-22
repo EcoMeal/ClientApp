@@ -8,7 +8,10 @@ public class Product {
 	
 	private String name;
 	
-	public Product() {
+	public Product(int id, ProductCategory productCategory, String name) {
+		this.id =id;
+		this.productCategory = productCategory;
+		this.name = name;
 	}
 	
 	public int getId() {

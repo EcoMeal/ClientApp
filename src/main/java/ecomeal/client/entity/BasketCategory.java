@@ -6,7 +6,9 @@ public class BasketCategory {
 	
 	private String name;
 	
-	public BasketCategory() {	
+	public BasketCategory(int id, String name) {
+		this.id = id;
+		this.name = name;
 	}
 
 	public int getId() {
