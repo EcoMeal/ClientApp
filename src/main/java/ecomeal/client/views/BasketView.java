@@ -23,7 +23,8 @@ public class BasketView extends HorizontalLayout implements View {
 	private BasketService service = BasketService.getInstance();
 	
 	public BasketView(Navigator navigator) {
-        setSizeFull();
+        setHeight(null);
+        setWidth("100%");
         
         Label title = new Label("Voici la Liste des Paniers");
 
