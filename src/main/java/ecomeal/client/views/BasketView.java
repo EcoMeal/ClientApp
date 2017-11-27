@@ -22,7 +22,14 @@ public class BasketView extends HorizontalLayout implements View {
 	
 	private BasketService service = BasketService.getInstance();
 	
+	/**
+	 * Constructor of the Basket View that initialize the page
+	 * 
+	 * @param navigator Used to navigate between all the Vaadin views
+	 */
 	public BasketView(Navigator navigator) {
+		
+		// For the horizontal scrollbar
         setHeight(null);
         setWidth("100%");
         
@@ -33,12 +40,14 @@ public class BasketView extends HorizontalLayout implements View {
         	navigator.navigateTo(EcomealConstants.MAIN_VIEW);
         });
         
+        // TODO : switch to all the AVAILABLE baskets
+        // Get all the baskets
         List<Basket> baskets = service.findAll();
         
+        // Css Layout allow the auto line return for Baskte Image when we resize the window
         CssLayout css = new CssLayout();
         for(Basket basket : baskets) {
         	css.addComponent(new BasketComponent(basket.getImage(), basket.getName()));
-        	//css.addComponent(new Image(basket.getName(), new FileResource(basket.getImage())));
         }
         
         VerticalLayout vertical = new VerticalLayout(title, css, button);
@@ -47,6 +56,9 @@ public class BasketView extends HorizontalLayout implements View {
         addComponents(vertical);
     }
 
+	/**
+	 * Code executed when we enter the view
+	 */
 	@Override
 	public void enter(ViewChangeEvent event) {
 		

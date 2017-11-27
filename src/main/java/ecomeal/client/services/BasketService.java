@@ -27,6 +27,7 @@ public class BasketService extends AbstractService {
 		return getFakeBaskets();
 	}
 
+	// TODO : Need REST url from web app
 	@Override
 	public void init() {
 		client = ClientBuilder.newClient();
@@ -34,11 +35,12 @@ public class BasketService extends AbstractService {
 	}
 	
 	
-	
 	public Product getProductResponse(String place) {
 		return target.queryParam("q", place).request(MediaType.APPLICATION_JSON).get(Product.class);
 	}
 	
+	
+	// Temporary list of basket to test the user interface
 	private List<Basket> getFakeBaskets() {
 		List<Basket> res = new ArrayList<Basket>();
 		BasketCategory classic = new BasketCategory(1, "Classique");
