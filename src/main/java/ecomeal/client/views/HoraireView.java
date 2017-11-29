@@ -26,7 +26,10 @@ public class HoraireView extends HorizontalLayout implements View {
 	private Button returnButton;
 	private Button valideCommand;
 	
-
+	/**
+	 * Constructeur de HoraireView
+	 * @param navigator
+	 */
 	public HoraireView(Navigator navigator) {
         setSizeFull();
         VerticalLayout main = new VerticalLayout();
@@ -39,30 +42,30 @@ public class HoraireView extends HorizontalLayout implements View {
         titleLayout.addComponents(title);
         
         // Création des Sliders
-        to = new Slider(960,1350);
-        to.setDescription(to.getCaption());
+        from = new Slider(960,1350);
+        from.setDescription(from.getCaption());
         
-        to.setCaption("Début:" + transformToHour(to.getValue()));
-        to.setOrientation(SliderOrientation.HORIZONTAL);
-        to.setSizeFull();
-        to.addValueChangeListener(e -> {
-        	
-        	this.from.setMin(e.getValue().intValue() + 30);
-        	this.from.setEnabled(true);
-        	to.setCaption("Début:" + transformToHour(to.getValue()));
-        });
-        
-        
-        from = new Slider(990, 1380);
-        from.setCaption("Fin:" + transformToHour(from.getValue()));
+        from.setCaption("Début:" + transformToHour(from.getValue()));
         from.setOrientation(SliderOrientation.HORIZONTAL);
-        from.setEnabled(false);
         from.setSizeFull();
         from.addValueChangeListener(e -> {
-        	from.setCaption("Fin:" + transformToHour(from.getValue()));
+        	
+        	this.to.setMin(e.getValue().intValue() + 30);
+        	this.to.setEnabled(true);
+        	from.setCaption("Début:" + transformToHour(from.getValue()));
         });
         
-        sliders.addComponents(to, from);
+        
+        to = new Slider(990, 1380);
+        to.setCaption("Fin:" + transformToHour(from.getValue()));
+        to.setOrientation(SliderOrientation.HORIZONTAL);
+        to.setEnabled(false);
+        to.setSizeFull();
+        to.addValueChangeListener(e -> {
+        	to.setCaption("Fin:" + transformToHour(to.getValue()));
+        });
+        
+        sliders.addComponents(from, to);
         sliders.setSizeFull();
         
         // Création de la session de validation de l'horaire 
