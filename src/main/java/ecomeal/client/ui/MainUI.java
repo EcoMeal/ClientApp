@@ -21,6 +21,7 @@ public class MainUI extends UI {
     @Override
     protected void init(VaadinRequest vaadinRequest) {
     	getPage().setTitle("EcoMeal");
+    	setTheme("mytheme");
     	
     	// Create a navigator to control the views
         navigator = new Navigator(this, this);

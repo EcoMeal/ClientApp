@@ -64,8 +64,8 @@ public class BasketService extends AbstractService {
 		classicChicken.add(water);
 		classicChicken.add(donut);
 		ClassLoader cl = getClass().getClassLoader();
-		File chickenFile = new File(cl.getResource("chicken.jpg").getFile());
-		File beefFile = new File(cl.getResource("steack-hache-x2.jpg").getFile());
+		File chickenFile = new File(cl.getResource("chicken-150x150.png").getFile());
+		File beefFile = new File(cl.getResource("beef-150x150.png").getFile());
 		res.add(new Basket(1, classic, "Classic Chicken 1", classicChicken, chickenFile));
 		res.add(new Basket(2, classic, "Classic Beef 1", classicBeef, beefFile));
 		res.add(new Basket(3, classic, "Classic Chicken 2", classicChicken, chickenFile));

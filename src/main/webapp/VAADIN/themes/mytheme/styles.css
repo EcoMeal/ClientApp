@@ -1142,7 +1142,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .v-vertical > .v-spacing, .v-vertical > .v-expand > .v-spacing {
-	width: 0 !important;
+	/*width: 0 !important;*/
 	display: block;
 	clear: both;
 }

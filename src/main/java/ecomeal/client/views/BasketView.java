@@ -5,6 +5,7 @@ import java.util.List;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -29,7 +30,7 @@ public class BasketView extends HorizontalLayout implements View {
 	 */
 	public BasketView(Navigator navigator) {
 		
-		// For the horizontal scrollbar
+		// For the vertical scrollbar
         setHeight(null);
         setWidth("100%");
         
@@ -44,16 +45,18 @@ public class BasketView extends HorizontalLayout implements View {
         // Get all the baskets
         List<Basket> baskets = service.findAll();
         
-        // Css Layout allow the auto line return for Baskte Image when we resize the window
+        // Css Layout allow the auto line return for Basket Image when we resize the window
         CssLayout css = new CssLayout();
         for(Basket basket : baskets) {
-        	css.addComponent(new BasketComponent(basket.getImage(), basket.getName()));
+        	css.addComponent(new BasketComponent(basket.getImage(), basket.getName(), navigator));
         }
+        
         
         VerticalLayout vertical = new VerticalLayout(title, css, button);
         vertical.setResponsive(true);
         
         addComponents(vertical);
+        
     }
 
 	/**
@@ -61,6 +64,22 @@ public class BasketView extends HorizontalLayout implements View {
 	 */
 	@Override
 	public void enter(ViewChangeEvent event) {
-		
+		// Set background color for Basket Components
+		Page.getCurrent().getJavaScript().execute(
+				"var elements = document.getElementsByClassName('" + BasketComponent.javaScriptClassName + "');" +
+				"for (var i = 0; i < elements.length; i++) {" +
+				"	for (var j = 0; j < elements[i].childNodes.length; j++) {" +
+				"		if(elements[i].childNodes[j].classList.contains('v-slot')) {" +
+				"			elements[i].childNodes[j].style.backgroundColor='#F5F5F5';" +
+				"			elements[i].childNodes[j].style.border='1px solid #ddd';" +
+				"		}" +
+				"		else if(elements[i].childNodes[j].classList.contains('v-spacing')) {" +
+				"			elements[i].childNodes[j].style.width='150px';" +
+				"			elements[i].childNodes[j].style.height='0px';" +
+				"			elements[i].childNodes[j].style.backgroundColor='#B0B0B0';" +
+				"		}" +
+				"	}" +
+				"}"
+		);		
 	}
 }
