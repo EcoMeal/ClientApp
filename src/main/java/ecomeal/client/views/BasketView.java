@@ -36,7 +36,7 @@ public class BasketView extends HorizontalLayout implements View {
         
         Label title = new Label("Voici la Liste des Paniers");
 
-        Button button = new Button("Go to Main View");
+        Button button = new Button("Retour");
         button.addClickListener(e -> {
         	navigator.navigateTo(EcomealConstants.MAIN_VIEW);
         });
