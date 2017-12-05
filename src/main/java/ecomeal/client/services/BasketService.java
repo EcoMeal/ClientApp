@@ -1,36 +1,22 @@
 package ecomeal.client.services;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import ecomeal.client.entity.Basket;
-import ecomeal.client.entity.BasketCategory;
 import ecomeal.client.entity.Product;
-import ecomeal.client.entity.ProductCategory;
+import ecomeal.client.tools.JsonTool;
 
-@ApplicationScoped
 public class BasketService extends AbstractService {
 	
-	private final static BasketService INSTANCE = new BasketService();
 	
-	public static BasketService getInstance() {
-		return INSTANCE;
+	private JsonTool jsonTool;
+	
+	public BasketService(JsonTool jsonTool) {
+		this.jsonTool = jsonTool;
 	}
 	
 	/**
@@ -40,43 +26,37 @@ public class BasketService extends AbstractService {
 		
 		List<Basket> res = new ArrayList<Basket>();
 		
-		try {
-			URL url = new URL("http://vps434333.ovh.net/api/basket");
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.connect();
-			InputStream inputStream = connection.getInputStream();
+		/*URL url = new URL("http://vps434333.ovh.net/api/basket");
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.connect();
+		InputStream inputStream = connection.getInputStream();*/
+		
+		String result = jsonTool.readJson("http://vps434333.ovh.net/api/basket");
+		//String result = inputStreamToString(inputStream, 8096);
+		
+		JSONArray array = new JSONArray(result);
+		JSONObject obj;
+		for(int i = 0; i < array.length(); i++) {
+			obj = array.getJSONObject(i);
+			String basketName = obj.getString("name");
+			Integer basketPrice = obj.getInt("price");
+			String basketCategory = obj.getString("category");
+			String basketCategoryImage = obj.get("category_image").equals(null) ? "" : obj.getString("category_image");
 			
-			String result = inputStreamToString(inputStream, 1024);
-			
-			JSONArray array = new JSONArray(result);
-			JSONObject obj;
-			for(int i = 0; i < array.length(); i++) {
-				obj = (JSONObject) array.get(i);
-				Basket basket = new Basket((String) obj.get("name"), (Integer) obj.get("price"), (String) obj.get("category"), "", new ArrayList<Product>());
-				res.add(basket);
+			JSONArray products = obj.getJSONArray("products");
+			List<Product> productsList = new ArrayList<Product>();
+			for(int j = 0; j < products.length(); j++) {
+				JSONObject jsonProduct = products.getJSONObject(i);
+				String productName = jsonProduct.getString("name");
+				String productCategory = jsonProduct.getString("category");
+				Product product = new Product(productName, productCategory);
+				productsList.add(product);
 			}
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			Basket basket = new Basket(basketName, basketPrice, basketCategory, basketCategoryImage, productsList);
+			res.add(basket);
 		}
 		
-		return res;
-	}
-
-	// TODO : Need REST url from web app
-	@Override
-	public void init() {
-		//client = ClientBuilder.newClient();
-		//target = client.target("http://vps434333.ovh.net/api/basket");
-	}
-	
-	
-	public List<Basket> getProductResponse(String place) {
-		//return target.queryParam("q", place).request(MediaType.APPLICATION_JSON).get(Product.class);
-		List<Basket> res = new ArrayList<Basket>();
-		res.add(target.request(MediaType.APPLICATION_JSON).get(Basket.class));
 		return res;
 	}
 	

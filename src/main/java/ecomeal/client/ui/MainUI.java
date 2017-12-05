@@ -1,5 +1,7 @@
 package ecomeal.client.ui;
 
+import java.util.List;
+
 import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
@@ -10,6 +12,7 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
 
 import ecomeal.client.constants.EcomealConstants;
+import ecomeal.client.entity.Basket;
 import ecomeal.client.views.*;
 
 @Theme("mytheme")
@@ -17,6 +20,8 @@ public class MainUI extends UI {
 
 	private static final long serialVersionUID = 2259839686859669777L;
 	Navigator navigator;
+	
+	List<Basket> command = null;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -39,5 +44,9 @@ public class MainUI extends UI {
     public static class MyMainServlet extends VaadinServlet {
 
 		private static final long serialVersionUID = 8807776865878950610L;
+    }
+    
+    public static void addBasket(Basket basket) {
+    	
     }
 }

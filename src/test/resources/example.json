@@ -1,0 +1,14 @@
+[
+	{
+		"name":"ee",
+		"price":789,
+		"category":"Panier vegan",
+		"category_image":null,
+		"products":[
+			{
+				"name":"Bob",
+				"category":"Humain"
+			}
+		]
+	}
+]
