@@ -1,6 +1,7 @@
 package ecomeal.client.ui;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -19,14 +20,17 @@ import ecomeal.client.views.*;
 public class MainUI extends UI {
 
 	private static final long serialVersionUID = 2259839686859669777L;
-	Navigator navigator;
+	private Navigator navigator;
 	
-	List<Basket> command = null;
+	private Map<Basket, Integer> order;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
     	getPage().setTitle("EcoMeal");
     	setTheme("mytheme");
+    	
+    	// Initialize the order with an empty List of Basket
+    	order = new HashMap<Basket, Integer>();
     	
     	// Create a navigator to control the views
         navigator = new Navigator(this, this);
@@ -38,6 +42,14 @@ public class MainUI extends UI {
         
         
     }
+    
+    public Map<Basket, Integer> getOrder() {
+    	return order;
+    }
+    
+    public void addBasket(Basket basket) {
+    	order.put(basket, order.get(basket) + 1);
+    }
 
     @WebServlet(urlPatterns = "/*", name = "MyMainServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MainUI.class, productionMode = false)
@@ -46,7 +58,4 @@ public class MainUI extends UI {
 		private static final long serialVersionUID = 8807776865878950610L;
     }
     
-    public static void addBasket(Basket basket) {
-    	
-    }
 }

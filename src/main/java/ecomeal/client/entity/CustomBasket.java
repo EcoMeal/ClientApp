@@ -1,5 +1,5 @@
 package ecomeal.client.entity;
 
-public enum ProductCategory {
+public class CustomBasket {
 
 }
