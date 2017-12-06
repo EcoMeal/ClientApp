@@ -8,14 +8,18 @@ import java.net.URL;
 
 public class JsonTool {
 
-	public String readJson(String JsonURL) {
-		URL url;
-		try {
-			url = new URL(JsonURL);
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+	private HttpURLConnection connection;
+	
+	public JsonTool(HttpURLConnection connection) {
+		this.connection = connection;
+	}
+	
+	public String readJson(URL url) {
+		try {;
+			connection = (HttpURLConnection) url.openConnection();
 			connection.connect();
 			InputStream inputStream = connection.getInputStream();
-			System.out.println(inputStream.toString());
+			System.out.println("\n\n\n" + inputStream.toString() + "\n\n\n");
 			return inputStreamToString(inputStream, 8096);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -25,7 +29,7 @@ public class JsonTool {
 		return null;
 	}
 	
-	private String inputStreamToString (InputStream in, int bufSize) {         
+	public String inputStreamToString (InputStream in, int bufSize) {         
         final StringBuilder out = new StringBuilder(); 
         final byte[] buffer = new byte[bufSize]; 
         try {

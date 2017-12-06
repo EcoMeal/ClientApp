@@ -1,5 +1,7 @@
 package ecomeal.client.services;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,30 +33,35 @@ public class BasketService extends AbstractService {
 		connection.connect();
 		InputStream inputStream = connection.getInputStream();*/
 		
-		String result = jsonTool.readJson("http://vps434333.ovh.net/api/basket");
-		//String result = inputStreamToString(inputStream, 8096);
+		String result;
+		try {
+			result = jsonTool.readJson(new URL("http://vps434333.ovh.net/api/basket"));
+			//String result = inputStreamToString(inputStream, 8096);
 		
-		JSONArray array = new JSONArray(result);
-		JSONObject obj;
-		for(int i = 0; i < array.length(); i++) {
-			obj = array.getJSONObject(i);
-			String basketName = obj.getString("name");
-			Integer basketPrice = obj.getInt("price");
-			String basketCategory = obj.getString("category");
-			String basketCategoryImage = obj.get("category_image").equals(null) ? "" : obj.getString("category_image");
-			
-			JSONArray products = obj.getJSONArray("products");
-			List<Product> productsList = new ArrayList<Product>();
-			for(int j = 0; j < products.length(); j++) {
-				JSONObject jsonProduct = products.getJSONObject(j);
-				String productName = jsonProduct.getString("name");
-				String productCategory = jsonProduct.getString("category");
-				Product product = new Product(productName, productCategory);
-				productsList.add(product);
+			JSONArray array = new JSONArray(result);
+			JSONObject obj;
+			for(int i = 0; i < array.length(); i++) {
+				obj = array.getJSONObject(i);
+				String basketName = obj.getString("name");
+				Integer basketPrice = obj.getInt("price");
+				String basketCategory = obj.getString("category");
+				String basketCategoryImage = obj.get("category_image").equals(null) ? "" : obj.getString("category_image");
+				
+				JSONArray products = obj.getJSONArray("products");
+				List<Product> productsList = new ArrayList<Product>();
+				for(int j = 0; j < products.length(); j++) {
+					JSONObject jsonProduct = products.getJSONObject(j);
+					String productName = jsonProduct.getString("name");
+					String productCategory = jsonProduct.getString("category");
+					Product product = new Product(productName, productCategory);
+					productsList.add(product);
+				}
+				
+				Basket basket = new Basket(basketName, basketPrice, basketCategory, basketCategoryImage, productsList);
+				res.add(basket);
 			}
-			
-			Basket basket = new Basket(basketName, basketPrice, basketCategory, basketCategoryImage, productsList);
-			res.add(basket);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
 		}
 		
 		return res;
