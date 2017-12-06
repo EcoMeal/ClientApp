@@ -15,12 +15,11 @@ public class JsonTool {
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.connect();
 			InputStream inputStream = connection.getInputStream();
+			System.out.println(inputStream.toString());
 			return inputStreamToString(inputStream, 8096);
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

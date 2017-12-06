@@ -46,7 +46,7 @@ public class BasketService extends AbstractService {
 			JSONArray products = obj.getJSONArray("products");
 			List<Product> productsList = new ArrayList<Product>();
 			for(int j = 0; j < products.length(); j++) {
-				JSONObject jsonProduct = products.getJSONObject(i);
+				JSONObject jsonProduct = products.getJSONObject(j);
 				String productName = jsonProduct.getString("name");
 				String productCategory = jsonProduct.getString("category");
 				Product product = new Product(productName, productCategory);
