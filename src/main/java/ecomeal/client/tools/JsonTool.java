@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JsonTool {
 
@@ -14,8 +15,18 @@ public class JsonTool {
 		this.connection = connection;
 	}
 	
-	public String readJson(URL url) {
-		try {;
+	public String readJson(UrlWrapper url) {
+		return readJson(url, new HashMap<String,String>());
+	}
+	
+	public String readJson(UrlWrapper url, Map<String,String> params) {
+		try {
+			String urlString = url.getPath() + "?";
+			for(String key : params.keySet()){
+				urlString = urlString + key + "=" + params.get(key) + "&";
+			}
+			urlString = urlString.substring(0, urlString.length() - 1);
+			url = new UrlWrapper(urlString);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.connect();
 			InputStream inputStream = connection.getInputStream();

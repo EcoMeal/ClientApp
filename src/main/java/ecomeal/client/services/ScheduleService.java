@@ -1,24 +1,17 @@
 package ecomeal.client.services;
 
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import org.json.JSONArray;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Slider;
 
-import ecomeal.client.entity.Basket;
 import ecomeal.client.tools.JsonTool;
+import ecomeal.client.tools.UrlWrapper;
 
 public class ScheduleService extends AbstractService{
 	
@@ -39,34 +32,7 @@ public class ScheduleService extends AbstractService{
 		
 		Map<String,String> params = new HashMap<String,String>();
 		
-		Timestamp stamp = new Timestamp(System.currentTimeMillis());
-		Date date = new Date(stamp.getTime());
-		int year = date.getYear();
-		int month = date.getMonth();
-		int day = date.getDate();
-		String dayS = "";
-		String monthS = "";
-		if(month < 10){
-			monthS = "0" + month;
-		}
-		else{
-			monthS = "" + month;
-		}
-		if(day < 10){
-			dayS = "0" + day;
-		}
-		else{
-			dayS = "" + day;
-		}
-		
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		try {
-			Date today = dateFormat.parse(dayS + "/" + monthS + "/" + year);
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		long time = date.getTime();
+		long time = getTimestamp(new Date());
 		String fromTime = "" + (long) (time + from.getValue() * 60000);
 		String toTime = "" + (long) (time + to.getValue() * 60000);
 		
@@ -75,19 +41,38 @@ public class ScheduleService extends AbstractService{
 				
 		String result = "";
 		try {
-			result = jsonTool.readJson(new URL("http://vps434333.ovh.net/api/deliveryTime_calculation"),params);
+			result = jsonTool.readJson(new UrlWrapper("http://vps434333.ovh.net/api/deliveryTime_calculation"),params);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		if(from.getValue() == 960){
-			valideCommand.setVisible(false);
-			return "Il n'y a pas d'horaire valide" + result;
-		}else{
+		if(result != null){
 			valideCommand.setVisible(true);
-			return "Horaire selectionnée :" + result + transformToHour(from.getValue() + (Math.random()*30));
+			
+			/*
+			 * Transformer le result en minute (long)
+			 */
+			
+			return "Horaire selectionnée : " + result /*+ transformToHour(from.getValue() + (Math.random()*30))*/;
+		}else{
+			valideCommand.setVisible(false);
+			return "Il n'y a pas d'horaire valide : Result = " + result;
 		}
+	}
+	
+	public long getTimestamp(Date date){
+		
+		Calendar cd = Calendar.getInstance();
+		cd.setTime(date);
+		cd.set(Calendar.MILLISECOND, 0);
+		cd.set(Calendar.SECOND, 0);
+		cd.set(Calendar.MINUTE, 0);
+		cd.set(Calendar.HOUR_OF_DAY, 0);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		System.out.println(sdf.format(cd.getTime()));
+		
+		return cd.getTimeInMillis();
 	}
 
 	/**

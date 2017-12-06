@@ -17,4 +17,8 @@ public class UrlWrapper {
         return url.openConnection();
     }
 
+	public String getPath() {
+		return url.getPath();
+	}
+
 }

@@ -1,7 +1,6 @@
 package ecomeal.client.services;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +10,7 @@ import org.json.JSONObject;
 import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Product;
 import ecomeal.client.tools.JsonTool;
+import ecomeal.client.tools.UrlWrapper;
 
 public class BasketService extends AbstractService {
 	
@@ -35,7 +35,7 @@ public class BasketService extends AbstractService {
 		
 		String result;
 		try {
-			result = jsonTool.readJson(new URL("http://vps434333.ovh.net/api/basket"));
+			result = jsonTool.readJson(new UrlWrapper("http://vps434333.ovh.net/api/basket"));
 			//String result = inputStreamToString(inputStream, 8096);
 		
 			JSONArray array = new JSONArray(result);
