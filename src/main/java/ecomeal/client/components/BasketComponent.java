@@ -12,6 +12,9 @@ import com.vaadin.ui.VerticalLayout;
 
 import ecomeal.client.constants.EcomealConstants;
 
+/**
+ * Vaadin component that represents each Box to consult the details of a Basket
+ */
 public class BasketComponent extends CustomComponent {
 	
 	private static final long serialVersionUID = -2509219462088694581L;

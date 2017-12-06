@@ -14,6 +14,9 @@ import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.services.ScheduleService;
 import ecomeal.client.tools.JsonTool;
 
+/**
+ * The Schedule Page of the application
+ */
 public class ScheduleView extends HorizontalLayout implements View {
 	
 	private static final long serialVersionUID = -419142715000622537L;

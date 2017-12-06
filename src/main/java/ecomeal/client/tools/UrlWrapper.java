@@ -5,6 +5,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+/**
+ * Class created essentially for the unit tests, which allow us to mock an URL
+ */
 public class UrlWrapper {
 
     URL url;

@@ -10,6 +10,9 @@ import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 
+/**
+ * Class used to parse data from server as JSON format
+ */
 public class JsonTool {
 
 	private HttpURLConnection connection;
@@ -24,12 +27,25 @@ public class JsonTool {
 		this.inputStream = inputStream;
 	}
 	
+	/**
+	 * Make connection with server and then parse the result as String
+	 * 
+	 * @param url the url from the server api
+	 * @return JSON as String format
+	 */
 	public String readJson(UrlWrapper url) {
 		return readJson(url, new HashMap<String,String>());
 	}
 	
+	/**
+	 * Make connection with server and then parse the result as String
+	 * 
+	 * @param url the url from the server api
+	 * @return JSON as String format
+	 */
 	public String readJson(UrlWrapper url, Map<String,String> params) {
 		try {
+			// Adapt URL if there is some parameters
 			if(!params.isEmpty()) {				
 				String urlString = url.getPath() + "?";
 				for(String key : params.keySet()){
@@ -51,6 +67,12 @@ public class JsonTool {
 		return null;
 	}
 	
+	/**
+	 * Parse the InputStream read received from server as a String
+	 * 
+	 * @param in : InputStream
+	 * @return result as String
+	 */
 	public String inputStreamToString(InputStream in) {
 		try {
 			StringWriter writer = new StringWriter();
