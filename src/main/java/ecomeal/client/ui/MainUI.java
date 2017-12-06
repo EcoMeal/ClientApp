@@ -38,7 +38,7 @@ public class MainUI extends UI {
         // Create and register the views
         navigator.addView(EcomealConstants.BASKET_VIEW, new BasketView(navigator));
         navigator.addView(EcomealConstants.MAIN_VIEW, new MainView(navigator));
-        navigator.addView(EcomealConstants.HORAIRE_VIEW, new HoraireView(navigator));
+        navigator.addView(EcomealConstants.HORAIRE_VIEW, new ScheduleView(navigator));
         
         
     }

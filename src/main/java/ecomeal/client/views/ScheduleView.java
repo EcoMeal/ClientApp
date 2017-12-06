@@ -11,10 +11,14 @@ import com.vaadin.ui.Slider;
 import com.vaadin.ui.VerticalLayout;
 
 import ecomeal.client.constants.EcomealConstants;
+import ecomeal.client.services.ScheduleService;
+import ecomeal.client.tools.JsonTool;
 
-public class HoraireView extends HorizontalLayout implements View {
+public class ScheduleView extends HorizontalLayout implements View {
 	
 	private static final long serialVersionUID = -419142715000622537L;
+	private ScheduleService service= new ScheduleService(new JsonTool(null));
+	
 	private Label title = new Label();
 	
 	private Slider to;
@@ -30,7 +34,7 @@ public class HoraireView extends HorizontalLayout implements View {
 	 * Constructeur de HoraireView
 	 * @param navigator
 	 */
-	public HoraireView(Navigator navigator) {
+	public ScheduleView(Navigator navigator) {
         setSizeFull();
         VerticalLayout main = new VerticalLayout();
         
@@ -45,24 +49,22 @@ public class HoraireView extends HorizontalLayout implements View {
         from = new Slider(960,1350);
         from.setDescription(from.getCaption());
         
-        from.setCaption("Début:" + transformToHour(from.getValue()));
+        from.setCaption("Début:" + service.transformToHour(from.getValue()));
         from.setOrientation(SliderOrientation.HORIZONTAL);
         from.setSizeFull();
         from.addValueChangeListener(e -> {
         	
         	this.to.setMin(e.getValue().intValue() + 30);
-        	this.to.setEnabled(true);
-        	from.setCaption("Début:" + transformToHour(from.getValue()));
+        	from.setCaption("Début:" + service.transformToHour(from.getValue()));
         });
         
         
         to = new Slider(990, 1380);
-        to.setCaption("Fin:" + transformToHour(from.getValue()));
+        to.setCaption("Fin:" + service.transformToHour(to.getValue()));
         to.setOrientation(SliderOrientation.HORIZONTAL);
-        to.setEnabled(false);
         to.setSizeFull();
         to.addValueChangeListener(e -> {
-        	to.setCaption("Fin:" + transformToHour(to.getValue()));
+        	to.setCaption("Fin:" + service.transformToHour(to.getValue()));
         });
         
         sliders.addComponents(from, to);
@@ -72,7 +74,7 @@ public class HoraireView extends HorizontalLayout implements View {
         valideHoraire = new Button("Validez l'horaire");
         valideHoraire.addClickListener(e -> {
         	goodHoraire.setVisible(true);
-        	goodHoraire.setValue(findAGoodHoraire());
+        	goodHoraire.setValue(service.findAGoodSchedule(valideCommand, from, to));
         });
         goodHoraire.setVisible(false);
         horaireButton.addComponents(valideHoraire, goodHoraire);
@@ -93,45 +95,14 @@ public class HoraireView extends HorizontalLayout implements View {
         main.addComponents(titleLayout, sliders, horaireButton, valideCommand, returnButton);
         addComponents(main);
     }
-	/**
-	 * Methode permettant de retourner une horraire valide via un appel à l'API
-	 * @return
-	 */
-	private String findAGoodHoraire() {
-		/*
-		 *  Demande à l'URL de retourné une bonne horaire
-		 */
-		if(to.getValue() == 960){
-			valideCommand.setVisible(false);
-			return "Il n'y a pas d'horaire valide";
-		}else{
-			valideCommand.setVisible(true);
-			return "Horaire selectionnée :" + transformToHour(to.getValue() + (Math.random()*30));
-		}
-	}
-
-	/**
-	 * Transforme une valeur double représentant le nombre de minutes en chaine de caractères XXhYY
-	 * @param Dvalue le nombre de minutes dans une journée
-	 * @return
-	 */
-	private String transformToHour(double Dvalue) {
-		int value = (int) Dvalue;
-		String hour = (value / 60) + "h";
-		String minute;
-		if(value % 60 < 10){
-			minute = "0" + (value % 60);
-		}
-		else{
-			minute = "" + (value % 60);
-		}
-		
-		return hour + minute;
-	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	private void reset(){
 		
 	}
 }
