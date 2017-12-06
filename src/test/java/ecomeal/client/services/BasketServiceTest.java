@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import org.mockito.Mockito;
 import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Product;
 import ecomeal.client.tools.JsonTool;
+import ecomeal.client.tools.UrlWrapper;
 
 public class BasketServiceTest {
 
@@ -32,7 +34,7 @@ public class BasketServiceTest {
 	public void testFindAll() {
 		
 		// INIT MOCKS
-		Mockito.when(jsonTool.readJson(Mockito.anyString())).thenReturn(readExampleJson());
+		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class))).thenReturn(readExampleJson());
 		
 		
 		// INIT EXPECTED RESULT
