@@ -52,19 +52,17 @@ public class JsonTool {
 					urlString = urlString + key + "=" + params.get(key) + "&";
 				}
 				urlString = urlString.substring(0, urlString.length() - 1);
-				url = new UrlWrapper(urlString);
+				url.setUrl(urlString);
 			}
 			connection = (HttpURLConnection) url.openConnection();
 			connection.connect();
 			inputStream = connection.getInputStream();
 			System.out.println("\n\n\n" + inputStream.toString() + "\n\n\n");
 			return inputStreamToString(inputStream);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+			return null;
 		}
-		return null;
 	}
 	
 	/**

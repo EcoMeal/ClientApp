@@ -23,5 +23,9 @@ public class UrlWrapper {
 	public String getPath() {
 		return url.getPath();
 	}
+	
+	public void setUrl(String url) throws MalformedURLException{
+		this.url = new URL(url);
+	}
 
 }

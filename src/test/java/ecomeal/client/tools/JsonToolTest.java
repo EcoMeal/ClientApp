@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -63,9 +66,42 @@ public class JsonToolTest {
 	}
 	
 	@Test
+	public void testReadJsonWithParameters() throws IOException {
+		Mockito.when(urlSpy.openConnection()).thenReturn(connection);
+		Mockito.doNothing().when(urlSpy).setUrl(Mockito.anyString());
+		Mockito.doNothing().when(connection).connect();
+		Mockito.when(connection.getInputStream()).thenReturn(inputStream);
+		
+		HttpURLConnection conn= (HttpURLConnection) url.openConnection();
+		
+		Mockito.when(jsonToolSpy.inputStreamToString(conn.getInputStream())).thenReturn(jsonExample);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("start_time", "");
+		map.put("end_time", "");
+		jsonToolSpy.readJson(urlSpy, map);
+		Mockito.verify(urlSpy).setUrl(Mockito.anyString());
+		Mockito.verify(urlSpy).openConnection();
+		Mockito.verify(connection).connect();
+		Mockito.verify(connection).getInputStream();
+		Mockito.verify(jsonToolSpy).inputStreamToString(inputStream);
+	}
+	
+	@Test
 	public void testInputStreamToString() throws UnsupportedEncodingException {
 		InputStream stream = new ByteArrayInputStream(jsonExample.getBytes(StandardCharsets.UTF_8.name()));
 		assertEquals(jsonExample, jsonTool.inputStreamToString(stream));
 	}
+	
+	@Test(expected = IOException.class)
+	public void testReadJsonMalformedURLException() throws IOException {
+		Mockito.when(urlSpy.openConnection()).thenThrow(IOException.class);
+		assertNull(jsonTool.readJson(urlSpy, new HashMap<String, String>()));
+	}
+	
+	/*
+	@Test(expected = IOException.class)
+	public void testReadJsonIOException() throws MalformedURLException {
+		jsonTool.readJson(new UrlWrapper("MalformedURL"), new HashMap<String, String>());
+	}*/
 
 }

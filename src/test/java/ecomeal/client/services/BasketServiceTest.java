@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +55,12 @@ public class BasketServiceTest {
 		assertEquals(result.get(0).getProducts().size(), basket.getProducts().size());
 		assertEquals(result.get(0).getProducts().get(0).getName(), product.getName());
 		assertEquals(result.get(0).getProducts().get(0).getCategory(), product.getCategory());
+	}
+	
+	@Test
+	public void testFindAllMalformedURLException() {
+		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class))).thenThrow(MalformedURLException.class);
+		assertEquals(null, service.findAll());
 	}
 	
 	private String readExampleJson() {

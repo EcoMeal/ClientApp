@@ -62,47 +62,10 @@ public class BasketService extends AbstractService {
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
+			return null;
 		}
 		
 		return res;
 	}
-	
-	
-	// Temporary list of basket to test the user interface
-	/*private List<Basket> getFakeBaskets() {
-		List<Basket> res = new ArrayList<Basket>();
-		BasketCategory classic = new BasketCategory(1, "Classique");
-		ProductCategory meat = new ProductCategory(1, "Viande");
-		ProductCategory vegetables = new ProductCategory(2, "Légumes");
-		ProductCategory drink = new ProductCategory(3, "Boisson");
-		ProductCategory dessert = new ProductCategory(4, "Dessert");
-		Product chicken = new Product(1, meat, "Poulet");
-		Product beef = new Product(2, meat, "Boeuf");
-		Product fries = new Product(3, vegetables, "Frites");
-		Product water = new Product(4, drink, "Eau");
-		Product donut = new Product(5, dessert, "Donut");
-		List<Product> classicChicken = new ArrayList<Product>();
-		classicChicken.add(chicken);
-		classicChicken.add(fries);
-		classicChicken.add(water);
-		classicChicken.add(donut);
-		List<Product> classicBeef = new ArrayList<Product>();
-		classicChicken.add(beef);
-		classicChicken.add(fries);
-		classicChicken.add(water);
-		classicChicken.add(donut);
-		ClassLoader cl = getClass().getClassLoader();
-		File chickenFile = new File(cl.getResource("chicken-150x150.png").getFile());
-		File beefFile = new File(cl.getResource("beef-150x150.png").getFile());
-		res.add(new Basket(1, classic, "Classic Chicken 1", classicChicken, chickenFile));
-		res.add(new Basket(2, classic, "Classic Beef 1", classicBeef, beefFile));
-		res.add(new Basket(3, classic, "Classic Chicken 2", classicChicken, chickenFile));
-		res.add(new Basket(4, classic, "Classic Beef 2", classicBeef, beefFile));
-		res.add(new Basket(5, classic, "Classic Chicken 3", classicChicken, chickenFile));
-		res.add(new Basket(6, classic, "Classic Beef 3", classicBeef, beefFile));
-		res.add(new Basket(7, classic, "Classic Chicken 4", classicChicken, chickenFile));
-		res.add(new Basket(8, classic, "Classic Beef 4", classicBeef, beefFile));
-		return res;
-	}*/
 
 }
