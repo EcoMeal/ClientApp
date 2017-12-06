@@ -17,7 +17,7 @@ import ecomeal.client.tools.JsonTool;
 public class ScheduleView extends HorizontalLayout implements View {
 	
 	private static final long serialVersionUID = -419142715000622537L;
-	private ScheduleService service= new ScheduleService(new JsonTool(null));
+	private ScheduleService service= new ScheduleService(new JsonTool());
 	
 	private Label title = new Label();
 	

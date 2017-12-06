@@ -2,9 +2,7 @@ package ecomeal.client.services;
 
 import static org.junit.Assert.assertEquals;
 
-import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +21,7 @@ public class ScheduleServiceTest {
 	
 	@Before
 	public void init() {
-		jsonTool = new JsonTool(null);
+		jsonTool = new JsonTool();
 		service = new ScheduleService(jsonTool);
 	}
 	

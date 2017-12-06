@@ -22,7 +22,7 @@ public class BasketView extends HorizontalLayout implements View {
 	
 	private static final long serialVersionUID = -419142715000622537L;
 	
-	private BasketService service = new BasketService(new JsonTool(null));
+	private BasketService service = new BasketService(new JsonTool());
 	
 	/**
 	 * Constructor of the Basket View that initialize the page
