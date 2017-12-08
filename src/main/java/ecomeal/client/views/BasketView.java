@@ -17,19 +17,23 @@ import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
 import ecomeal.client.services.BasketService;
 import ecomeal.client.tools.JsonTool;
+import ecomeal.client.ui.MainUI;
 
 public class BasketView extends HorizontalLayout implements View {
 	
 	private static final long serialVersionUID = -419142715000622537L;
+	private final MainUI ui;
 	
-	private BasketService service = new BasketService(new JsonTool());
+	private BasketService service;
 	
 	/**
 	 * Constructor of the Basket View that initialize the page
 	 * 
 	 * @param navigator Used to navigate between all the Vaadin views
 	 */
-	public BasketView(Navigator navigator) {
+	public BasketView(Navigator navigator, MainUI ui) {
+		this.ui = ui;
+		service = new BasketService(new JsonTool());
 		
 		// For the vertical scrollbar
         setHeight(null);

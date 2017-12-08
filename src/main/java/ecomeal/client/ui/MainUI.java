@@ -14,6 +14,7 @@ import com.vaadin.ui.UI;
 
 import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
+import ecomeal.client.entity.Order;
 import ecomeal.client.views.*;
 
 @Theme("mytheme")
@@ -22,7 +23,7 @@ public class MainUI extends UI {
 	private static final long serialVersionUID = 2259839686859669777L;
 	private Navigator navigator;
 	
-	private Map<Basket, Integer> order;
+	private Order order;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -30,25 +31,25 @@ public class MainUI extends UI {
     	setTheme("mytheme");
     	
     	// Initialize the order with an empty List of Basket
-    	order = new HashMap<Basket, Integer>();
+    	order = new Order();
     	
     	// Create a navigator to control the views
         navigator = new Navigator(this, this);
 
         // Create and register the views
-        navigator.addView(EcomealConstants.BASKET_VIEW, new BasketView(navigator));
-        navigator.addView(EcomealConstants.MAIN_VIEW, new MainView(navigator));
-        navigator.addView(EcomealConstants.HORAIRE_VIEW, new ScheduleView(navigator));
+        navigator.addView(EcomealConstants.BASKET_VIEW, new BasketView(navigator, this));
+        navigator.addView(EcomealConstants.MAIN_VIEW, new MainView(navigator, this));
+        navigator.addView(EcomealConstants.HORAIRE_VIEW, new ScheduleView(navigator, this));
         
         
     }
     
-    public Map<Basket, Integer> getOrder() {
+    public Order getOrder() {
     	return order;
     }
     
     public void addBasket(Basket basket) {
-    	order.put(basket, order.get(basket) + 1);
+    	order.addBasket(basket);
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyMainServlet", asyncSupported = true)
