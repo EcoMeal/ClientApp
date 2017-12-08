@@ -24,6 +24,10 @@ public class Order {
 		return id;
 	}
 	
+	public void setId(Integer id){
+		this.id = id;
+	}
+	
 	public Map<Basket, Integer> getBaskets() {
 		return baskets;
 	}
@@ -32,16 +36,33 @@ public class Order {
 		return orderTime;
 	}
 	
+	public void setOrderTime(Timestamp orderTime){
+		this.orderTime = orderTime;
+	}
+	
 	public Timestamp getDeliveryTime() {
 		return deliveryTime;
 		
 	}
 	
+	public void setDeliveryTime(Timestamp deliveryTime){
+		this.deliveryTime = deliveryTime;
+	}
+	
 	public void addBasket(Basket basket) {
-		baskets.put(basket, baskets.get(basket) + 1);
+		if(!baskets.containsKey(basket)){
+			baskets.put(basket, 1);
+		}
+		else{
+			baskets.put(basket, baskets.get(basket) + 1);
+		}
 	}
 	
 	public void removeBasket(Basket basket) {
+		if(!baskets.containsKey(basket)){
+			// Problem, on essaie de supprimer un élément qui n'est pas dans la liste
+			return;
+		}
 		baskets.put(basket, baskets.get(basket) - 1);
 		if(baskets.get(basket) == 0) {
 			baskets.remove(basket);

@@ -1,5 +1,7 @@
 package ecomeal.client.views;
 
+import java.sql.Timestamp;
+
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -15,6 +17,9 @@ import com.vaadin.ui.VerticalLayout;
 import ecomeal.client.components.BasketComponent;
 import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
+import ecomeal.client.entity.Order;
+import ecomeal.client.services.BasketService;
+import ecomeal.client.tools.JsonTool;
 import ecomeal.client.ui.MainUI;
 
 public class RecapView extends HorizontalLayout implements View{
@@ -31,23 +36,33 @@ public class RecapView extends HorizontalLayout implements View{
         setHeight(null);
         setWidth("100%");
         
-        Label title = new Label("Recapitulatif de la Commande fait ce jour à " + ui.getOrder().getOrderTime());
+        BasketService testService = new BasketService(new JsonTool());
         
-        TextField FirstPhrase = new TextField("Voici la liste des paniers :");
+        Order test = new Order();
+        test.setOrderTime(new Timestamp(2017,12,5,17,50,0,0));
+        test.setDeliveryTime(new Timestamp(2017,12,5,19,30,0,0));
+        test.setId(245);
+        test.addBasket(testService.findAll().get(0));
+        test.addBasket(testService.findAll().get(1));
+        test.addBasket(testService.findAll().get(0));
+        
+        Label title = new Label("Recapitulatif de la Commande fait ce jour à " + test.getOrderTime().getHours() + "h" + test.getOrderTime().getMinutes());
+        
+        Label FirstPhrase = new Label("Voici la liste des paniers :");
         
         CssLayout css = new CssLayout();
         
-        for(Basket basket : ui.getOrder().getBaskets().keySet()) {
-        	for(int i = 0 ; i < ui.getOrder().getBaskets().get(basket); i++){
+        for(Basket basket : test.getBaskets().keySet()) {
+        	for(int i = 0 ; i < test.getBaskets().get(basket); i++){
         		css.addComponent(new BasketComponent(basket.getImage(), basket.getName(), navigator));
         	}
         }
         
-        TextField SecondPhrase = new TextField("Pour un prix de : " + ui.getOrder().getPrice() + "€");
+        Label SecondPhrase = new Label("Pour un prix de : " + test.getPrice() + "€");
         
-        TextField ThirdPhrase = new TextField("Le numéro de commande est le : " + ui.getOrder().getId());
+        Label ThirdPhrase = new Label("Le numéro de commande est le : " + test.getId());
         
-        TextField FourthPhrase = new TextField("Votre commande sera délivré à " + ui.getOrder().getDeliveryTime());
+        Label FourthPhrase = new Label("Votre commande sera délivré à " + test.getDeliveryTime().getHours() + "h" + test.getDeliveryTime().getMinutes());
         
         // Boutton de retour
         returnButton = new Button("Revenir au menu");
