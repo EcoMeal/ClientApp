@@ -17,6 +17,7 @@ import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
 import ecomeal.client.services.BasketService;
 import ecomeal.client.tools.JsonTool;
+import ecomeal.client.ui.MainUI;
 
 public class BasketView extends HorizontalLayout implements View {
 	
@@ -24,12 +25,16 @@ public class BasketView extends HorizontalLayout implements View {
 	
 	private BasketService service = new BasketService(new JsonTool());
 	
+	private final MainUI ui;
+	
 	/**
 	 * Constructor of the Basket View that initialize the page
 	 * 
 	 * @param navigator Used to navigate between all the Vaadin views
 	 */
-	public BasketView(Navigator navigator) {
+	public BasketView(final Navigator navigator, final MainUI ui) {
+		
+		this.ui = ui;
 		
 		// For the vertical scrollbar
         setHeight(null);

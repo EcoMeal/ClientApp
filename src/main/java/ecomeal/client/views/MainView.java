@@ -10,13 +10,18 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 import ecomeal.client.constants.EcomealConstants;
+import ecomeal.client.entity.Order;
+import ecomeal.client.ui.MainUI;
 
 @DesignRoot
 public class MainView extends VerticalLayout implements View {
 	
 	private static final long serialVersionUID = -9172606135381422482L;
+	private final MainUI ui;
 
-	public MainView(Navigator navigator) {
+	public MainView(Navigator navigator, MainUI ui) {
+		this.ui = ui;
+		
         setSizeFull();
         
         Label titre = new Label("Bienvenue sur Ecomeal");
@@ -36,7 +41,7 @@ public class MainView extends VerticalLayout implements View {
         buttons.addComponents(basketButton, horaireButton);
         addComponents(titre, buttons);
     }
-
+	
 	@Override
     public void enter(ViewChangeEvent event) {
         //NOTHING

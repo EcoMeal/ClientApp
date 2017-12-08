@@ -11,10 +11,13 @@ import com.vaadin.ui.Slider;
 import com.vaadin.ui.VerticalLayout;
 
 import ecomeal.client.constants.EcomealConstants;
+import ecomeal.client.ui.MainUI;
 
 public class HoraireView extends HorizontalLayout implements View {
 	
 	private static final long serialVersionUID = -419142715000622537L;
+	private final MainUI ui;
+	
 	private Label title = new Label();
 	
 	private Slider to;
@@ -30,7 +33,9 @@ public class HoraireView extends HorizontalLayout implements View {
 	 * Constructeur de HoraireView
 	 * @param navigator
 	 */
-	public HoraireView(Navigator navigator) {
+	public HoraireView(Navigator navigator, MainUI ui) {
+		this.ui = ui;
+		
         setSizeFull();
         VerticalLayout main = new VerticalLayout();
         
