@@ -92,16 +92,10 @@ public class JsonToolTest {
 		assertEquals(jsonExample, jsonTool.inputStreamToString(stream));
 	}
 	
-	@Test(expected = IOException.class)
+	@Test
 	public void testReadJsonMalformedURLException() throws IOException {
 		Mockito.when(urlSpy.openConnection()).thenThrow(IOException.class);
 		assertNull(jsonTool.readJson(urlSpy, new HashMap<String, String>()));
 	}
-	
-	/*
-	@Test(expected = IOException.class)
-	public void testReadJsonIOException() throws MalformedURLException {
-		jsonTool.readJson(new UrlWrapper("MalformedURL"), new HashMap<String, String>());
-	}*/
 
 }
