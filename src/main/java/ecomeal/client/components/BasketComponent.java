@@ -11,6 +11,10 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 import ecomeal.client.constants.EcomealConstants;
+import ecomeal.client.entity.Basket;
+import ecomeal.client.entity.PresetBasket;
+import ecomeal.client.ui.MainUI;
+import ecomeal.client.views.PresetBasketPopin;
 
 /**
  * Vaadin component that represents each Box to consult the details of a Basket
@@ -18,6 +22,7 @@ import ecomeal.client.constants.EcomealConstants;
 public class BasketComponent extends CustomComponent {
 	
 	private static final long serialVersionUID = -2509219462088694581L;
+	private final MainUI ui;
 	
 	private VerticalLayout vertical;
 	
@@ -25,16 +30,17 @@ public class BasketComponent extends CustomComponent {
 	private Label title;
 	public static final String javaScriptClassName = "basket-component";
 	
-	public BasketComponent(File image, String title, Navigator navigator) {
+	public BasketComponent(MainUI ui, Basket basket, Navigator navigator) {
+		this.ui = ui;
 		this.image = new Image();
-		this.image.setSource(new FileResource(image));
-		this.image.addClickListener(e -> {
-        	navigator.navigateTo(EcomealConstants.HORAIRE_VIEW);
-        });
-		this.title = new Label(title);
-		this.image.addClickListener(e -> {
-        	navigator.navigateTo(EcomealConstants.HORAIRE_VIEW);
-        });
+		this.image.setSource(new FileResource(basket.getImage()));
+		if(basket instanceof PresetBasket) {			
+			this.image.addClickListener(e -> {
+				//navigator.navigateTo(EcomealConstants.HORAIRE_VIEW);
+				ui.addWindow(new PresetBasketPopin((PresetBasket) basket, ui));
+			});
+		}
+		this.title = new Label(basket.getName());
 		init();
 		setSizeUndefined();
 		setCompositionRoot(vertical);

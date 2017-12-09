@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import ecomeal.client.entity.Basket;
+import ecomeal.client.entity.PresetBasket;
 import ecomeal.client.entity.Product;
 import ecomeal.client.tools.JsonTool;
 import ecomeal.client.tools.UrlWrapper;
@@ -24,9 +25,9 @@ public class BasketService extends AbstractService {
 	/**
 	 * @return all available Basket objects.
 	 */
-	public synchronized List<Basket> findAll() {
+	public synchronized List<PresetBasket> findAll() {
 		
-		List<Basket> res = new ArrayList<Basket>();
+		List<PresetBasket> res = new ArrayList<PresetBasket>();
 		
 		/*URL url = new URL("http://vps434333.ovh.net/api/basket");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -57,7 +58,7 @@ public class BasketService extends AbstractService {
 					productsList.add(product);
 				}
 				
-				Basket basket = new Basket(basketName, basketPrice, basketCategory, basketCategoryImage, productsList);
+				PresetBasket basket = new PresetBasket(basketName, basketPrice, basketCategory, basketCategoryImage, productsList);
 				res.add(basket);
 			}
 		} catch (MalformedURLException e) {

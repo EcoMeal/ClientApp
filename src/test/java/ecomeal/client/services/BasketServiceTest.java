@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import ecomeal.client.entity.Basket;
+import ecomeal.client.entity.PresetBasket;
 import ecomeal.client.entity.Product;
 import ecomeal.client.tools.JsonTool;
 import ecomeal.client.tools.UrlWrapper;
@@ -41,13 +42,13 @@ public class BasketServiceTest {
 		Product product = new Product("Bob", "Humain");
 		List<Product> products = new ArrayList<Product>();
 		products.add(product);
-		Basket basket = new Basket("ee", 789, "Panier vegan", "", products);
+		PresetBasket basket = new PresetBasket("ee", 789, "Panier vegan", "", products);
 		List<Basket> baskets = new ArrayList<Basket>();
 		baskets.add(basket);		
 		
 		
 		// TEST
-		List<Basket> result = service.findAll();
+		List<PresetBasket> result = service.findAll();
 		assertEquals(result.size(), baskets.size());
 		assertEquals(result.get(0).getName(), basket.getName());
 		assertEquals(result.get(0).getPrice(), basket.getPrice());
