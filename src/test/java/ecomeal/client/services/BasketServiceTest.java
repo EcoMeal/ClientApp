@@ -1,11 +1,12 @@
 package ecomeal.client.services;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +15,10 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import ecomeal.client.entity.Basket;
+import ecomeal.client.entity.PresetBasket;
 import ecomeal.client.entity.Product;
 import ecomeal.client.tools.JsonTool;
+import ecomeal.client.tools.UrlWrapper;
 
 public class BasketServiceTest {
 
@@ -32,20 +35,20 @@ public class BasketServiceTest {
 	public void testFindAll() {
 		
 		// INIT MOCKS
-		Mockito.when(jsonTool.readJson(Mockito.anyString())).thenReturn(readExampleJson());
+		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class))).thenReturn(readExampleJson());
 		
 		
 		// INIT EXPECTED RESULT
 		Product product = new Product("Bob", "Humain");
 		List<Product> products = new ArrayList<Product>();
 		products.add(product);
-		Basket basket = new Basket("ee", 789, "Panier vegan", "", products);
+		PresetBasket basket = new PresetBasket("ee", 789, "Panier vegan", "", products);
 		List<Basket> baskets = new ArrayList<Basket>();
 		baskets.add(basket);		
 		
 		
 		// TEST
-		List<Basket> result = service.findAll();
+		List<PresetBasket> result = service.findAll();
 		assertEquals(result.size(), baskets.size());
 		assertEquals(result.get(0).getName(), basket.getName());
 		assertEquals(result.get(0).getPrice(), basket.getPrice());
@@ -53,6 +56,12 @@ public class BasketServiceTest {
 		assertEquals(result.get(0).getProducts().size(), basket.getProducts().size());
 		assertEquals(result.get(0).getProducts().get(0).getName(), product.getName());
 		assertEquals(result.get(0).getProducts().get(0).getCategory(), product.getCategory());
+	}
+	
+	@Test
+	public void testFindAllMalformedURLException() {
+		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class))).thenThrow(MalformedURLException.class);
+		assertEquals(null, service.findAll());
 	}
 	
 	private String readExampleJson() {
