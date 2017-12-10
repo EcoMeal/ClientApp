@@ -54,6 +54,7 @@ public class PresetBasketPopin extends Window {
 			validate.addClickListener(event -> {
 				MainUI ui = (MainUI) navigator.getUI();
 				ui.getOrder().addBasket(basket, quantity.getQuantity());
+				close();
 			});
 			Button cancel = new Button("Annuler", event -> close());
 			cancel.setStyleName(ValoTheme.BUTTON_DANGER);
