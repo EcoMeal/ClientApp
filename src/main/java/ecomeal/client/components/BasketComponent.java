@@ -30,7 +30,7 @@ public class BasketComponent extends CustomComponent {
 		this.image.setSource(new FileResource(basket.getImage()));
 		if(basket instanceof PresetBasket) {			
 			this.image.addClickListener(e -> {
-				navigator.getUI().addWindow(new PresetBasketPopin((PresetBasket) basket, ordering));
+				navigator.getUI().addWindow(new PresetBasketPopin(navigator, (PresetBasket) basket, ordering));
 			});
 		}
 		this.title = new Label(basket.getName());

@@ -60,10 +60,12 @@ public class IntegerField extends HorizontalLayout {
 		});
 		textField.setValueChangeMode(ValueChangeMode.LAZY);
 		
-		//setStyleName(javaScriptClassName);
 		setSpacing(false);
 		addComponents(textField, plus, minus);
-		//removeSpacings();
+	}
+	
+	public int getQuantity() {
+		return new Integer(textField.getValue());
 	}
 	
 }

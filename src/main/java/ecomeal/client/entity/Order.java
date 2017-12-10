@@ -50,11 +50,15 @@ public class Order {
 	}
 	
 	public void addBasket(Basket basket) {
+		addBasket(basket, 1);
+	}
+	
+	public void addBasket(Basket basket, int number) {
 		if(!baskets.containsKey(basket)){
-			baskets.put(basket, 1);
+			baskets.put(basket, number);
 		}
 		else{
-			baskets.put(basket, baskets.get(basket) + 1);
+			baskets.put(basket, baskets.get(basket) + number);
 		}
 	}
 	

@@ -21,6 +21,7 @@ import ecomeal.client.components.EcomealMenuLayout;
 import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Order;
+import ecomeal.client.entity.PresetBasket;
 import ecomeal.client.views.*;
 
 @Theme("mytheme")
@@ -64,7 +65,7 @@ public class MainUI extends UI {
     	menu.addComponent(menuItemsLayout);
     	Button button = new Button("Commande");
     	button.addClickListener(e -> {
-    		// Do something
+    		addWindow(new OrderPopin(navigator, order));
     	});
     	button.setPrimaryStyleName(ValoTheme.MENU_ITEM);
     	menuItemsLayout.addComponent(button);

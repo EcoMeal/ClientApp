@@ -1,5 +1,6 @@
 package ecomeal.client.views;
 
+import com.vaadin.navigator.Navigator;
 import com.vaadin.server.FileResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -14,12 +15,13 @@ import com.vaadin.ui.themes.ValoTheme;
 import ecomeal.client.components.IntegerField;
 import ecomeal.client.entity.PresetBasket;
 import ecomeal.client.entity.Product;
+import ecomeal.client.ui.MainUI;
 
 public class PresetBasketPopin extends Window {
 	
 	private PresetBasket basket;
 	
-	public PresetBasketPopin(PresetBasket basket, boolean ordering) {
+	public PresetBasketPopin(Navigator navigator, PresetBasket basket, boolean ordering) {
 		center();
 		setClosable(false);
 		setResizable(false);
@@ -32,7 +34,7 @@ public class PresetBasketPopin extends Window {
 		TextArea basketContent = new TextArea();
 		StringBuilder builder = new StringBuilder();
 		for(Product product : basket.getProducts()) {
-			builder.append(product.getName() + "(" + product.getCategory() + ")\n");
+			builder.append(product.getName() + " (" + product.getCategory() + ")\n");
 		}
 		builder.replace(builder.length() - 1, builder.length(), "");
 		basketContent.setValue(builder.toString());
@@ -49,6 +51,10 @@ public class PresetBasketPopin extends Window {
 			// TODO : Set max value according to the stock
 			Button validate = new Button("Ajouter");
 			validate.setStyleName(ValoTheme.BUTTON_PRIMARY);
+			validate.addClickListener(event -> {
+				MainUI ui = (MainUI) navigator.getUI();
+				ui.getOrder().addBasket(basket, quantity.getQuantity());
+			});
 			Button cancel = new Button("Annuler", event -> close());
 			cancel.setStyleName(ValoTheme.BUTTON_DANGER);
 			bot = new HorizontalLayout(quantity, validate, cancel);			
