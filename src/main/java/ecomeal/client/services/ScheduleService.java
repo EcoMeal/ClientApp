@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Slider;
 
@@ -33,9 +35,11 @@ public class ScheduleService extends AbstractService{
 		Map<String,String> params = new HashMap<String,String>();
 		
 		long time = getTimestamp(new Date());
-		String fromTime = "" + (long) (time + from.getValue() * 60 / 1000);
-		String toTime = "" + (long) (time + to.getValue() * 60 / 1000);
-		
+		String fromTime = "" + (long) (time / 1000 + from.getValue() * 60);
+		String toTime = "" + (long) (time / 1000 + to.getValue() * 60);
+		System.out.println("TIME : " + (time / 1000));
+		System.out.println("FROM : " + fromTime);
+		System.out.println("TO : " + toTime);
 		params.put("start_time",fromTime);
 		params.put("end_time",toTime);
 				
@@ -47,18 +51,15 @@ public class ScheduleService extends AbstractService{
 			e.printStackTrace();
 			return "";
 		}
-		
-		if(result != null){
+		JSONObject jsonObj = new JSONObject(result);
+		double scheduleTime = jsonObj.getDouble("deliveryTime");
+		if(scheduleTime != 0){
 			valideCommand.setVisible(true);
 			
-			/*
-			 * Transformer le result en minute (long)
-			 */
-			
-			return "Horaire selectionnée : " + result /*+ transformToHour(from.getValue() + (Math.random()*30))*/;
+			return "Horaire disponible : "+ transformToHour((((scheduleTime /60) + 60 /* GMT + 1*/) % 1440));
 		}else{
 			valideCommand.setVisible(false);
-			return "Il n'y a pas d'horaire valide : Result = " + result;
+			return "Il n'y a pas d'horaire dans cette tranche horaire ,veuillez choisir une autre tranche horaire svp.";
 		}
 	}
 	
@@ -71,7 +72,6 @@ public class ScheduleService extends AbstractService{
 		cd.set(Calendar.MINUTE, 0);
 		cd.set(Calendar.HOUR_OF_DAY, 0);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		//System.out.println(sdf.format(cd.getTime()));
 		
 		return cd.getTimeInMillis();
 	}
