@@ -7,23 +7,21 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.themes.ValoTheme;
 
 import ecomeal.client.components.IntegerField;
 import ecomeal.client.entity.PresetBasket;
-import ecomeal.client.ui.MainUI;
 
 public class PresetBasketPopin extends Window {
 	
-	private final MainUI ui;
 	private PresetBasket basket;
 	
-	public PresetBasketPopin(PresetBasket basket, MainUI ui) {
+	public PresetBasketPopin(PresetBasket basket) {
 		center();
 		setClosable(false);
 		setResizable(false);
 		setModal(true);
 		setDraggable(false);
-		this.ui = ui;
 		
 		Label name = new Label(basket.getName());
 		Label category = new Label(basket.getCategory());
@@ -37,7 +35,9 @@ public class PresetBasketPopin extends Window {
 		IntegerField quantity = new IntegerField();
 		// TODO : Set max value according to the stock
 		Button validate = new Button("Ajouter");
+		validate.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		Button cancel = new Button("Annuler", event -> close());
+		cancel.setStyleName(ValoTheme.BUTTON_DANGER);
 		HorizontalLayout bot = new HorizontalLayout(quantity, validate, cancel);
 		VerticalLayout content = new VerticalLayout(top, bot);
 		

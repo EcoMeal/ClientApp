@@ -10,8 +10,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 import ecomeal.client.components.BasketComponent;
@@ -20,18 +18,15 @@ import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Order;
 import ecomeal.client.services.BasketService;
 import ecomeal.client.tools.JsonTool;
-import ecomeal.client.ui.MainUI;
 
 public class RecapView extends HorizontalLayout implements View{
 	
 	private static final long serialVersionUID = 5420198751158088076L;
-	private final MainUI ui;
 	
 	private Label title;
 	private Button returnButton;
 
-	public RecapView(Navigator navigator, MainUI ui){
-		this.ui = ui;
+	public RecapView(Navigator navigator){
 		// For the vertical scrollbar
         setHeight(null);
         setWidth("100%");
@@ -54,7 +49,7 @@ public class RecapView extends HorizontalLayout implements View{
         
         for(Basket basket : test.getBaskets().keySet()) {
         	for(int i = 0 ; i < test.getBaskets().get(basket); i++){
-        		css.addComponent(new BasketComponent(ui, basket, navigator));
+        		css.addComponent(new BasketComponent(navigator, basket));
         	}
         }
         

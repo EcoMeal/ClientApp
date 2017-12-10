@@ -19,10 +19,8 @@ import ecomeal.client.ui.MainUI;
 public class MainView extends VerticalLayout implements View {
 	
 	private static final long serialVersionUID = -9172606135381422482L;
-	private final MainUI ui;
 
-	public MainView(Navigator navigator, MainUI ui) {
-		this.ui = ui;
+	public MainView(Navigator navigator) {
 		
         setSizeFull();
         

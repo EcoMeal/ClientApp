@@ -57,7 +57,6 @@ public class JsonTool {
 			connection = (HttpURLConnection) url.openConnection();
 			connection.connect();
 			inputStream = connection.getInputStream();
-			System.out.println("\n\n\n" + inputStream.toString() + "\n\n\n");
 			return inputStreamToString(inputStream);
 		} catch (IOException e) {
 			e.printStackTrace();

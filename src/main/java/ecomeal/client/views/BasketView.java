@@ -14,7 +14,6 @@ import com.vaadin.ui.VerticalLayout;
 
 import ecomeal.client.components.BasketComponent;
 import ecomeal.client.constants.EcomealConstants;
-import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.PresetBasket;
 import ecomeal.client.services.BasketService;
 import ecomeal.client.tools.JsonTool;
@@ -23,7 +22,6 @@ import ecomeal.client.ui.MainUI;
 public class BasketView extends HorizontalLayout implements View {
 	
 	private static final long serialVersionUID = -419142715000622537L;
-	private final MainUI ui;
 	
 	private BasketService service;
 	
@@ -32,8 +30,7 @@ public class BasketView extends HorizontalLayout implements View {
 	 * 
 	 * @param navigator Used to navigate between all the Vaadin views
 	 */
-	public BasketView(Navigator navigator, MainUI ui) {
-		this.ui = ui;
+	public BasketView(Navigator navigator) {
 		service = new BasketService(new JsonTool());
 		
 		// For the vertical scrollbar
@@ -54,7 +51,7 @@ public class BasketView extends HorizontalLayout implements View {
         // Css Layout allow the auto line return for Basket Image when we resize the window
         CssLayout css = new CssLayout();
         for(PresetBasket basket : baskets) {
-        	css.addComponent(new BasketComponent(ui, basket, navigator));
+        	css.addComponent(new BasketComponent(navigator, basket));
         }
         
         

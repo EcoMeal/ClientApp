@@ -13,7 +13,6 @@ import com.vaadin.ui.VerticalLayout;
 import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.services.ScheduleService;
 import ecomeal.client.tools.JsonTool;
-import ecomeal.client.ui.MainUI;
 
 /**
  * The Schedule Page of the application
@@ -21,7 +20,6 @@ import ecomeal.client.ui.MainUI;
 public class ScheduleView extends HorizontalLayout implements View {
 	
 	private static final long serialVersionUID = -419142715000622537L;
-	private final MainUI ui;
 	private ScheduleService service;
 	
 	private Label title = new Label();
@@ -39,8 +37,7 @@ public class ScheduleView extends HorizontalLayout implements View {
 	 * Constructeur de HoraireView
 	 * @param navigator
 	 */
-	public ScheduleView(Navigator navigator, MainUI ui) {
-		this.ui = ui;
+	public ScheduleView(Navigator navigator) {
 		service= new ScheduleService(new JsonTool());
 		
         setSizeFull();

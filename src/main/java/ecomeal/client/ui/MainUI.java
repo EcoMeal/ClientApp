@@ -49,10 +49,10 @@ public class MainUI extends UI {
         navigator = new Navigator(this, layoutContentArea);
 
         // Create and register the views
-        navigator.addView(EcomealConstants.BASKET_VIEW, new BasketView(navigator, this));
-        navigator.addView(EcomealConstants.MAIN_VIEW, new MainView(navigator, this));
-        navigator.addView(EcomealConstants.HORAIRE_VIEW, new ScheduleView(navigator, this));
-        navigator.addView(EcomealConstants.RECAP_VIEW, new RecapView(navigator, this));
+        navigator.addView(EcomealConstants.BASKET_VIEW, new BasketView(navigator));
+        navigator.addView(EcomealConstants.MAIN_VIEW, new MainView(navigator));
+        navigator.addView(EcomealConstants.HORAIRE_VIEW, new ScheduleView(navigator));
+        navigator.addView(EcomealConstants.RECAP_VIEW, new RecapView(navigator));
         
         
     }

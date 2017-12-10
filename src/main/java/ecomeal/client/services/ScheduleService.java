@@ -71,7 +71,7 @@ public class ScheduleService extends AbstractService{
 		cd.set(Calendar.MINUTE, 0);
 		cd.set(Calendar.HOUR_OF_DAY, 0);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		System.out.println(sdf.format(cd.getTime()));
+		//System.out.println(sdf.format(cd.getTime()));
 		
 		return cd.getTimeInMillis();
 	}
