@@ -34,14 +34,14 @@ public class RecapView extends HorizontalLayout implements View{
         BasketService testService = new BasketService(new JsonTool());
         
         Order test = new Order();
-        test.setOrderTime(new Timestamp(2017,12,5,17,50,0,0));
-        test.setDeliveryTime(new Timestamp(2017,12,5,19,30,0,0));
+        test.setOrderTime(1);
+        test.setDeliveryTime(1);
         test.setId(245);
         test.addBasket(testService.findAll().get(0));
         test.addBasket(testService.findAll().get(1));
         test.addBasket(testService.findAll().get(0));
         
-        Label title = new Label("Recapitulatif de la Commande fait ce jour à " + test.getOrderTime().getHours() + "h" + test.getOrderTime().getMinutes());
+        Label title = new Label("Recapitulatif de la Commande fait ce jour à " + test.getOrderTime() + "h" + test.getOrderTime());
         
         Label FirstPhrase = new Label("Voici la liste des paniers :");
         
@@ -57,7 +57,7 @@ public class RecapView extends HorizontalLayout implements View{
         
         Label ThirdPhrase = new Label("Le numéro de commande est le : " + test.getId());
         
-        Label FourthPhrase = new Label("Votre commande sera délivré à " + test.getDeliveryTime().getHours() + "h" + test.getDeliveryTime().getMinutes());
+        Label FourthPhrase = new Label("Votre commande sera délivré à " + test.getDeliveryTime() + "h" + test.getDeliveryTime());
         
         // Boutton de retour
         returnButton = new Button("Revenir au menu");

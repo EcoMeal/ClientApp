@@ -10,10 +10,10 @@ public class Order {
 	private Integer id;
 	
 	/* The moment we validate the order */
-	private Timestamp orderTime;
+	private long orderTime;
 	
 	/* The planned moment the get his basket */
-	private Timestamp deliveryTime;
+	private long deliveryTime;
 	private Map<Basket, Integer> baskets;
 	
 	public Order() {
@@ -32,20 +32,20 @@ public class Order {
 		return baskets;
 	}
 	
-	public Timestamp getOrderTime() {
+	public long getOrderTime() {
 		return orderTime;
 	}
 	
-	public void setOrderTime(Timestamp orderTime){
+	public void setOrderTime(long orderTime){
 		this.orderTime = orderTime;
 	}
 	
-	public Timestamp getDeliveryTime() {
+	public long getDeliveryTime() {
 		return deliveryTime;
 		
 	}
 	
-	public void setDeliveryTime(Timestamp deliveryTime){
+	public void setDeliveryTime(long deliveryTime){
 		this.deliveryTime = deliveryTime;
 	}
 	
@@ -83,14 +83,6 @@ public class Order {
 			res += (entry.getKey().getPrice() * entry.getValue());
 		}
 		return res;
-	}
-	
-	public void validate(Timestamp deliveryTime) {
-		
-		// TODO : Generate order ID
-		// id = ???
-		orderTime = new Timestamp(System.currentTimeMillis());
-		this.deliveryTime = deliveryTime;
 	}
 
 }

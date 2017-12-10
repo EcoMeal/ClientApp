@@ -1,5 +1,8 @@
 package ecomeal.client.views;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -13,6 +16,7 @@ import com.vaadin.ui.VerticalLayout;
 import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.services.ScheduleService;
 import ecomeal.client.tools.JsonTool;
+import ecomeal.client.ui.MainUI;
 
 /**
  * The Schedule Page of the application
@@ -33,12 +37,15 @@ public class ScheduleView extends HorizontalLayout implements View {
 	private Button returnButton;
 	private Button valideCommand;
 	
+	private long deliveryTime;
+	
 	/**
 	 * Constructeur de HoraireView
 	 * @param navigator
 	 */
 	public ScheduleView(Navigator navigator) {
 		service= new ScheduleService(new JsonTool());
+		MainUI ui = (MainUI) navigator.getUI();
 		
         setSizeFull();
         VerticalLayout main = new VerticalLayout();
@@ -79,7 +86,7 @@ public class ScheduleView extends HorizontalLayout implements View {
         valideHoraire = new Button("Trouvez un horaire disponible");
         valideHoraire.addClickListener(e -> {
         	goodHoraire.setVisible(true);
-        	goodHoraire.setValue(service.findAGoodSchedule(valideCommand, from, to));
+        	goodHoraire.setValue(service.findAGoodSchedule(valideCommand, from, to, deliveryTime));
         });
         goodHoraire.setVisible(false);
         horaireButton.addComponents(valideHoraire, goodHoraire);
@@ -88,7 +95,9 @@ public class ScheduleView extends HorizontalLayout implements View {
         valideCommand = new Button("Validez la commande");
         valideCommand.setVisible(false);
         valideCommand.addClickListener(e -> {
-        	navigator.navigateTo(EcomealConstants.MAIN_VIEW);
+        	ui.getOrder().setDeliveryTime(deliveryTime);
+        	service.validateOrder(ui.getOrder());
+        	navigator.navigateTo(EcomealConstants.RECAP_VIEW);
         });
         
         // Boutton de retour

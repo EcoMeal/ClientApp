@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Slider;
 
+import ecomeal.client.entity.Order;
 import ecomeal.client.tools.JsonTool;
 import ecomeal.client.tools.UrlWrapper;
 
@@ -30,14 +31,14 @@ public class ScheduleService extends AbstractService{
 	 * Methode permettant de retourner une horraire valide via un appel à l'API
 	 * @return
 	 */
-	public String findAGoodSchedule(Button valideCommand, Slider from, Slider to) {
+	public String findAGoodSchedule(Button valideCommand, Slider from, Slider to, long deliveryTime) {
 		
 		Map<String,String> params = new HashMap<String,String>();
 		
 		long time = getTimestamp(new Date());
-		String fromTime = "" + (long) (time / 1000 + from.getValue() * 60);
-		String toTime = "" + (long) (time / 1000 + to.getValue() * 60);
-		System.out.println("TIME : " + (time / 1000));
+		String fromTime = "" + (long) (time + from.getValue() * 60);
+		String toTime = "" + (long) (time + to.getValue() * 60);
+		System.out.println("TIME : " + time);
 		System.out.println("FROM : " + fromTime);
 		System.out.println("TO : " + toTime);
 		params.put("start_time",fromTime);
@@ -55,7 +56,7 @@ public class ScheduleService extends AbstractService{
 		double scheduleTime = jsonObj.getDouble("deliveryTime");
 		if(scheduleTime != 0){
 			valideCommand.setVisible(true);
-			
+			deliveryTime = (long) scheduleTime;
 			return "Horaire disponible : "+ transformToHour((((scheduleTime /60) + 60 /* GMT + 1*/) % 1440));
 		}else{
 			valideCommand.setVisible(false);
@@ -63,6 +64,11 @@ public class ScheduleService extends AbstractService{
 		}
 	}
 	
+	/**
+	 * Return the timestamp of today at 00:00 GMT 0
+	 * @param date
+	 * @return
+	 */
 	public long getTimestamp(Date date){
 		
 		Calendar cd = Calendar.getInstance();
@@ -71,9 +77,8 @@ public class ScheduleService extends AbstractService{
 		cd.set(Calendar.SECOND, 0);
 		cd.set(Calendar.MINUTE, 0);
 		cd.set(Calendar.HOUR_OF_DAY, 0);
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
-		return cd.getTimeInMillis();
+		return cd.getTimeInMillis() / 1000;
 	}
 
 	/**
@@ -93,6 +98,13 @@ public class ScheduleService extends AbstractService{
 		}
 		
 		return hour + minute;
+	}
+
+	public void validateOrder(Order order) {
+		
+		/*
+		 * Envoyer les infos de la commande en POST
+		 */
 	}
 
 }
