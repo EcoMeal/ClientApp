@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.vaadin.navigator.Navigator;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.themes.ValoTheme;
 
 import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
@@ -30,9 +33,9 @@ public class OrderPopin extends Window {
 		setModal(true);
 		setDraggable(false);
 		setWidth("80%");
-		setHeight("80%");
 		
 		grid = new Grid<OrderGridRow>(OrderGridRow.class);
+		grid.setSelectionMode(SelectionMode.NONE);
 		grid.setColumns("basketName", "type", "quantity", "unitPrice");
 		// TODO : Change columns title
 		
@@ -54,7 +57,9 @@ public class OrderPopin extends Window {
 		Label totalPriceLabel = new Label("Prix total = " + totalPrice + "€");
 		
 		Button cancel = new Button("Retour", event -> close());
+		cancel.setStyleName(ValoTheme.BUTTON_DANGER);
 		Button validate = new Button("Commander");
+		validate.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		validate.addClickListener(event -> {
 			close();
 			navigator.navigateTo(EcomealConstants.HORAIRE_VIEW);
@@ -62,6 +67,7 @@ public class OrderPopin extends Window {
 		HorizontalLayout bot = new HorizontalLayout(cancel, validate);
 		
 		VerticalLayout content = new VerticalLayout(grid, totalPriceLabel, bot);
+		content.setComponentAlignment(bot, Alignment.BOTTOM_CENTER);
 		
 		setContent(content);
 	}
