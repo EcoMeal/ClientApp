@@ -10,17 +10,17 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 import ecomeal.client.constants.EcomealConstants;
-import ecomeal.client.entity.Order;
 import ecomeal.client.ui.MainUI;
 
+/**
+ * The Home Page of the application
+ */
 @DesignRoot
 public class MainView extends VerticalLayout implements View {
 	
 	private static final long serialVersionUID = -9172606135381422482L;
-	private final MainUI ui;
 
-	public MainView(Navigator navigator, MainUI ui) {
-		this.ui = ui;
+	public MainView(Navigator navigator) {
 		
         setSizeFull();
         
@@ -38,10 +38,15 @@ public class MainView extends VerticalLayout implements View {
         	navigator.navigateTo(EcomealConstants.HORAIRE_VIEW);
         });
         
-        buttons.addComponents(basketButton, horaireButton);
+        Button recapButton = new Button("Recap Test");
+        recapButton.addClickListener(e -> {
+        	navigator.navigateTo(EcomealConstants.RECAP_VIEW);
+        });
+        
+        buttons.addComponents(basketButton, horaireButton, recapButton);
         addComponents(titre, buttons);
     }
-	
+
 	@Override
     public void enter(ViewChangeEvent event) {
         //NOTHING
