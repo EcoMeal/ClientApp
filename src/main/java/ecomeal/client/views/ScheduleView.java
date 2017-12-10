@@ -76,7 +76,7 @@ public class ScheduleView extends HorizontalLayout implements View {
         sliders.setSizeFull();
         
         // Création de la session de validation de l'horaire 
-        valideHoraire = new Button("Validez l'horaire");
+        valideHoraire = new Button("Trouvez un horaire disponible");
         valideHoraire.addClickListener(e -> {
         	goodHoraire.setVisible(true);
         	goodHoraire.setValue(service.findAGoodSchedule(valideCommand, from, to));

@@ -52,8 +52,9 @@ public class JsonTool {
 					urlString = urlString + key + "=" + params.get(key) + "&";
 				}
 				urlString = urlString.substring(0, urlString.length() - 1);
-				url.setUrl(urlString);
+				url.setUrl("http://vps434333.ovh.net" + urlString);
 			}
+			System.out.println("URL = '" + url.getPath() +"'");
 			connection = (HttpURLConnection) url.openConnection();
 			connection.connect();
 			inputStream = connection.getInputStream();

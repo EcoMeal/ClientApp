@@ -33,15 +33,15 @@ public class ScheduleService extends AbstractService{
 		Map<String,String> params = new HashMap<String,String>();
 		
 		long time = getTimestamp(new Date());
-		String fromTime = "" + (long) (time + from.getValue() * 60000);
-		String toTime = "" + (long) (time + to.getValue() * 60000);
+		String fromTime = "" + (long) (time + from.getValue() * 60 / 1000);
+		String toTime = "" + (long) (time + to.getValue() * 60 / 1000);
 		
 		params.put("start_time",fromTime);
 		params.put("end_time",toTime);
 				
 		String result = "";
 		try {
-			result = jsonTool.readJson(new UrlWrapper("http://vps434333.ovh.net/api/deliveryTime_calculation"),params);
+			result = jsonTool.readJson(new UrlWrapper("http://vps434333.ovh.net/api/dtime_calculation"),params);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
