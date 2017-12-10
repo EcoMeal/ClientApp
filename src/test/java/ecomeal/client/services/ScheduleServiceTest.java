@@ -30,25 +30,25 @@ public class ScheduleServiceTest {
 	@Test
 	public void findAGoodScheduleGoodTest(){
 		jsonTool = Mockito.mock(JsonTool.class);
-		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), Mockito.anyMapOf(String.class, String.class))).thenReturn("1");
+		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), Mockito.anyMapOf(String.class, String.class))).thenReturn("{'deliveryTime':1512918000}");
 		service = new ScheduleService(jsonTool);
 		Button b = new Button("ButtonTest");
 		Slider from = new Slider(960, 1350);
 		Slider to = new Slider(990, 1380);
 		String result = service.findAGoodSchedule(b, from, to);
-		assertEquals("Horaire selectionnée : 1", result);
+		assertEquals("Horaire disponible : 16h00", result);
 	}
 	
 	@Test
 	public void findAGoodSchedulePasGoodTest(){
 		jsonTool = Mockito.mock(JsonTool.class);
-		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), Mockito.anyMapOf(String.class, String.class))).thenReturn(null);
+		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), Mockito.anyMapOf(String.class, String.class))).thenReturn("{'deliveryTime':0}");
 		service = new ScheduleService(jsonTool);
 		Button b = new Button("ButtonTest");
 		Slider from = new Slider(960, 1350);
 		Slider to = new Slider(990, 1380);
 		String result = service.findAGoodSchedule(b, from, to);
-		assertEquals("Il n'y a pas d'horaire valide : Result = null", result);
+		assertEquals("Il n'y a pas d'horaire dans cette tranche horaire ,veuillez choisir une autre tranche horaire svp.", result);
 	}
 	
 	
