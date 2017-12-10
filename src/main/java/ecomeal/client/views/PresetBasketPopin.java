@@ -1,6 +1,7 @@
 package ecomeal.client.views;
 
 import com.vaadin.server.FileResource;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
@@ -16,7 +17,7 @@ public class PresetBasketPopin extends Window {
 	
 	private PresetBasket basket;
 	
-	public PresetBasketPopin(PresetBasket basket) {
+	public PresetBasketPopin(PresetBasket basket, boolean ordering) {
 		center();
 		setClosable(false);
 		setResizable(false);
@@ -32,14 +33,23 @@ public class PresetBasketPopin extends Window {
 		image.setHeight(250, Unit.PIXELS);
 		image.setWidth(250, Unit.PIXELS);
 		HorizontalLayout top = new HorizontalLayout(image, infos);
-		IntegerField quantity = new IntegerField();
-		// TODO : Set max value according to the stock
-		Button validate = new Button("Ajouter");
-		validate.setStyleName(ValoTheme.BUTTON_PRIMARY);
-		Button cancel = new Button("Annuler", event -> close());
-		cancel.setStyleName(ValoTheme.BUTTON_DANGER);
-		HorizontalLayout bot = new HorizontalLayout(quantity, validate, cancel);
+		
+		HorizontalLayout bot;
+		if(ordering) {
+			IntegerField quantity = new IntegerField();
+			// TODO : Set max value according to the stock
+			Button validate = new Button("Ajouter");
+			validate.setStyleName(ValoTheme.BUTTON_PRIMARY);
+			Button cancel = new Button("Annuler", event -> close());
+			cancel.setStyleName(ValoTheme.BUTTON_DANGER);
+			bot = new HorizontalLayout(quantity, validate, cancel);			
+		} else {
+			Button ok = new Button("OK", event -> close());
+			ok.setStyleName(ValoTheme.BUTTON_PRIMARY);
+			bot = new HorizontalLayout(ok);
+		}
 		VerticalLayout content = new VerticalLayout(top, bot);
+		content.setComponentAlignment(bot, Alignment.BOTTOM_CENTER);
 		
 		setContent(content);
 	}

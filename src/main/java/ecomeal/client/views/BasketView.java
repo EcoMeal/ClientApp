@@ -17,7 +17,6 @@ import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.PresetBasket;
 import ecomeal.client.services.BasketService;
 import ecomeal.client.tools.JsonTool;
-import ecomeal.client.ui.MainUI;
 
 public class BasketView extends HorizontalLayout implements View {
 	
@@ -51,7 +50,7 @@ public class BasketView extends HorizontalLayout implements View {
         // Css Layout allow the auto line return for Basket Image when we resize the window
         CssLayout css = new CssLayout();
         for(PresetBasket basket : baskets) {
-        	css.addComponent(new BasketComponent(navigator, basket));
+        	css.addComponent(new BasketComponent(navigator, basket, true));
         }
         
         

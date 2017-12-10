@@ -25,12 +25,12 @@ public class BasketComponent extends CustomComponent {
 	private Label title;
 	public static final String javaScriptClassName = "basket-component";
 	
-	public BasketComponent(Navigator navigator, Basket basket) {
+	public BasketComponent(Navigator navigator, Basket basket, boolean ordering) {
 		this.image = new Image();
 		this.image.setSource(new FileResource(basket.getImage()));
 		if(basket instanceof PresetBasket) {			
 			this.image.addClickListener(e -> {
-				navigator.getUI().addWindow(new PresetBasketPopin((PresetBasket) basket));
+				navigator.getUI().addWindow(new PresetBasketPopin((PresetBasket) basket, ordering));
 			});
 		}
 		this.title = new Label(basket.getName());

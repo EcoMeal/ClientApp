@@ -49,7 +49,7 @@ public class RecapView extends HorizontalLayout implements View{
         
         for(Basket basket : test.getBaskets().keySet()) {
         	for(int i = 0 ; i < test.getBaskets().get(basket); i++){
-        		css.addComponent(new BasketComponent(navigator, basket));
+        		css.addComponent(new BasketComponent(navigator, basket, false));
         	}
         }
         
