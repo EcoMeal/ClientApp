@@ -62,7 +62,7 @@ public class PresetBasketPopin extends Window {
 				Notification notif = new Notification("Le panier a été ajouté à la commande", Notification.Type.HUMANIZED_MESSAGE);
 				notif.setPosition(Position.TOP_CENTER);
 				notif.setStyleName("basket-add-success");
-				notif.setDelayMsec(100000);
+				notif.setDelayMsec(500);
 				notif.show(Page.getCurrent());
 			});
 			Button cancel = new Button("Annuler", event -> close());
