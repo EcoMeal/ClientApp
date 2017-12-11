@@ -43,6 +43,7 @@ public class BasketService extends AbstractService {
 			JSONObject obj;
 			for(int i = 0; i < array.length(); i++) {
 				obj = array.getJSONObject(i);
+				int basketId = obj.getInt("id");
 				String basketName = obj.getString("name");
 				Integer basketPrice = obj.getInt("price");
 				String basketCategory = obj.getString("category");
@@ -58,7 +59,7 @@ public class BasketService extends AbstractService {
 					productsList.add(product);
 				}
 				
-				PresetBasket basket = new PresetBasket(basketName, basketPrice, basketCategory, basketCategoryImage, productsList);
+				PresetBasket basket = new PresetBasket(basketId, basketName, basketPrice, basketCategory, basketCategoryImage, productsList);
 				res.add(basket);
 			}
 		} catch (MalformedURLException e) {

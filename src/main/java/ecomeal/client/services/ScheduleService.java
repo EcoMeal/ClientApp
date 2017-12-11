@@ -12,9 +12,11 @@ import org.json.JSONObject;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Slider;
 
+import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Order;
 import ecomeal.client.tools.JsonTool;
 import ecomeal.client.tools.UrlWrapper;
+import ecomeal.client.tools.postTool;
 
 public class ScheduleService extends AbstractService{
 	
@@ -31,7 +33,7 @@ public class ScheduleService extends AbstractService{
 	 * Methode permettant de retourner une horraire valide via un appel à l'API
 	 * @return
 	 */
-	public String findAGoodSchedule(Button valideCommand, Slider from, Slider to, long deliveryTime) {
+	public double findAGoodSchedule(Button valideCommand, Slider from, Slider to) {
 		
 		Map<String,String> params = new HashMap<String,String>();
 		
@@ -48,19 +50,50 @@ public class ScheduleService extends AbstractService{
 		try {
 			result = jsonTool.readJson(new UrlWrapper("http://vps434333.ovh.net/api/dtime_calculation"),params);
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "";
+			valideCommand.setVisible(false);
+			return -2;
 		}
+		
+		// Si le service n'est pas en route
+		double scheduleTime = 0;
+		try{
 		JSONObject jsonObj = new JSONObject(result);
-		double scheduleTime = jsonObj.getDouble("deliveryTime");
+		scheduleTime = jsonObj.getDouble("deliveryTime");
+		}
+		catch(Exception e){
+			valideCommand.setVisible(false);
+			return -1;
+		}
 		if(scheduleTime != 0){
 			valideCommand.setVisible(true);
-			deliveryTime = (long) scheduleTime;
-			return "Horaire disponible : "+ transformToHour((((scheduleTime /60) + 60 /* GMT + 1*/) % 1440));
+			return scheduleTime;
 		}else{
 			valideCommand.setVisible(false);
+			return 0;
+		}
+	}
+	
+	/**
+	 * Change a double representing the number of minutes since 1970 to String
+	 * @param time the timestamp
+	 * @return the goo String
+	 */
+	public String ScheduleToString(double time){
+		if(time == -2){
+			return "Malformed";
+		}
+		else if(time == -1){
+			return "Le service est indisponible pour le moment.";
+		}
+		else if(time == 0){
 			return "Il n'y a pas d'horaire dans cette tranche horaire ,veuillez choisir une autre tranche horaire svp.";
+		}
+		else if(time > 0){
+			return "Horaire disponible : "+ transformToHour((((time /60) + 60 /* GMT + 1*/) % 1440));
+		}
+		else{
+			return "Impossible";
 		}
 	}
 	
@@ -77,6 +110,21 @@ public class ScheduleService extends AbstractService{
 		cd.set(Calendar.SECOND, 0);
 		cd.set(Calendar.MINUTE, 0);
 		cd.set(Calendar.HOUR_OF_DAY, 0);
+		
+		return cd.getTimeInMillis() / 1000;
+	}
+	
+	/**
+	 * Return the timestamp now at minute
+	 * @param date
+	 * @return
+	 */
+	public long getTimestampNow(Date date){
+		
+		Calendar cd = Calendar.getInstance();
+		cd.setTime(date);
+		cd.set(Calendar.MILLISECOND, 0);
+		cd.set(Calendar.SECOND, 0);
 		
 		return cd.getTimeInMillis() / 1000;
 	}
@@ -100,11 +148,25 @@ public class ScheduleService extends AbstractService{
 		return hour + minute;
 	}
 
-	public void validateOrder(Order order) {
+	public void validateOrder(Order order, double deliveryTime) {
 		
 		/*
 		 * Envoyer les infos de la commande en POST
 		 */
+		
+		postTool tool = new postTool();
+		
+    	order.setDeliveryTime((long)deliveryTime);
+    	System.out.println("DeliveriTime = " + order.getDeliveryTime());
+		
+		order.setOrderTime(getTimestampNow(new Date()));
+		System.out.println("OrderTime = " + order.getOrderTime());
+		
+		for(Basket basket : order.getBaskets().keySet()){
+			System.out.println("Basket ID = " + basket.getId() + " ; Number = " + order.getBaskets().get(basket));
+		}
+		
+		
 	}
 
 }

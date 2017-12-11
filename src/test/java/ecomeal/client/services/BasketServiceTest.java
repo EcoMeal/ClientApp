@@ -42,7 +42,7 @@ public class BasketServiceTest {
 		Product product = new Product("Bob", "Humain");
 		List<Product> products = new ArrayList<Product>();
 		products.add(product);
-		PresetBasket basket = new PresetBasket("ee", 789, "Panier vegan", "", products);
+		PresetBasket basket = new PresetBasket(1,"ee", 789, "Panier vegan", "", products);
 		List<Basket> baskets = new ArrayList<Basket>();
 		baskets.add(basket);		
 		

@@ -35,8 +35,8 @@ public class ScheduleServiceTest {
 		Button b = new Button("ButtonTest");
 		Slider from = new Slider(960, 1350);
 		Slider to = new Slider(990, 1380);
-		String result = service.findAGoodSchedule(b, from, to,1);
-		assertEquals("Horaire disponible : 16h00", result);
+		double result = service.findAGoodSchedule(b, from, to);
+		assertEquals(1512918000, result, 0.001);
 	}
 	
 	@Test
@@ -47,8 +47,8 @@ public class ScheduleServiceTest {
 		Button b = new Button("ButtonTest");
 		Slider from = new Slider(960, 1350);
 		Slider to = new Slider(990, 1380);
-		String result = service.findAGoodSchedule(b, from, to,1);
-		assertEquals("Il n'y a pas d'horaire dans cette tranche horaire ,veuillez choisir une autre tranche horaire svp.", result);
+		double result = service.findAGoodSchedule(b, from, to);
+		assertEquals(0, result, 0.001);
 	}
 	
 	
@@ -60,7 +60,7 @@ public class ScheduleServiceTest {
 		Slider from = new Slider(960, 1350);
 		Slider to = new Slider(990, 1380);
 		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), Mockito.anyMapOf(String.class, String.class))).thenThrow(MalformedURLException.class);
-		assertEquals(service.findAGoodSchedule(b, from, to,1),"");
+		assertEquals(service.findAGoodSchedule(b, from, to),-2, 0.001);
 	}
 	
 	@Test
@@ -86,7 +86,7 @@ public class ScheduleServiceTest {
 		cd2.set(Calendar.YEAR, 2080);
 		
 		long test = service.getTimestamp(cd.getTime());
-		assertEquals(cd2.getTimeInMillis(),test);
+		assertEquals(cd2.getTimeInMillis() / 1000,test);
 	}
 	
 	@Test

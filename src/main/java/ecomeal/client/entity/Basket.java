@@ -5,19 +5,29 @@ import java.util.List;
 
 public abstract class Basket {
 	
+	private int id;
 	private String name;
 	private Integer price;
 	private String category;
 	private List<Product> products;
 	private File image;
 	
-	public Basket(String name, Integer price, String category, String category_image, List<Product> products) {
+	public Basket(int id,String name, Integer price, String category, String category_image, List<Product> products) {
+		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.category = category;
 		category_image = (category_image.equals(null) || category_image.isEmpty())? "null_logomark_400x400.jpg" : category_image;
 		this.image = new File(getClass().getClassLoader().getResource(category_image).getFile());
 		this.products = products;
+	}
+	
+	public int getId(){
+		return this.id;
+	}
+	
+	public void setId(int id){
+		this.id = id;
 	}
 	
 	public String getName() {

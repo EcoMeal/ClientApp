@@ -1,5 +1,6 @@
 [
 	{
+		"id" : 1,
 		"name":"ee",
 		"price":789,
 		"category":"Panier vegan",
