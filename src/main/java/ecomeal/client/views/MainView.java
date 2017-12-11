@@ -34,6 +34,14 @@ public class MainView extends VerticalLayout implements View {
         });
         
         buttons.addComponents(basketButton);
+        
+        Button basketCategoryButton = new Button("Liste des categories de panier");
+        basketCategoryButton.addClickListener(e -> {
+        	navigator.navigateTo(EcomealConstants.BASKET_CATEGORY_VIEW);
+        });
+        
+        buttons.addComponents(basketCategoryButton);
+        
         addComponents(titre, buttons);
     }
 

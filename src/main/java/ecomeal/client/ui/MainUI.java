@@ -1,8 +1,5 @@
 package ecomeal.client.ui;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
@@ -11,7 +8,6 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
@@ -21,8 +17,12 @@ import ecomeal.client.components.EcomealMenuLayout;
 import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Order;
-import ecomeal.client.entity.PresetBasket;
-import ecomeal.client.views.*;
+import ecomeal.client.views.BasketCategoryView;
+import ecomeal.client.views.BasketView;
+import ecomeal.client.views.MainView;
+import ecomeal.client.views.OrderPopin;
+import ecomeal.client.views.RecapView;
+import ecomeal.client.views.ScheduleView;
 
 @Theme("mytheme")
 public class MainUI extends UI {
@@ -51,6 +51,7 @@ public class MainUI extends UI {
 
         // Create and register the views
         navigator.addView(EcomealConstants.BASKET_VIEW, new BasketView(navigator));
+        navigator.addView(EcomealConstants.BASKET_CATEGORY_VIEW, new BasketCategoryView(navigator));
         navigator.addView(EcomealConstants.MAIN_VIEW, new MainView(navigator));
         navigator.addView(EcomealConstants.HORAIRE_VIEW, new ScheduleView(navigator));
         navigator.addView(EcomealConstants.RECAP_VIEW, new RecapView(navigator));

@@ -12,45 +12,44 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-import ecomeal.client.components.BasketComponent;
+import ecomeal.client.components.BasketCategoryComponent;
 import ecomeal.client.constants.EcomealConstants;
-import ecomeal.client.entity.PresetBasket;
-import ecomeal.client.services.BasketService;
+import ecomeal.client.entity.BasketCategory;
+import ecomeal.client.services.BasketCategoryService;
 import ecomeal.client.tools.JsonTool;
 
-public class BasketView extends HorizontalLayout implements View {
-	
-	private static final long serialVersionUID = -419142715000622537L;
-	
-	private BasketService service;
+public class BasketCategoryView extends HorizontalLayout implements View {
+
+	private static final long serialVersionUID = -5103570575946626930L;
+
+	private BasketCategoryService service;
 	
 	/**
-	 * Constructor of the Basket View that initialize the page
+	 * Constructor of the Basket Category View that initialize the page
 	 * 
 	 * @param navigator Used to navigate between all the Vaadin views
 	 */
-	public BasketView(Navigator navigator) {
-		service = new BasketService(new JsonTool());
+	public BasketCategoryView(Navigator navigator) {
+		service = new BasketCategoryService(new JsonTool());
 		
 		// For the vertical scrollbar
         setHeight(null);
         setWidth("100%");
         
-        Label title = new Label("Voici la Liste des Paniers");
+        Label title = new Label("Paniers disponibles");
 
         Button button = new Button("Retour");
         button.addClickListener(e -> {
         	navigator.navigateTo(EcomealConstants.MAIN_VIEW);
         });
         
-        // TODO : Remplacer l'id de la catagorie par un parametre passe a la view
-        // Get all the baskets
-        List<PresetBasket> baskets = service.findBasketsByCategory(1);
+        // Get all the basket categories
+        List<BasketCategory> basketCategories = service.findAll();
         
-        // Css Layout allow the auto line return for Basket Image when we resize the window
+        // Css Layout allow the auto line return for BasketCategory Image when we resize the window
         CssLayout css = new CssLayout();
-        for(PresetBasket basket : baskets) {
-        	css.addComponent(new BasketComponent(navigator, basket, true));
+        for(BasketCategory basketCategory : basketCategories) {
+        	css.addComponent(new BasketCategoryComponent(navigator, basketCategory, true));
         }
         
         
@@ -60,15 +59,12 @@ public class BasketView extends HorizontalLayout implements View {
         addComponents(vertical);
         
     }
-
-	/**
-	 * Code executed when we enter the view
-	 */
+	
 	@Override
 	public void enter(ViewChangeEvent event) {
 		// Set background color for Basket Components
 		Page.getCurrent().getJavaScript().execute(
-				"var elements = document.getElementsByClassName('" + BasketComponent.javaScriptClassName + "');" +
+				"var elements = document.getElementsByClassName('" + BasketCategoryComponent.javaScriptClassName + "');" +
 				"for (var i = 0; i < elements.length; i++) {" +
 				"	for (var j = 0; j < elements[i].childNodes.length; j++) {" +
 				"		if(elements[i].childNodes[j].classList.contains('v-slot')) {" +
@@ -82,6 +78,7 @@ public class BasketView extends HorizontalLayout implements View {
 				"		}" +
 				"	}" +
 				"}"
-		);		
+		);	
 	}
+
 }
