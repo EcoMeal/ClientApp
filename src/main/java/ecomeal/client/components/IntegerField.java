@@ -52,11 +52,17 @@ public class IntegerField extends HorizontalLayout {
 		textField.addValueChangeListener(event -> {
 			String text = event.getSource().getValue();
 			try {
-				new Integer(text);
-				oldValue = text;
+				Integer i = new Integer(text);
+				if(i > MAXIMUM) {
+					i = MAXIMUM;
+				} else if(i < MINIMUM) {
+					i = MINIMUM;
+				}
+				oldValue = i + "";
 			} catch(NumberFormatException e) {
-				textField.setValue(oldValue);
+				// Nothing
 			}
+			textField.setValue(oldValue);
 		});
 		textField.setValueChangeMode(ValueChangeMode.LAZY);
 		

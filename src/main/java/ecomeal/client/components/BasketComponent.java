@@ -28,12 +28,15 @@ public class BasketComponent extends CustomComponent {
 	public BasketComponent(Navigator navigator, Basket basket, boolean ordering) {
 		this.image = new Image();
 		this.image.setSource(new FileResource(basket.getImage()));
+		this.image.setHeight(250, Unit.PIXELS);
+		this.image.setWidth(250, Unit.PIXELS);
 		if(basket instanceof PresetBasket) {			
 			this.image.addClickListener(e -> {
 				navigator.getUI().addWindow(new PresetBasketPopin(navigator, (PresetBasket) basket, ordering));
 			});
 		}
 		this.title = new Label(basket.getName());
+		this.title.setStyleName("basket-component-title");
 		init();
 		setSizeUndefined();
 		setCompositionRoot(vertical);

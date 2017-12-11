@@ -34,7 +34,7 @@ public class BasketView extends HorizontalLayout implements View {
 		
 		// For the vertical scrollbar
         setHeight(null);
-        setWidth("100%");
+        setWidth("50%");
         
         Label title = new Label("Voici la Liste des Paniers");
 
