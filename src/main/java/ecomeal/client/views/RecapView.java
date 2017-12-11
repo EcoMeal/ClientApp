@@ -45,6 +45,7 @@ public class RecapView extends HorizontalLayout implements View{
 	private int id = 0;
 	private int price = 0;
 	private Map<Basket,Integer> baskets = new HashMap<Basket,Integer>();
+	private Order myOrder;
 
 	public RecapView(Navigator navigator){
 		ui = (MainUI) navigator.getUI();
@@ -52,7 +53,7 @@ public class RecapView extends HorizontalLayout implements View{
 
 			@Override
 			public boolean beforeViewChange(ViewChangeEvent event) {
-				Order myOrder = ui.getOrder();
+				myOrder = ui.getOrder();
 				System.out.println("deliveryTime : " + myOrder.getDeliveryTime());
 				deliveryTime = scheduleService.transformToHour(
 						((myOrder.getDeliveryTime() % (60*60*24)) - (myOrder.getDeliveryTime() % 60)) / 60
@@ -93,6 +94,8 @@ public class RecapView extends HorizontalLayout implements View{
 		        vertical.setResponsive(true);
 		        removeAllComponents();
 		        addComponents(vertical);
+		        
+		        //ui.getOrder().clearOrder();
 				return true;
 			}
 			

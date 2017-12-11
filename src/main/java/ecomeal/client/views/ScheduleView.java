@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.slider.SliderOrientation;
 import com.vaadin.ui.Button;
@@ -28,14 +29,14 @@ public class ScheduleView extends HorizontalLayout implements View {
 	
 	private Label title = new Label();
 	
-	private Slider to;
-	private Slider from;
+	private Slider to = new Slider(990,1350);
+	private Slider from = new Slider(960,1380);
 	
 	private Label goodHoraire = new Label();
 	private Button valideHoraire;
 	
 	private Button returnButton;
-	private Button valideCommand;
+	private Button valideCommand = new Button("Validez la commande");
 	
 	private long deliveryTime;
 	
@@ -44,6 +45,20 @@ public class ScheduleView extends HorizontalLayout implements View {
 	 * @param navigator
 	 */
 	public ScheduleView(Navigator navigator) {
+		
+		navigator.addViewChangeListener(new ViewChangeListener(){
+
+			@Override
+			public boolean beforeViewChange(ViewChangeEvent event) {
+				from.setValue((double) 960);
+				to.setMin(990);
+				to.setValue((double) 990);
+				goodHoraire.setVisible(false);
+				valideCommand.setVisible(false);
+				return true;
+			}
+			
+		});
 		service= new ScheduleService(new JsonTool());
 		MainUI ui = (MainUI) navigator.getUI();
 		
@@ -58,7 +73,6 @@ public class ScheduleView extends HorizontalLayout implements View {
         titleLayout.addComponents(title);
         
         // Création des Sliders
-        from = new Slider(960,1350);
         from.setDescription(from.getCaption());
         
         from.setCaption("Début:" + service.transformToHour(from.getValue()));
@@ -71,7 +85,6 @@ public class ScheduleView extends HorizontalLayout implements View {
         });
         
         
-        to = new Slider(990, 1380);
         to.setCaption("Fin:" + service.transformToHour(to.getValue()));
         to.setOrientation(SliderOrientation.HORIZONTAL);
         to.setSizeFull();
@@ -92,11 +105,11 @@ public class ScheduleView extends HorizontalLayout implements View {
         horaireButton.addComponents(valideHoraire, goodHoraire);
         
         // Boutton de Validation
-        valideCommand = new Button("Validez la commande");
         valideCommand.setVisible(false);
         valideCommand.addClickListener(e -> {
         	service.validateOrder(ui.getOrder(), deliveryTime);
         	navigator.navigateTo(EcomealConstants.RECAP_VIEW);
+        	ui.getOrder().clearOrder();
         });
         
         // Boutton de retour
