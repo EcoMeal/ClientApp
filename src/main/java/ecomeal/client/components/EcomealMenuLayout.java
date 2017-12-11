@@ -33,7 +33,6 @@ public class EcomealMenuLayout extends VerticalLayout {
 	
 	public void addMenu(Component menu) {
 		menu.addStyleName(ValoTheme.MENU_PART);
-		menu.addStyleName("ecomeal-text");
 		menuArea.addComponent(menu);
 	}
 	

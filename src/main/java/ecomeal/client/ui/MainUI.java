@@ -8,15 +8,18 @@ import javax.servlet.annotation.WebServlet;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 
+import ecomeal.client.components.BasketComponent;
 import ecomeal.client.components.EcomealMenuLayout;
 import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
@@ -55,20 +58,24 @@ public class MainUI extends UI {
         navigator.addView(EcomealConstants.HORAIRE_VIEW, new ScheduleView(navigator));
         navigator.addView(EcomealConstants.RECAP_VIEW, new RecapView(navigator));
         
+        setMenuTextSize();
         
     }
     
     private CssLayout buildMenu() {
     	CssLayout menu = new CssLayout();
-    	CssLayout menuItemsLayout = new CssLayout();
+    	HorizontalLayout menuItemsLayout = new HorizontalLayout();
     	menuItemsLayout.setPrimaryStyleName("valo-menuitems");
     	menu.addComponent(menuItemsLayout);
-    	Button button = new Button("Commande");
-    	button.addClickListener(e -> {
+    	Button homeButton = new Button("Accueil");
+    	homeButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
+    	Button orderButton = new Button("Commande");
+    	orderButton.addClickListener(e -> {
     		addWindow(new OrderPopin(navigator, order));
     	});
-    	button.setPrimaryStyleName(ValoTheme.MENU_ITEM);
-    	menuItemsLayout.addComponent(button);
+    	orderButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
+    	menuItemsLayout.addStyleName("ecomeal-menu");
+    	menuItemsLayout.addComponents(homeButton, orderButton);
     	return menu;
     }
     
@@ -78,6 +85,20 @@ public class MainUI extends UI {
     
     public void addBasket(Basket basket) {
     	order.addBasket(basket);
+    }
+    
+    private void setMenuTextSize() {
+    	Page.getCurrent().getJavaScript().execute(
+				"var elements = document.getElementsByClassName('ecomeal-menu');" +
+				"for (var i = 0; i < elements.length; i++) {" +
+				"	for (var j = 0; j < elements[i].childNodes.length; j = j + 2) {" +
+				"		elements[i].childNodes[j].childNodes[0].childNodes[0].style.fontSize='34px';" +
+				"		elements[i].childNodes[j].childNodes[0].childNodes[0].childNodes[0].style.width='100%';" +
+				"	}" +
+				"	elements[i].parentElement.style.paddingBottom='15px';" +
+				"	elements[i].parentElement.style.paddingTop='15px';" +
+				"}"
+		);
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyMainServlet", asyncSupported = true)
