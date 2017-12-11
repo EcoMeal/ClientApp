@@ -33,7 +33,7 @@ public class ScheduleService extends AbstractService{
 	 * Methode permettant de retourner une horraire valide via un appel à l'API
 	 * @return
 	 */
-	public double findAGoodSchedule(Button valideCommand, Slider from, Slider to) {
+	public long findAGoodSchedule(Button valideCommand, Slider from, Slider to) {
 		
 		Map<String,String> params = new HashMap<String,String>();
 		
@@ -56,10 +56,11 @@ public class ScheduleService extends AbstractService{
 		}
 		
 		// Si le service n'est pas en route
-		double scheduleTime = 0;
+		long scheduleTime = 0;
 		try{
 		JSONObject jsonObj = new JSONObject(result);
-		scheduleTime = jsonObj.getDouble("deliveryTime");
+		scheduleTime = jsonObj.getLong("deliveryTime");
+		System.out.println("SEND : " + scheduleTime );
 		}
 		catch(Exception e){
 			valideCommand.setVisible(false);
@@ -79,7 +80,7 @@ public class ScheduleService extends AbstractService{
 	 * @param time the timestamp
 	 * @return the goo String
 	 */
-	public String ScheduleToString(double time){
+	public String ScheduleToString(long time){
 		if(time == -2){
 			return "Malformed";
 		}
@@ -90,7 +91,7 @@ public class ScheduleService extends AbstractService{
 			return "Il n'y a pas d'horaire dans cette tranche horaire ,veuillez choisir une autre tranche horaire svp.";
 		}
 		else if(time > 0){
-			return "Horaire disponible : "+ transformToHour((((time /60) + 60 /* GMT + 1*/) % 1440));
+			return "Horaire disponible : "+ transformToHour(((time /60) % 1440));
 		}
 		else{
 			return "Impossible";
@@ -148,7 +149,7 @@ public class ScheduleService extends AbstractService{
 		return hour + minute;
 	}
 
-	public void validateOrder(Order order, double deliveryTime) {
+	public void validateOrder(Order order, long deliveryTime) {
 		
 		/*
 		 * Envoyer les infos de la commande en POST
@@ -156,15 +157,11 @@ public class ScheduleService extends AbstractService{
 		
 		postTool tool = new postTool();
 		
-    	order.setDeliveryTime((long)deliveryTime);
-    	System.out.println("DeliveriTime = " + order.getDeliveryTime());
+    	order.setDeliveryTime(deliveryTime);
 		
 		order.setOrderTime(getTimestampNow(new Date()));
-		System.out.println("OrderTime = " + order.getOrderTime());
 		
-		for(Basket basket : order.getBaskets().keySet()){
-			System.out.println("Basket ID = " + basket.getId() + " ; Number = " + order.getBaskets().get(basket));
-		}
+		order.setId(-2);
 		
 		
 	}

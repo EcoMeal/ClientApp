@@ -18,6 +18,9 @@ public class Order {
 	
 	public Order() {
 		baskets = new HashMap<Basket, Integer>();
+		id = -1;
+		orderTime = -1;
+		deliveryTime = -1;
 	}
 	
 	public Integer getId() {

@@ -37,7 +37,7 @@ public class ScheduleView extends HorizontalLayout implements View {
 	private Button returnButton;
 	private Button valideCommand;
 	
-	private double deliveryTime;
+	private long deliveryTime;
 	
 	/**
 	 * Constructeur de HoraireView
@@ -86,7 +86,7 @@ public class ScheduleView extends HorizontalLayout implements View {
         valideHoraire = new Button("Trouver une horaire disponible");
         valideHoraire.addClickListener(e -> {
         	goodHoraire.setVisible(true);
-        	goodHoraire.setValue(service.ScheduleToString(deliveryTime = service.findAGoodSchedule(valideCommand, from, to)));
+        	goodHoraire.setValue(service.ScheduleToString(deliveryTime = (service.findAGoodSchedule(valideCommand, from, to) + 3600)));
         });
         goodHoraire.setVisible(false);
         horaireButton.addComponents(valideHoraire, goodHoraire);

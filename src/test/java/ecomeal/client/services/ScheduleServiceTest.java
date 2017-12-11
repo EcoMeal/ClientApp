@@ -92,14 +92,14 @@ public class ScheduleServiceTest {
 	@Test
 	public void transformToHourTest(){
 		//Cas normal
-		assertEquals(service.transformToHour(960), "16h00");
+		assertEquals(service.transformToHour(1151), "19h11");
 		
 	}
 	
 	@Test
 	public void transformToHourOuIlFautAjouterUnZeroTest(){
 		//Cas où il faut ajouter un '0' après le 'h'
-		assertEquals(service.transformToHour(1151), "19h11");
+		assertEquals(service.transformToHour(960), "16h00");
 	}
 
 }
