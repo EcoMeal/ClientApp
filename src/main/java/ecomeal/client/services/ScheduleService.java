@@ -107,12 +107,11 @@ public class ScheduleService extends AbstractService{
 		
 		Calendar cd = Calendar.getInstance();
 		cd.setTime(date);
-		cd.set(Calendar.MILLISECOND, 0);
-		cd.set(Calendar.SECOND, 0);
-		cd.set(Calendar.MINUTE, 0);
-		cd.set(Calendar.HOUR_OF_DAY, 0);
 		
-		return cd.getTimeInMillis() / 1000;
+		long time = cd.getTimeInMillis() - (cd.getTimeInMillis() % (1000 * 60 * 60 * 24));
+		time = time / 1000;
+		System.out.println("Time 0:00 :" + time);
+		return time;
 	}
 	
 	/**
@@ -120,14 +119,15 @@ public class ScheduleService extends AbstractService{
 	 * @param date
 	 * @return
 	 */
-	public long getTimestampNow(Date date){
+	public long getTimestampNow(){
 		
 		Calendar cd = Calendar.getInstance();
-		cd.setTime(date);
-		cd.set(Calendar.MILLISECOND, 0);
-		cd.set(Calendar.SECOND, 0);
+		cd.setTime(new Date());
 		
-		return cd.getTimeInMillis() / 1000;
+		long time = cd.getTimeInMillis() - (cd.getTimeInMillis() % (1000 * 60));
+		time = time / 1000;
+		time = time + 3600; // GMT + 1
+		return time;
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class ScheduleService extends AbstractService{
 		
     	order.setDeliveryTime(deliveryTime);
 		
-		order.setOrderTime(getTimestampNow(new Date()));
+		order.setOrderTime(getTimestampNow());
 		
 		order.setId(-2);
 		

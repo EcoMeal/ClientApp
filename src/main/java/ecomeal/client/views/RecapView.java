@@ -53,8 +53,14 @@ public class RecapView extends HorizontalLayout implements View{
 			@Override
 			public boolean beforeViewChange(ViewChangeEvent event) {
 				Order myOrder = ui.getOrder();
-				deliveryTime = scheduleService.transformToHour(((myOrder.getDeliveryTime() - 0) / 60) % 1140);
-				orderTime = scheduleService.transformToHour(((myOrder.getOrderTime() - 0) / 60) % 1140);
+				System.out.println("deliveryTime : " + myOrder.getDeliveryTime());
+				deliveryTime = scheduleService.transformToHour(
+						((myOrder.getDeliveryTime() % (60*60*24)) - (myOrder.getDeliveryTime() % 60)) / 60
+						);
+				System.out.println("orderTime : " + myOrder.getOrderTime());
+				orderTime = scheduleService.transformToHour(
+						((myOrder.getOrderTime() % (60*60*24)) - (myOrder.getOrderTime() % 60)) / 60
+						);
 				id = myOrder.getId();
 				price = myOrder.getPrice();
 				baskets = myOrder.getBaskets();
