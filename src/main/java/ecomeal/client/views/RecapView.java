@@ -1,6 +1,5 @@
 package ecomeal.client.views;
 
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +18,6 @@ import ecomeal.client.components.BasketComponent;
 import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Order;
-import ecomeal.client.services.BasketService;
 import ecomeal.client.services.ScheduleService;
 import ecomeal.client.tools.JsonTool;
 import ecomeal.client.ui.MainUI;
@@ -54,11 +52,9 @@ public class RecapView extends HorizontalLayout implements View{
 			@Override
 			public boolean beforeViewChange(ViewChangeEvent event) {
 				myOrder = ui.getOrder();
-				System.out.println("deliveryTime : " + myOrder.getDeliveryTime());
 				deliveryTime = scheduleService.transformToHour(
 						((myOrder.getDeliveryTime() % (60*60*24)) - (myOrder.getDeliveryTime() % 60)) / 60
 						);
-				System.out.println("orderTime : " + myOrder.getOrderTime());
 				orderTime = scheduleService.transformToHour(
 						((myOrder.getOrderTime() % (60*60*24)) - (myOrder.getOrderTime() % 60)) / 60
 						);

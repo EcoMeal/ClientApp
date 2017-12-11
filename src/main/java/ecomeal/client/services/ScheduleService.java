@@ -1,18 +1,20 @@
 package ecomeal.client.services;
 
 import java.net.MalformedURLException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Slider;
 
-import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Order;
 import ecomeal.client.tools.JsonTool;
 import ecomeal.client.tools.UrlWrapper;
@@ -40,9 +42,6 @@ public class ScheduleService extends AbstractService{
 		long time = getTimestamp(new Date());
 		String fromTime = "" + (long) (time + from.getValue() * 60);
 		String toTime = "" + (long) (time + to.getValue() * 60);
-		System.out.println("TIME : " + time);
-		System.out.println("FROM : " + fromTime);
-		System.out.println("TO : " + toTime);
 		params.put("start_time",fromTime);
 		params.put("end_time",toTime);
 				
@@ -60,7 +59,6 @@ public class ScheduleService extends AbstractService{
 		try{
 		JSONObject jsonObj = new JSONObject(result);
 		scheduleTime = jsonObj.getLong("deliveryTime");
-		System.out.println("SEND : " + scheduleTime );
 		}
 		catch(Exception e){
 			valideCommand.setVisible(false);
@@ -110,7 +108,6 @@ public class ScheduleService extends AbstractService{
 		
 		long time = cd.getTimeInMillis() - (cd.getTimeInMillis() % (1000 * 60 * 60 * 24));
 		time = time / 1000;
-		System.out.println("Time 0:00 :" + time);
 		return time;
 	}
 	
@@ -150,17 +147,28 @@ public class ScheduleService extends AbstractService{
 	}
 
 	public void validateOrder(Order order, long deliveryTime) {
-		
-		/*
-		 * Envoyer les infos de la commande en POST
-		 */
-		
 		postTool tool = new postTool();
 		
     	order.setDeliveryTime(deliveryTime);
 		
 		order.setOrderTime(getTimestampNow());
 		
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("username", "Kadoc"));
+		params.add(new BasicNameValuePair("order_time", "" + order.getOrderTime()));
+		params.add(new BasicNameValuePair("delivery_time", "" + order.getDeliveryTime()));
+		params.add(new BasicNameValuePair("content", "[1,1]"));
+		
+		for(int i = 0; i < params.size(); i++){
+			System.out.println(params.get(i).getName() + " -> " + params.get(i).getValue());
+		}
+		String test = "";
+		try {
+			test = tool.postMessage(new UrlWrapper("http://vps434333.ovh.net/api/basket_order"), params);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Test POST : " + test);
 		order.setId(-2);
 		
 		
