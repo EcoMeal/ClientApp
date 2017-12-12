@@ -14284,3 +14284,24 @@ div.v-layout.v-horizontal.v-widget {
 	width: 19px;
 	overflow: hidden;
 }
+
+.ecomeal-title {
+	font-size: 34px;
+}
+
+.ecomeal-text {
+	font-size: 28px;
+}
+
+.ecomeal-button {
+	height: 100% !important;
+	font-size: 28px;
+}
+
+.ecomeal-basket-component-title {
+	font-size: 24px;
+}
+
+.ecomeal-grid {
+	
+}

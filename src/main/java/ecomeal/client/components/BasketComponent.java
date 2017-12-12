@@ -36,7 +36,8 @@ public class BasketComponent extends CustomComponent {
 			});
 		}
 		this.title = new Label(basket.getName());
-		this.title.setStyleName("basket-component-title");
+		this.title.setWidth(null);
+		this.title.setStyleName("ecomeal-basket-component-title");
 		init();
 		setSizeUndefined();
 		setCompositionRoot(vertical);

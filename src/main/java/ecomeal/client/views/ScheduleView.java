@@ -56,6 +56,9 @@ public class ScheduleView extends HorizontalLayout implements View {
 			}
 			
 		});
+		
+		goodHoraire.addStyleName("ecomeal-text");
+		
 		service= new ScheduleService(new JsonTool());
 		MainUI ui = (MainUI) navigator.getUI();
 		
@@ -67,6 +70,7 @@ public class ScheduleView extends HorizontalLayout implements View {
         VerticalLayout horaireButton = new VerticalLayout();
         
         title = new Label("Selectionnez la tranche horaire souhaitée.");
+        title.addStyleName("ecomeal-title");
         titleLayout.addComponents(title);
         
         // Création des Sliders
@@ -94,6 +98,7 @@ public class ScheduleView extends HorizontalLayout implements View {
         
         // Création de la session de validation de l'horaire 
         valideHoraire = new Button("Trouver une horaire disponible");
+        valideHoraire.addStyleName("ecomeal-button");
         valideHoraire.addClickListener(e -> {
         	goodHoraire.setVisible(true);
         	goodHoraire.setValue(service.ScheduleToString(deliveryTime = service.findAGoodSchedule(valideCommand, from, to)));
@@ -102,6 +107,7 @@ public class ScheduleView extends HorizontalLayout implements View {
         horaireButton.addComponents(valideHoraire, goodHoraire);
         
         // Boutton de Validation
+        valideCommand.addStyleName("ecomeal-button");
         valideCommand.setVisible(false);
         valideCommand.addClickListener(e -> {
         	service.validateOrder(ui.getOrder(), deliveryTime);
@@ -111,6 +117,7 @@ public class ScheduleView extends HorizontalLayout implements View {
         
         // Boutton de retour
         returnButton = new Button("Revenir au menu");
+        returnButton.addStyleName("ecomeal-button");
         returnButton.addClickListener(e -> {
         	navigator.navigateTo(EcomealConstants.MAIN_VIEW);
         });

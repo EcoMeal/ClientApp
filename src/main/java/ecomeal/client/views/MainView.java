@@ -24,10 +24,12 @@ public class MainView extends VerticalLayout implements View {
         setSizeFull();
         
         Label titre = new Label("Bienvenue sur Ecomeal");
+        titre.addStyleName("ecomeal-title");
         
         HorizontalLayout buttons = new HorizontalLayout();
 
         Button basketButton = new Button("Liste des Paniers");
+        basketButton.addStyleName("ecomeal-button");
         basketButton.addClickListener(e -> {
         	navigator.navigateTo(EcomealConstants.BASKET_VIEW);
         });
