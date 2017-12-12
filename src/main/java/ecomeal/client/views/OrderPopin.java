@@ -41,7 +41,6 @@ public class OrderPopin extends Window {
 		grid.addStyleName("ecomeal-grid");
 		grid.setSelectionMode(SelectionMode.NONE);
 		grid.setColumns("basketName", "type", "quantity", "unitPrice");
-		setGridSize();
 		// TODO : Change columns title
 		
 		int totalPrice = 0;
@@ -78,15 +77,30 @@ public class OrderPopin extends Window {
 		content.setComponentAlignment(bot, Alignment.BOTTOM_CENTER);
 		
 		setContent(content);
+		
+		setGridSize();
 	}
 	
 	private void setGridSize() {
 		Page.getCurrent().getJavaScript().execute(
+				"if (document.readyState !== 'loading') {" + 
 				"var elements = document.getElementsByClassName('ecomeal-grid');" +
 				"for (var i = 0; i < elements.length; i++) {" +
 				"	var table = elements[i].childNodes[2].childNodes[0];" +
 				"	for (var j = 0; j < table.childNodes.length; j++) {" +
-				"		table.childNodes[j].childNodes[0].childNodes[0].childNodes[0].style.fontSize='28px';" +
+				"		var row = table.childNodes[j];" + 
+				"		if (row.classList.contains('v-grid-header')) {" +
+				"			row = row.childNodes[0];" +
+				"			for (var k = 0; k < row.childNodes.length; k++) {" +
+				"				row.childNodes[k].childNodes[0].style.fontSize='28px';" +
+				"			}" +
+				"		}" +
+				"		else if(row.classList.contains('v-grid-body') && row.childElementCount > 0) {" +
+				"			row = row.childNodes[0];" +
+				"			for (var k = 0; k < row.childNodes.length; k++) {" +
+				"				row.childNodes[k].style.fontSize='28px';" +
+				"			}" +
+				"		}" +
 				"	}" +
 				"}"
 		);

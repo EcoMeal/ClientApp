@@ -58,7 +58,7 @@ public class BasketService extends AbstractService {
 					productsList.add(product);
 				}
 				
-				PresetBasket basket = new PresetBasket(basketId, basketName, basketPrice, basketCategory, basketCategoryImage, productsList);
+				PresetBasket basket = new PresetBasket(basketId, basketName, basketPrice, basketCategory, "", productsList);
 				res.add(basket);
 			}
 		} catch (MalformedURLException e) {
@@ -106,7 +106,7 @@ public class BasketService extends AbstractService {
 					productsList.add(product);
 				}
 				
-				PresetBasket basket = new PresetBasket(basketId, basketName, basketPrice, basketCategory, basketCategoryImage, productsList);
+				PresetBasket basket = new PresetBasket(basketId, basketName, basketPrice, basketCategory, "", productsList);
 				res.add(basket);
 			}
 		} catch (MalformedURLException e) {
