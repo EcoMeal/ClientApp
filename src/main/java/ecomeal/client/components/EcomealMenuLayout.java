@@ -7,18 +7,24 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class EcomealMenuLayout extends HorizontalLayout {
+public class EcomealMenuLayout extends VerticalLayout {
 
+	private static final long serialVersionUID = 1105797600667561029L;
+	
 	private CssLayout contentArea = new CssLayout();
-	private CssLayout menuArea = new CssLayout();
+	private HorizontalLayout menuArea = new HorizontalLayout();
 	
 	public EcomealMenuLayout() {
 		setSizeFull();
+		setMargin(false);
 		VerticalLayout vertical = new VerticalLayout();
 		menuArea.setPrimaryStyleName(ValoTheme.MENU_ROOT);
+		menuArea.setWidth(100, Unit.PERCENTAGE);
 		contentArea.setPrimaryStyleName("valo-content");
 		contentArea.addStyleName("v-scrollable");
 		contentArea.setSizeFull();
+		contentArea.setHeight(null);
+        contentArea.setWidth("100%");
 		vertical.addComponent(contentArea);
 		addComponents(menuArea, vertical);
 		setExpandRatio(vertical, 1);

@@ -1,7 +1,7 @@
 package ecomeal.client.services;
 
 import java.net.MalformedURLException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,9 +40,6 @@ public class ScheduleService extends AbstractService{
 		long time = getTimestamp(new Date());
 		String fromTime = "" + (long) (time + from.getValue() * 60);
 		String toTime = "" + (long) (time + to.getValue() * 60);
-		System.out.println("TIME : " + time);
-		System.out.println("FROM : " + fromTime);
-		System.out.println("TO : " + toTime);
 		params.put("start_time",fromTime);
 		params.put("end_time",toTime);
 				
@@ -60,7 +57,6 @@ public class ScheduleService extends AbstractService{
 		try{
 		JSONObject jsonObj = new JSONObject(result);
 		scheduleTime = jsonObj.getLong("deliveryTime");
-		System.out.println("SEND : " + scheduleTime );
 		}
 		catch(Exception e){
 			valideCommand.setVisible(false);
@@ -110,7 +106,6 @@ public class ScheduleService extends AbstractService{
 		
 		long time = cd.getTimeInMillis() - (cd.getTimeInMillis() % (1000 * 60 * 60 * 24));
 		time = time / 1000;
-		System.out.println("Time 0:00 :" + time);
 		return time;
 	}
 	
@@ -149,21 +144,34 @@ public class ScheduleService extends AbstractService{
 		return hour + minute;
 	}
 
-	public void validateOrder(Order order, long deliveryTime) {
-		
-		/*
-		 * Envoyer les infos de la commande en POST
-		 */
-		
+	public void validateOrder(Order order, long deliveryTime){
 		postTool tool = new postTool();
 		
     	order.setDeliveryTime(deliveryTime);
 		
 		order.setOrderTime(getTimestampNow());
 		
-		order.setId(-2);
+		JSONObject jobj = new JSONObject();
+        jobj.put("username","Kadoc");
+        jobj.put("order_time", "" + order.getOrderTime());
+        jobj.put("delivery_time", "" + order.getDeliveryTime());
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        for(Basket basket : order.getBaskets().keySet()){
+        	for(int i = 0 ; i < order.getBaskets().get(basket); i++){
+        		list.add(basket.getId());
+        	}
+        }
+        jobj.put("content", "" + list.toString());
+        String result = "";
+        try {
+			result = tool.postMessage(new UrlWrapper("http://vps434333.ovh.net/api/basket_order"), jobj.toString());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+        JSONObject resultJson = new JSONObject(result);
+        
+		order.setId(resultJson.getInt("order_id"));
 		
 		
 	}
-
 }

@@ -1,6 +1,5 @@
 package ecomeal.client.views;
 
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +18,6 @@ import ecomeal.client.components.BasketComponent;
 import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Order;
-import ecomeal.client.services.BasketService;
 import ecomeal.client.services.ScheduleService;
 import ecomeal.client.tools.JsonTool;
 import ecomeal.client.ui.MainUI;
@@ -45,6 +43,7 @@ public class RecapView extends HorizontalLayout implements View{
 	private int id = 0;
 	private int price = 0;
 	private Map<Basket,Integer> baskets = new HashMap<Basket,Integer>();
+	private Order myOrder;
 
 	public RecapView(Navigator navigator){
 		ui = (MainUI) navigator.getUI();
@@ -52,12 +51,10 @@ public class RecapView extends HorizontalLayout implements View{
 
 			@Override
 			public boolean beforeViewChange(ViewChangeEvent event) {
-				Order myOrder = ui.getOrder();
-				System.out.println("deliveryTime : " + myOrder.getDeliveryTime());
+				myOrder = ui.getOrder();
 				deliveryTime = scheduleService.transformToHour(
 						((myOrder.getDeliveryTime() % (60*60*24)) - (myOrder.getDeliveryTime() % 60)) / 60
 						);
-				System.out.println("orderTime : " + myOrder.getOrderTime());
 				orderTime = scheduleService.transformToHour(
 						((myOrder.getOrderTime() % (60*60*24)) - (myOrder.getOrderTime() % 60)) / 60
 						);
@@ -66,8 +63,10 @@ public class RecapView extends HorizontalLayout implements View{
 				baskets = myOrder.getBaskets();
 				
 				title = new Label("Recapitulatif de la Commande fait ce jour à " + orderTime);
+				title.addStyleName("ecomeal-text");
 		        
 		        FirstPhrase = new Label("Voici la liste des paniers :");
+		        FirstPhrase.addStyleName("ecomeal-text");
 		        
 		        css = new CssLayout();
 		        
@@ -78,13 +77,17 @@ public class RecapView extends HorizontalLayout implements View{
 		        }
 		        
 		        SecondPhrase = new Label("Pour un prix de : " + price + "€");
+		        SecondPhrase.addStyleName("ecomeal-text");
 		        
 		        ThirdPhrase = new Label("Le numéro de commande est le : " + id);
+		        ThirdPhrase.addStyleName("ecomeal-text");
 		        
 		        FourthPhrase = new Label("Votre commande sera délivré à " + deliveryTime);
+		        FourthPhrase.addStyleName("ecomeal-text");
 		        
 		        // Boutton de retour
 		        returnButton = new Button("Revenir au menu");
+		        returnButton.addStyleName("ecomeal-button");
 		        returnButton.addClickListener(e -> {
 		        	navigator.navigateTo(EcomealConstants.MAIN_VIEW);
 		        });
@@ -93,6 +96,8 @@ public class RecapView extends HorizontalLayout implements View{
 		        vertical.setResponsive(true);
 		        removeAllComponents();
 		        addComponents(vertical);
+		        
+		        //ui.getOrder().clearOrder();
 				return true;
 			}
 			

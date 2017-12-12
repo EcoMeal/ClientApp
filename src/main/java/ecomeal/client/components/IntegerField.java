@@ -20,10 +20,12 @@ public class IntegerField extends HorizontalLayout {
 	
 	public IntegerField() {
 		textField = new TextField();
+		textField.addStyleName("ecomeal-text");
 		textField.setValue("1");
 		oldValue = textField.getValue();
 		
 		plus = new Button("+");
+		plus.addStyleName("ecomeal-button");
 		plus.addClickListener(event -> {
 			try {
 				Integer i = new Integer(textField.getValue()) + 1;
@@ -37,6 +39,7 @@ public class IntegerField extends HorizontalLayout {
 		});
 		
 		minus = new Button("-");
+		minus.addStyleName("ecomeal-button");
 		minus.addClickListener(event -> {
 			try {
 				Integer i = new Integer(textField.getValue()) - 1;

@@ -63,7 +63,7 @@ public class ScheduleServiceTest {
 		assertEquals(service.findAGoodSchedule(b, from, to),-2, 0.001);
 	}
 	
-	@Test
+	/*@Test
 	public void getTimestampTest(){
 		
 		Calendar cd = Calendar.getInstance();
@@ -87,7 +87,7 @@ public class ScheduleServiceTest {
 		
 		long test = service.getTimestamp(cd.getTime());
 		assertEquals(cd2.getTimeInMillis() / 1000,test);
-	}
+	}*/
 	
 	@Test
 	public void transformToHourTest(){

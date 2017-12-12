@@ -7,6 +7,8 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import ecomeal.client.constants.EcomealConstants;
+
 /**
  * The Home Page of the application
  */
@@ -20,6 +22,7 @@ public class MainView extends VerticalLayout implements View {
         setSizeFull();
         
         Label titre = new Label("Bienvenue sur Ecomeal");
+        titre.addStyleName("ecomeal-title");
         
         BasketCategoryView view = new BasketCategoryView(navigator);
         addComponents(titre, view);

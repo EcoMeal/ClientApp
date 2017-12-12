@@ -38,8 +38,10 @@ public class BasketView extends HorizontalLayout implements View {
         setWidth("100%");
         
         Label title = new Label("Liste des paniers");
+        title.addStyleName("ecomeal-title");
 
         Button button = new Button("Retour");
+        button.addStyleName("ecomeal-button");
         button.addClickListener(e -> {
         	navigator.navigateTo(EcomealConstants.MAIN_VIEW);
         });

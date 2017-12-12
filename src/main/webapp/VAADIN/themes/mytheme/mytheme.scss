@@ -35,4 +35,24 @@
   @include valo;
 
   // Insert your own theme rules here
+  .ecomeal-title {
+	font-size: 34px;
+  }
+
+  .ecomeal-text {
+	font-size: 28px;
+  }
+
+  .ecomeal-button {
+	height: 100% !important;
+	font-size: 28px;
+  }
+
+  .ecomeal-basket-component-title {
+	font-size: 24px;
+  }
+
+  .ecomeal-grid {
+	
+  }
 }

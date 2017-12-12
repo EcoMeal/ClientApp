@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.vaadin.navigator.Navigator;
+import com.vaadin.server.Page;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
@@ -29,14 +30,18 @@ public class OrderPopin extends Window {
 	public OrderPopin(Navigator navigator, Order order) {
 		super("Ma commande");
 		center();
+		setClosable(false);
 		setResizable(false);
 		setModal(true);
 		setDraggable(false);
 		setWidth("80%");
 		
 		grid = new Grid<OrderGridRow>(OrderGridRow.class);
+		grid.getHeaderRow(0).setStyleName("ecomeal-title");
+		grid.addStyleName("ecomeal-grid");
 		grid.setSelectionMode(SelectionMode.NONE);
 		grid.setColumns("basketName", "type", "quantity", "unitPrice");
+		setGridSize();
 		// TODO : Change columns title
 		
 		int totalPrice = 0;
@@ -55,11 +60,14 @@ public class OrderPopin extends Window {
 		grid.setSizeFull();
 				
 		Label totalPriceLabel = new Label("Prix total = " + totalPrice + "€");
+		totalPriceLabel.addStyleName("ecomeal-text");
 		
 		Button cancel = new Button("Retour", event -> close());
 		cancel.setStyleName(ValoTheme.BUTTON_DANGER);
+		cancel.addStyleName("ecomeal-button");
 		Button validate = new Button("Commander");
 		validate.setStyleName(ValoTheme.BUTTON_PRIMARY);
+		validate.addStyleName("ecomeal-button");
 		validate.addClickListener(event -> {
 			close();
 			navigator.navigateTo(EcomealConstants.HORAIRE_VIEW);
@@ -70,6 +78,18 @@ public class OrderPopin extends Window {
 		content.setComponentAlignment(bot, Alignment.BOTTOM_CENTER);
 		
 		setContent(content);
+	}
+	
+	private void setGridSize() {
+		Page.getCurrent().getJavaScript().execute(
+				"var elements = document.getElementsByClassName('ecomeal-grid');" +
+				"for (var i = 0; i < elements.length; i++) {" +
+				"	var table = elements[i].childNodes[2].childNodes[0];" +
+				"	for (var j = 0; j < table.childNodes.length; j++) {" +
+				"		table.childNodes[j].childNodes[0].childNodes[0].childNodes[0].style.fontSize='28px';" +
+				"	}" +
+				"}"
+		);
 	}
 	
 }

@@ -32,9 +32,14 @@ public class PresetBasketPopin extends Window {
 		setDraggable(false);
 		
 		Label name = new Label(basket.getName());
+		name.addStyleName("ecomeal-text");
 		Label category = new Label(basket.getCategory());
+		category.addStyleName("ecomeal-text");
 		Label price = new Label(basket.getPrice() + "€");
+		price.addStyleName("ecomeal-text");
 		TextArea basketContent = new TextArea();
+		basketContent.addStyleName("ecomeal-text");
+		setTextAreaSize();
 		StringBuilder builder = new StringBuilder();
 		for(Product product : basket.getProducts()) {
 			builder.append(product.getName() + " (" + product.getCategory() + ")\n");
@@ -45,8 +50,6 @@ public class PresetBasketPopin extends Window {
 		VerticalLayout infos = new VerticalLayout(name, category, price, basketContent);
 		Image image = new Image();
 		image.setSource(new FileResource(basket.getImage()));
-		image.setHeight(250, Unit.PIXELS);
-		image.setWidth(250, Unit.PIXELS);
 		HorizontalLayout top = new HorizontalLayout(image, infos);
 		
 		HorizontalLayout bot;
@@ -55,6 +58,7 @@ public class PresetBasketPopin extends Window {
 			// TODO : Set max value according to the stock
 			Button validate = new Button("Ajouter");
 			validate.setStyleName(ValoTheme.BUTTON_PRIMARY);
+			validate.addStyleName("ecomeal-button");
 			validate.addClickListener(event -> {
 				MainUI ui = (MainUI) navigator.getUI();
 				ui.getOrder().addBasket(basket, quantity.getQuantity());
@@ -67,16 +71,33 @@ public class PresetBasketPopin extends Window {
 			});
 			Button cancel = new Button("Annuler", event -> close());
 			cancel.setStyleName(ValoTheme.BUTTON_DANGER);
+			cancel.addStyleName("ecomeal-button");
 			bot = new HorizontalLayout(quantity, validate, cancel);			
 		} else {
 			Button ok = new Button("OK", event -> close());
 			ok.setStyleName(ValoTheme.BUTTON_PRIMARY);
+			ok.addStyleName("ecomeal-button");
 			bot = new HorizontalLayout(ok);
 		}
 		VerticalLayout content = new VerticalLayout(top, bot);
 		content.setComponentAlignment(bot, Alignment.BOTTOM_CENTER);
 		
 		setContent(content);
+	}
+	
+	private void setTextAreaSize() {
+		Page.getCurrent().getJavaScript().execute(
+				"var elements = document.getElementsByClassName('v-textarea-ecomeal-text');" +
+				"for (var i = 0; i < elements.length; i++) {" +
+				"	elements[i].style.width='100%';" +
+				"	elements[i].style.fontSize='28px';" +
+				"}" +
+				"elements = document.getElementsByClassName('v-textfield-ecomeal-text');" +
+				"for (var i = 0; i < elements.length; i++) {" +
+				"	elements[i].style.height='100%';" +
+				"	elements[i].style.fontSize='28px';" +
+				"}"
+		);
 	}
 
 }
