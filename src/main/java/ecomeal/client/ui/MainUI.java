@@ -1,8 +1,5 @@
 package ecomeal.client.ui;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
@@ -12,19 +9,16 @@ import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 
-import ecomeal.client.components.BasketComponent;
 import ecomeal.client.components.EcomealMenuLayout;
 import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Order;
-import ecomeal.client.entity.PresetBasket;
 import ecomeal.client.views.*;
 
 @Theme("mytheme")
@@ -70,6 +64,9 @@ public class MainUI extends UI {
     	menuItemsLayout.setPrimaryStyleName("valo-menuitems");
     	menu.addComponent(menuItemsLayout);
     	Button homeButton = new Button("Accueil");
+    	homeButton.addClickListener(e -> {
+    		navigator.navigateTo(EcomealConstants.MAIN_VIEW);
+    	});
     	homeButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
     	Button orderButton = new Button("Commande");
     	orderButton.addClickListener(e -> {

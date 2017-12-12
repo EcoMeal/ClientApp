@@ -14285,23 +14285,19 @@ div.v-layout.v-horizontal.v-widget {
 	overflow: hidden;
 }
 
-.ecomeal-title {
+.mytheme .ecomeal-title {
 	font-size: 34px;
 }
 
-.ecomeal-text {
+.mytheme .ecomeal-text {
 	font-size: 28px;
 }
 
-.ecomeal-button {
+.mytheme .ecomeal-button {
 	height: 100% !important;
 	font-size: 28px;
 }
 
-.ecomeal-basket-component-title {
+.mytheme .ecomeal-basket-component-title {
 	font-size: 24px;
-}
-
-.ecomeal-grid {
-	
 }
