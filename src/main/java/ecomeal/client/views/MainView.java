@@ -10,7 +10,6 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 import ecomeal.client.constants.EcomealConstants;
-import ecomeal.client.ui.MainUI;
 
 /**
  * The Home Page of the application

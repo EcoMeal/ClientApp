@@ -7,7 +7,6 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.PresetBasket;
 import ecomeal.client.entity.Product;
 import ecomeal.client.tools.JsonTool;

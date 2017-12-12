@@ -43,6 +43,8 @@ public class MainUI extends UI {
     	getPage().setTitle("EcoMeal");
     	setTheme("mytheme");
     	setContent(layout);
+    	layout.setHeight(null);
+        layout.setWidth("100%");
     	layout.addMenu(buildMenu());
     	addStyleName(ValoTheme.UI_WITH_MENU);
     	
