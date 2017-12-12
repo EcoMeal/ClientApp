@@ -73,7 +73,7 @@ public class MainUI extends UI {
     	menu.addComponent(menuItemsLayout);
     	Image logoIcon = new Image();
     	try {
-    		File f = new File("logoIcon.png");
+    		File f = new File("src/main/resources/logoIcon.png");
     		FileUtils.copyURLToFile(new URL("http://vps434333.ovh.net/images/logo.png"), f);
     		logoIcon.setSource(new FileResource(f));
     		logoIcon.setHeight(60, UNITS_PIXELS);
