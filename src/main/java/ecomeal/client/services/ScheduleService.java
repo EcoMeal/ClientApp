@@ -5,16 +5,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Slider;
 
+import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Order;
 import ecomeal.client.tools.JsonTool;
 import ecomeal.client.tools.UrlWrapper;
@@ -146,32 +144,34 @@ public class ScheduleService extends AbstractService{
 		return hour + minute;
 	}
 
-	public void validateOrder(Order order, long deliveryTime) {
+	public void validateOrder(Order order, long deliveryTime){
 		postTool tool = new postTool();
 		
     	order.setDeliveryTime(deliveryTime);
 		
 		order.setOrderTime(getTimestampNow());
 		
-		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("username", "Kadoc"));
-		params.add(new BasicNameValuePair("order_time", "" + order.getOrderTime()));
-		params.add(new BasicNameValuePair("delivery_time", "" + order.getDeliveryTime()));
-		params.add(new BasicNameValuePair("content", "[1,1]"));
-		
-		for(int i = 0; i < params.size(); i++){
-			System.out.println(params.get(i).getName() + " -> " + params.get(i).getValue());
-		}
-		String test = "";
-		try {
-			test = tool.postMessage(new UrlWrapper("http://vps434333.ovh.net/api/basket_order"), params);
+		JSONObject jobj = new JSONObject();
+        jobj.put("username","Kadoc");
+        jobj.put("order_time", "" + order.getOrderTime());
+        jobj.put("delivery_time", "" + order.getDeliveryTime());
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        for(Basket basket : order.getBaskets().keySet()){
+        	for(int i = 0 ; i < order.getBaskets().get(basket); i++){
+        		list.add(basket.getId());
+        	}
+        }
+        jobj.put("content", "" + list.toString());
+        String result = "";
+        try {
+			result = tool.postMessage(new UrlWrapper("http://vps434333.ovh.net/api/basket_order"), jobj.toString());
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Test POST : " + test);
-		order.setId(-2);
+        JSONObject resultJson = new JSONObject(result);
+        
+		order.setId(resultJson.getInt("order_id"));
 		
 		
 	}
-
 }

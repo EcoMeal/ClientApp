@@ -1,8 +1,5 @@
 package ecomeal.client.views;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
