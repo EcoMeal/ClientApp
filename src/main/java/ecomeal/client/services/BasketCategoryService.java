@@ -46,7 +46,7 @@ public class BasketCategoryService extends AbstractService {
 				String basketCategoryImage = obj.get("image").equals(null) ? ""
 						: obj.getString("image");
 
-				BasketCategory basketCategory = new BasketCategory(basketCategoryId, basketCategoryName, basketCategoryImage);
+				BasketCategory basketCategory = new BasketCategory(basketCategoryId, basketCategoryName, "");
 				res.add(basketCategory);
 			}
 		} catch (MalformedURLException e) {

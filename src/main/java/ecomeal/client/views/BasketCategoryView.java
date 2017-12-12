@@ -6,14 +6,11 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 import ecomeal.client.components.BasketCategoryComponent;
-import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.BasketCategory;
 import ecomeal.client.services.BasketCategoryService;
 import ecomeal.client.tools.JsonTool;
@@ -36,24 +33,17 @@ public class BasketCategoryView extends HorizontalLayout implements View {
         setHeight(null);
         setWidth("100%");
         
-        Label title = new Label("Paniers disponibles");
-
-        Button button = new Button("Retour");
-        button.addClickListener(e -> {
-        	navigator.navigateTo(EcomealConstants.MAIN_VIEW);
-        });
-        
         // Get all the basket categories
         List<BasketCategory> basketCategories = service.findAll();
         
         // Css Layout allow the auto line return for BasketCategory Image when we resize the window
         CssLayout css = new CssLayout();
         for(BasketCategory basketCategory : basketCategories) {
-        	css.addComponent(new BasketCategoryComponent(navigator, basketCategory, true));
+        	css.addComponent(new BasketCategoryComponent(navigator, basketCategory));
         }
         
         
-        VerticalLayout vertical = new VerticalLayout(title, css, button);
+        VerticalLayout vertical = new VerticalLayout(css);
         vertical.setResponsive(true);
         
         addComponents(vertical);

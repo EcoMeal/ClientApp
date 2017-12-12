@@ -10,24 +10,26 @@ import com.vaadin.ui.VerticalLayout;
 
 import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.BasketCategory;
+import ecomeal.client.views.BasketView;
 
 public class BasketCategoryComponent extends CustomComponent {
 
 	private static final long serialVersionUID = -574482265622816609L;
 
-private VerticalLayout vertical;
+	private VerticalLayout vertical;
 	
 	private Image image;
 	private Label title;
 	public static final String javaScriptClassName = "basket-component";
 	
-	public BasketCategoryComponent(Navigator navigator, BasketCategory basketCategory, boolean ordering) {
+	public BasketCategoryComponent(Navigator navigator, BasketCategory basketCategory) {
 		this.image = new Image();
 		this.image.setSource(new FileResource(basketCategory.getImage()));
 		this.image.setHeight(250, Unit.PIXELS);
 		this.image.setWidth(250, Unit.PIXELS);			
 		this.image.addClickListener(e -> {
-			navigator.navigateTo(EcomealConstants.BASKET_VIEW/* + "/" + basketCategory.getId()*/);
+			navigator.addView(EcomealConstants.BASKET_VIEW, new BasketView(navigator, basketCategory.getId()));
+			navigator.navigateTo(EcomealConstants.BASKET_VIEW);
 		});
 		this.title = new Label(basketCategory.getName());
 		this.title.setStyleName("basket-component-title");

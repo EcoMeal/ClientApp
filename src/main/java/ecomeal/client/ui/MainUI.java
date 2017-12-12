@@ -18,7 +18,6 @@ import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Order;
 import ecomeal.client.views.BasketCategoryView;
-import ecomeal.client.views.BasketView;
 import ecomeal.client.views.MainView;
 import ecomeal.client.views.OrderPopin;
 import ecomeal.client.views.RecapView;
@@ -50,7 +49,6 @@ public class MainUI extends UI {
         navigator = new Navigator(this, layoutContentArea);
 
         // Create and register the views
-        navigator.addView(EcomealConstants.BASKET_VIEW, new BasketView(navigator));
         navigator.addView(EcomealConstants.BASKET_CATEGORY_VIEW, new BasketCategoryView(navigator));
         navigator.addView(EcomealConstants.MAIN_VIEW, new MainView(navigator));
         navigator.addView(EcomealConstants.HORAIRE_VIEW, new ScheduleView(navigator));

@@ -1,7 +1,6 @@
 package ecomeal.client.entity;
 
 import java.io.File;
-import java.util.List;
 
 public class BasketCategory {
 	

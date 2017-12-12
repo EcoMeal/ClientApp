@@ -1,5 +1,6 @@
 package ecomeal.client.views;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vaadin.navigator.Navigator;
@@ -29,23 +30,27 @@ public class BasketView extends HorizontalLayout implements View {
 	 * 
 	 * @param navigator Used to navigate between all the Vaadin views
 	 */
-	public BasketView(Navigator navigator) {
+	public BasketView(Navigator navigator, int categoryId) {
 		service = new BasketService(new JsonTool());
 		
 		// For the vertical scrollbar
         setHeight(null);
         setWidth("100%");
         
-        Label title = new Label("Voici la Liste des Paniers");
+        Label title = new Label("Liste des paniers");
 
         Button button = new Button("Retour");
         button.addClickListener(e -> {
         	navigator.navigateTo(EcomealConstants.MAIN_VIEW);
         });
         
-        // TODO : Remplacer l'id de la catagorie par un parametre passe a la view
         // Get all the baskets
-        List<PresetBasket> baskets = service.findBasketsByCategory(1);
+        System.out.println(categoryId);
+    	List<PresetBasket> baskets = new ArrayList<PresetBasket>();
+        if(categoryId > 0)
+        	baskets = service.findBasketsByCategory(categoryId);
+        else 
+        	baskets = service.findAll();
         
         // Css Layout allow the auto line return for Basket Image when we resize the window
         CssLayout css = new CssLayout();
