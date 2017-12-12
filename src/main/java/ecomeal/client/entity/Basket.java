@@ -1,7 +1,12 @@
 package ecomeal.client.entity;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
+
+import org.apache.commons.io.FileUtils;
 
 public abstract class Basket {
 	
@@ -17,8 +22,16 @@ public abstract class Basket {
 		this.name = name;
 		this.price = price;
 		this.category = category;
+		this.image = new File("basket" + id + "-" + category);
 		category_image = (category_image.equals(null) || category_image.isEmpty())? "null_logomark_400x400.jpg" : category_image;
-		this.image = new File(getClass().getClassLoader().getResource(category_image).getFile());
+		try {
+			FileUtils.copyURLToFile(new URL("http://vps434333.ovh.net/uploads/images/" + category_image), this.image);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			this.image = new File(category_image);
+			e.printStackTrace();
+		}
 		this.products = products;
 	}
 	
