@@ -22,13 +22,14 @@ public abstract class Basket {
 		this.name = name;
 		this.price = price;
 		this.category = category;
-		this.image = new File("src/main/resources/basket" + id + "-" + category + ".png");
+		this.image = new File("src/main/resources/null_logomark_400x400.jpg");
+		/*this.image = new File("src/main/resources/basket" + id + "-" + category + ".png");
 		category_image = (category_image.equals(null) || category_image.isEmpty())? "ddd0b571e08dd61152d89d2c6b973b6a.png" : category_image;
 		try {
 			FileUtils.copyURLToFile(new URL("http://vps434333.ovh.net/uploads/images/" + category_image), this.image);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 		this.products = products;
 	}
 	
