@@ -26,8 +26,8 @@ public class ScheduleView extends HorizontalLayout implements View {
 	
 	private Label title = new Label();
 	
-	private Slider to = new Slider(990,1350);
-	private Slider from = new Slider(960,1380);
+	private Slider to = new Slider(990,1380);
+	private Slider from = new Slider(960,1350);
 	
 	private Label goodHoraire = new Label();
 	private Button valideHoraire;
