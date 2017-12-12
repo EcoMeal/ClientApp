@@ -18,8 +18,10 @@ public class BasketCategory {
 	public BasketCategory(int id, String name, String image) {
 		this.id = id;
 		this.name = name;
+		/* Cas de back up si ça marche pas
 		this.image = new File("src/main/resources/null_logomark_400x400.jpg");
-		/* Pour le local
+		*/
+		
 		this.image = new File("src/main/resources/category" + id + ".png");
 		image = (image.equals(null) || image.isEmpty())? "ddd0b571e08dd61152d89d2c6b973b6a.png" : image;
 		
@@ -29,7 +31,7 @@ public class BasketCategory {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
+		}
 		
 		
 	}
