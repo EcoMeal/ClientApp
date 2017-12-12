@@ -26,8 +26,6 @@ public abstract class Basket {
 		category_image = (category_image.equals(null) || category_image.isEmpty())? "ddd0b571e08dd61152d89d2c6b973b6a.png" : category_image;
 		try {
 			FileUtils.copyURLToFile(new URL("http://vps434333.ovh.net/uploads/images/" + category_image), this.image);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
