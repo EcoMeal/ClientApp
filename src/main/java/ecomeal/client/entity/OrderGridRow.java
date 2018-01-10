@@ -3,7 +3,7 @@ package ecomeal.client.entity;
 public class OrderGridRow {
 	
 	private final Integer unitPrice;
-	private final Integer quantity;
+	private Integer quantity;
 	private final String type;
 	private final String basketName;
 	
@@ -20,6 +20,10 @@ public class OrderGridRow {
 	
 	public Integer getQuantity() {
 		return quantity;
+	}
+	
+	public void setQuantity(int value) {
+		quantity = value;
 	}
 	
 	public String getType() {

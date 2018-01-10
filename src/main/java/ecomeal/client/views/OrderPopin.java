@@ -16,6 +16,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
+import ecomeal.client.components.IntegerField;
 import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Order;
@@ -26,6 +27,11 @@ public class OrderPopin extends Window {
 	private static final long serialVersionUID = 283342705756542741L;
 	
 	private Grid<OrderGridRow> grid;
+	
+	private final HorizontalLayout quantityManager;
+	private final IntegerField basketQuantity;
+	private final Button deleteBasket;
+	private OrderGridRow selectedRow = null;
 	
 	public OrderPopin(Navigator navigator, Order order) {
 		super("Ma commande");
@@ -39,7 +45,7 @@ public class OrderPopin extends Window {
 		grid = new Grid<OrderGridRow>(OrderGridRow.class);
 		grid.getHeaderRow(0).setStyleName("ecomeal-title");
 		grid.addStyleName("ecomeal-grid");
-		grid.setSelectionMode(SelectionMode.NONE);
+		grid.setSelectionMode(SelectionMode.SINGLE);
 		grid.setColumns("basketName", "type", "quantity", "unitPrice");
 		// TODO : Change columns title
 		
@@ -61,6 +67,11 @@ public class OrderPopin extends Window {
 		Label totalPriceLabel = new Label("Prix total = " + totalPrice + "€");
 		totalPriceLabel.addStyleName("ecomeal-text");
 		
+		basketQuantity = new IntegerField();
+		deleteBasket = new Button("Supprimer");
+		quantityManager = new HorizontalLayout(new Label("Quantity :"), basketQuantity, deleteBasket);
+		quantityManager.setVisible(false);
+		
 		Button cancel = new Button("Retour", event -> close());
 		cancel.setStyleName(ValoTheme.BUTTON_DANGER);
 		cancel.addStyleName("ecomeal-button");
@@ -73,12 +84,25 @@ public class OrderPopin extends Window {
 		});
 		HorizontalLayout bot = new HorizontalLayout(cancel, validate);
 		
-		VerticalLayout content = new VerticalLayout(grid, totalPriceLabel, bot);
+		VerticalLayout content = new VerticalLayout(grid, totalPriceLabel, quantityManager, bot);
 		content.setComponentAlignment(bot, Alignment.BOTTOM_CENTER);
 		
 		setContent(content);
 		
 		setGridSize();
+		
+		basketQuantity.addListener(event -> {
+			if(selectedRow != null) {
+				OrderGridRow row = grid.getSelectedItems().iterator().next();
+				row.setQuantity(basketQuantity.getQuantity());
+			}
+		});
+		
+		grid.asSingleSelect().addValueChangeListener(event -> {
+			selectedRow = event.getValue();
+			quantityManager.setVisible(true);
+			basketQuantity.setQuantity(selectedRow.getQuantity());
+		});
 	}
 	
 	private void setGridSize() {

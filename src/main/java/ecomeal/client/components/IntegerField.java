@@ -77,4 +77,8 @@ public class IntegerField extends HorizontalLayout {
 		return new Integer(textField.getValue());
 	}
 	
+	public void setQuantity(int value) {
+		textField.setValue(value + "");
+	}
+	
 }
