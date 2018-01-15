@@ -76,6 +76,15 @@ public class Order {
 		}
 	}
 	
+	public void removeBasketsById(final int id) {
+		for(Map.Entry<Basket, Integer> entry : baskets.entrySet()) {
+			if(entry.getKey().getId() == id) {
+				baskets.remove(entry.getKey());
+				break;
+			}
+		}
+	}
+	
 	public void clearOrder() {
 		baskets.clear();
 	}
@@ -88,4 +97,12 @@ public class Order {
 		return res;
 	}
 
+	public void setQuantityById(int basketId, int quantity) {
+		for(Map.Entry<Basket, Integer> entry : baskets.entrySet()) {
+			if(entry.getKey().getId() == basketId) {
+				entry.setValue(quantity);
+			}
+		}
+	}
+	
 }

@@ -81,4 +81,20 @@ public class IntegerField extends HorizontalLayout {
 		textField.setValue(value + "");
 	}
 	
+	public Button getPlus() {
+		return plus;
+	}
+	
+	public Button getMinus() {
+		return minus;
+	}
+	
+	public int getMinimum() {
+		return MINIMUM;
+	}
+	
+	public int getMaximum() {
+		return MAXIMUM;
+	}
+	
 }

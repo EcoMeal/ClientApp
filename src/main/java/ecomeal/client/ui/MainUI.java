@@ -88,7 +88,7 @@ public class MainUI extends UI {
     	homeButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
     	Button orderButton = new Button("Commande");
     	orderButton.addClickListener(e -> {
-    		addWindow(new OrderPopin(navigator, order));
+    		addWindow(new OrderPopin(navigator, this));
     	});
     	orderButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
     	menuItemsLayout.addStyleName("ecomeal-menu");
