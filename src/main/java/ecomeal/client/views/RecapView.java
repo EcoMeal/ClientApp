@@ -3,6 +3,12 @@ package ecomeal.client.views;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.google.zxing.qrcode.encoder.ByteMatrix;
+import com.google.zxing.qrcode.encoder.Encoder;
+import com.google.zxing.qrcode.encoder.QRCode;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -18,8 +24,10 @@ import ecomeal.client.components.BasketComponent;
 import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Order;
+import ecomeal.client.entity.Recap;
 import ecomeal.client.services.ScheduleService;
 import ecomeal.client.tools.JsonTool;
+import ecomeal.client.tools.QRCodeEncoder;
 import ecomeal.client.ui.MainUI;
 
 public class RecapView extends HorizontalLayout implements View{
@@ -97,6 +105,23 @@ public class RecapView extends HorizontalLayout implements View{
 		        removeAllComponents();
 		        addComponents(vertical);
 		        
+		        // TODO Maxime : Generate QR Code
+		        String encodedData = QRCodeEncoder.encodeObjectToString(new Recap(myOrder, deliveryTime));
+		        if(encodedData == null) {
+		        	// TODO : make better error log message
+		        	System.err.println("Failed to encode data");
+		        }
+		        ByteMatrix byteMatrix = QRCodeEncoder.generateMatrix(encodedData);
+		        if(byteMatrix == null) {
+		        	// TODO : make better error log message
+		        	System.err.println("Failed to generate QRCode byte matrix");
+		        }
+		        
+		        
+		        // TODO Alexandre : Send email
+		        
+		        
+		        
 		        //ui.getOrder().clearOrder();
 				return true;
 			}
@@ -107,6 +132,8 @@ public class RecapView extends HorizontalLayout implements View{
         setHeight(null);
         setWidth("100%");
 	}
+	
+	
 
 	@Override
 	public void enter(ViewChangeEvent event) {
