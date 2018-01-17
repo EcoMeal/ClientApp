@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.vaadin.ui.Button;
@@ -55,10 +56,10 @@ public class ScheduleService extends AbstractService{
 		// Si le service n'est pas en route
 		long scheduleTime = 0;
 		try{
-		JSONObject jsonObj = new JSONObject(result);
-		scheduleTime = jsonObj.getLong("deliveryTime");
+			JSONObject jsonObj = new JSONObject(result);
+			scheduleTime = jsonObj.getLong("deliveryTime");
 		}
-		catch(Exception e){
+		catch(JSONException e){
 			valideCommand.setVisible(false);
 			return -1;
 		}

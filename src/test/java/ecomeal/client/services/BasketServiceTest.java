@@ -83,5 +83,10 @@ public class BasketServiceTest {
 		}
 		return builder.toString();
 	}
+	
+	@Test
+	public void testFindBasketsByCategory() {
+		
+	}
 
 }
