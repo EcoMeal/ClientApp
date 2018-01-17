@@ -1,10 +1,8 @@
 package ecomeal.client.services;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import java.net.MalformedURLException;
-import java.util.Calendar;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -63,6 +61,17 @@ public class ScheduleServiceTest {
 		assertEquals(service.findAGoodSchedule(b, from, to),-2, 0.001);
 	}
 	
+	@Test
+	public void findAGoodScheduleJSONExceptionTest(){ 
+		jsonTool = Mockito.mock(JsonTool.class);
+		service = new ScheduleService(jsonTool);
+		Button b = new Button("ButtonTest");
+		Slider from = new Slider(960, 1350);
+		Slider to = new Slider(990, 1380);
+		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), Mockito.anyMapOf(String.class, String.class))).thenReturn("");
+		assertEquals(service.findAGoodSchedule(b, from, to),-1, 0.001);
+	}
+	
 	/*@Test
 	public void getTimestampTest(){
 		
@@ -100,6 +109,32 @@ public class ScheduleServiceTest {
 	public void transformToHourOuIlFautAjouterUnZeroTest(){
 		//Cas où il faut ajouter un '0' après le 'h'
 		assertEquals(service.transformToHour(960), "16h00");
+	}
+	
+	@Test
+	public void scheduleToStringMalformedTimeTest() {
+		assertEquals("Malformed", service.ScheduleToString(-2));
+	}
+	
+	@Test
+	public void scheduleToStringUnavailableServiceTest() {
+		assertEquals("Le service est indisponible pour le moment.", service.ScheduleToString(-1));
+	}
+	
+	@Test
+	public void scheduleToStringNoScheduleAvailableTest() {
+		assertEquals("Il n'y a pas d'horaire dans cette tranche horaire ,veuillez choisir une autre tranche horaire svp.",
+				service.ScheduleToString(0));
+	}
+	
+	@Test
+	public void scheduleToStringReturnScheduleTest() {
+		assertEquals("Horaire disponible : 1h23", service.ScheduleToString(5000));
+	}
+	
+	@Test
+	public void scheduleToStringImpossibleTest() {
+		assertEquals("Impossible", service.ScheduleToString(-999));
 	}
 
 }
