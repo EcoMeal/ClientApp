@@ -8,6 +8,9 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public abstract class Basket {
 	
 	private int id;
@@ -84,5 +87,16 @@ public abstract class Basket {
 	}
 	
 	public abstract boolean equals(Basket basket);
+	
+	public String toString() {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String jsonInString = mapper.writeValueAsString(this);
+			return jsonInString;
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 }

@@ -1,7 +1,11 @@
 package ecomeal.client.entity;
 
-public class Recap {
+import java.io.Serializable;
 
+public class Recap implements Serializable {
+
+	private static final long serialVersionUID = 7184470602774522825L;
+	
 	private final Order order;
 	private final String deliveryTime;
 	

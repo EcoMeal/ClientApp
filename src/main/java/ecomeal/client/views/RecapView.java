@@ -1,5 +1,6 @@
 package ecomeal.client.views;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,6 +59,8 @@ public class RecapView extends HorizontalLayout implements View{
 		ui = (MainUI) navigator.getUI();
 		navigator.addViewChangeListener(new ViewChangeListener(){
 
+			private static final long serialVersionUID = -67631749657216405L;
+
 			@Override
 			public boolean beforeViewChange(ViewChangeEvent event) {
 				myOrder = ui.getOrder();
@@ -107,20 +110,20 @@ public class RecapView extends HorizontalLayout implements View{
 		        addComponents(vertical);
 		        
 		        // TODO Maxime : Generate QR Code
-		        String encodedData = QRCodeEncoder.encodeObjectToString(new Recap(myOrder, deliveryTime));
-		        if(encodedData == null) {
-		        	// TODO : make better error log message
+		        try {
+			        QRCodeEncoder.encodeObjectToString("test-file", myOrder);
+		        } catch(IOException e) {
 		        	System.err.println("Failed to encode data");
 		        }
-		        ByteMatrix byteMatrix = QRCodeEncoder.generateMatrix(encodedData);
+		        /*ByteMatrix byteMatrix = QRCodeEncoder.generateMatrix(encodedData);
 		        if(byteMatrix == null) {
 		        	// TODO : make better error log message
 		        	System.err.println("Failed to generate QRCode byte matrix");
-		        }
+		        }*/
 		        
 		        
 		        // TODO Alexandre : Send email
-		        EmailSender.sendEmail("alexandre.d.info@gmail.com", "Nouvelle commande", "Vous avez une nouvelle commande d'Ecomeal");
+		        //EmailSender.sendEmail("alexandre.d.info@gmail.com", "Nouvelle commande", "Vous avez une nouvelle commande d'Ecomeal");
 		        
 		        
 		        //ui.getOrder().clearOrder();
