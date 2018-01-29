@@ -1,10 +1,13 @@
 package ecomeal.client.views;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.encoder.ByteMatrix;
@@ -109,24 +112,6 @@ public class RecapView extends HorizontalLayout implements View{
 		        removeAllComponents();
 		        addComponents(vertical);
 		        
-		        // TODO Maxime : Generate QR Code
-		        try {
-			        QRCodeEncoder.encodeObjectToString("test-file", myOrder);
-		        } catch(IOException e) {
-		        	System.err.println("Failed to encode data");
-		        }
-		        /*ByteMatrix byteMatrix = QRCodeEncoder.generateMatrix(encodedData);
-		        if(byteMatrix == null) {
-		        	// TODO : make better error log message
-		        	System.err.println("Failed to generate QRCode byte matrix");
-		        }*/
-		        
-		        
-		        // TODO Alexandre : Send email
-		        //EmailSender.sendEmail("alexandre.d.info@gmail.com", "Nouvelle commande", "Vous avez une nouvelle commande d'Ecomeal");
-		        
-		        
-		        //ui.getOrder().clearOrder();
 				return true;
 			}
 			
@@ -142,22 +127,47 @@ public class RecapView extends HorizontalLayout implements View{
 	@Override
 	public void enter(ViewChangeEvent event) {
 		// Set background color for Basket Components
-				Page.getCurrent().getJavaScript().execute(
-						"var elements = document.getElementsByClassName('" + BasketComponent.javaScriptClassName + "');" +
-						"for (var i = 0; i < elements.length; i++) {" +
-						"	for (var j = 0; j < elements[i].childNodes.length; j++) {" +
-						"		if(elements[i].childNodes[j].classList.contains('v-slot')) {" +
-						"			elements[i].childNodes[j].style.backgroundColor='#F5F5F5';" +
-						"			elements[i].childNodes[j].style.border='1px solid #ddd';" +
-						"		}" +
-						"		else if(elements[i].childNodes[j].classList.contains('v-spacing')) {" +
-						"			elements[i].childNodes[j].style.width='150px';" +
-						"			elements[i].childNodes[j].style.height='0px';" +
-						"			elements[i].childNodes[j].style.backgroundColor='#B0B0B0';" +
-						"		}" +
-						"	}" +
-						"}"
-				);	
+		Page.getCurrent().getJavaScript().execute(
+				"var elements = document.getElementsByClassName('" + BasketComponent.javaScriptClassName + "');" +
+				"for (var i = 0; i < elements.length; i++) {" +
+				"	for (var j = 0; j < elements[i].childNodes.length; j++) {" +
+				"		if(elements[i].childNodes[j].classList.contains('v-slot')) {" +
+				"			elements[i].childNodes[j].style.backgroundColor='#F5F5F5';" +
+				"			elements[i].childNodes[j].style.border='1px solid #ddd';" +
+				"		}" +
+				"		else if(elements[i].childNodes[j].classList.contains('v-spacing')) {" +
+				"			elements[i].childNodes[j].style.width='150px';" +
+				"			elements[i].childNodes[j].style.height='0px';" +
+				"			elements[i].childNodes[j].style.backgroundColor='#B0B0B0';" +
+				"		}" +
+				"	}" +
+				"}"
+		);
+		
+		// TODO Maxime : Generate QR Code
+		try {
+			QRCodeEncoder.encodeObjectToString("test-file", myOrder);
+		} catch(IOException e) {
+			System.err.println("Failed to encode data");
+        }
+		BitMatrix bitMatrix;
+		try {
+			bitMatrix = QRCodeEncoder.generateMatrix("test-file");
+			if(bitMatrix == null) {
+				// TODO : make better error log message
+				System.err.println("Failed to generate QRCode byte matrix");
+			}
+			FileOutputStream fileOutputStream = new FileOutputStream("test-qrcode.png");
+	        MatrixToImageWriter.writeToStream(bitMatrix, "png", fileOutputStream);
+	        fileOutputStream.close();
+		} catch (IOException e) {
+			System.err.println("Failed to generate QRCode");
+		}
+		
+		
+		// TODO Alexandre : Send email
+		//EmailSender.sendEmail("alexandre.d.info@gmail.com", "Nouvelle commande", "Vous avez une nouvelle commande d'Ecomeal");
+			
 	}
 
 }

@@ -5,9 +5,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Base64;
+import java.util.List;
 
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.encoder.ByteMatrix;
 import com.google.zxing.qrcode.encoder.Encoder;
@@ -21,9 +27,7 @@ public class QRCodeEncoder {
 		System.err.println("Order = " + order);
 		FileOutputStream fos = new FileOutputStream(file);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
-        System.err.println("before write");
 		oos.writeObject(order.toString());
-		System.err.println("after write");
 		oos.close();
 		//return Base64.getEncoder().encodeToString(baos.toByteArray());
 	}
@@ -49,15 +53,15 @@ public class QRCodeEncoder {
 	}
 	
 	
-	public static ByteMatrix generateMatrix(final String data) {
-		QRCode qr = new QRCode();
-        try {
-			Encoder.encode(data, ErrorCorrectionLevel.L, qr);
-			ByteMatrix matrix = qr.getMatrix();
-			return matrix;
+	public static BitMatrix generateMatrix(final String filename) {
+		 try {
+			 byte[] data = Files.readAllBytes(Paths.get(filename));
+			return new QRCodeWriter().encode(new String(data), BarcodeFormat.QR_CODE, 400, 400);
 		} catch (WriterException e) {
-			// TODO : Add error log
-			e.printStackTrace();
+			System.err.println("Failed to generate matrix");
+			return null;
+		} catch (IOException e) {
+			System.err.println("Encoded data file not found");
 			return null;
 		}
 	}
