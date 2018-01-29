@@ -110,9 +110,12 @@ public class ScheduleView extends HorizontalLayout implements View {
         valideCommand.addStyleName("ecomeal-button");
         valideCommand.setVisible(false);
         valideCommand.addClickListener(e -> {
-        	service.validateOrder(ui.getOrder(), deliveryTime);
-        	navigator.navigateTo(EcomealConstants.RECAP_VIEW);
-        	ui.getOrder().clearOrder();
+        	if(service.validateOrder(ui.getOrder(), deliveryTime, ui.getUser().getToken())){
+        		navigator.navigateTo(EcomealConstants.RECAP_VIEW);
+        		ui.getOrder().clearOrder();        		
+        	}else{
+        		//TODO Popup de problem
+        	}
         });
         
         // Boutton de retour

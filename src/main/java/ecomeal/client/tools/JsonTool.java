@@ -9,6 +9,8 @@ import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 
+import ecomeal.client.constants.EcomealConstants;
+
 /**
  * Class used to parse data from server as JSON format
  */
@@ -51,7 +53,7 @@ public class JsonTool {
 					urlString = urlString + key + "=" + params.get(key) + "&";
 				}
 				urlString = urlString.substring(0, urlString.length() - 1);
-				url.setUrl("http://vps434333.ovh.net" + urlString);
+				url.setUrl(EcomealConstants.URL_ECOMEAL + urlString);
 			}
 			System.out.println("URL = '" + url.getPath() +"'");
 			connection = (HttpURLConnection) url.openConnection();
@@ -60,7 +62,7 @@ public class JsonTool {
 			return inputStreamToString(inputStream);
 		} catch (IOException e) {
 			e.printStackTrace();
-			return null;
+			return "PROBLEME";
 		}
 	}
 	

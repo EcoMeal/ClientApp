@@ -2,25 +2,32 @@ package ecomeal.client.entity;
 
 public class User {
 
-	private final int id;
+	private int id;
 	private String firstName;
 	private String lastName;
-	private final String login;
-	private String password;
+	private String login;
 	private String email;
-	private Token token;
+	private String token;
 	
-	public User(final int id, final String firstName, final String lastName, final String login, final String password, final String email) {
+	public User(final int id, final String firstName, final String lastName, final String login, final String email) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.login = login;
-		this.password = password;
 		this.email = email;
+	}
+	
+	public User(){
+		this.id = 0;
+		this.login = "";
 	}
 	
 	public int getId() {
 		return id;
+	}
+	
+	public void setId(int id){
+		this.id = id;
 	}
 	
 	public String getFirstName() {
@@ -43,12 +50,8 @@ public class User {
 		return login;
 	}
 	
-	public String getPassword() {
-		return password;
-	}
-	
-	public void setPassword(final String password) {
-		this.password = password;
+	public void setLogin(String login){
+		this.login = login;
 	}
 	
 	public String getEmail() {
@@ -63,11 +66,11 @@ public class User {
 		return token != null;
 	}
 	
-	public Token getToken() {
+	public String getToken() {
 		return token;
 	}
 	
-	public void setToken(final Token token) {
+	public void setToken(final String token) {
 		this.token = token;
 	}
 	

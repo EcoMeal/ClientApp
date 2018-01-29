@@ -26,7 +26,7 @@ import ecomeal.client.components.EcomealMenuLayout;
 import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Order;
-
+import ecomeal.client.entity.User;
 import ecomeal.client.views.*;
 
 @Theme("mytheme")
@@ -39,6 +39,7 @@ public class MainUI extends UI {
 
 	private Navigator navigator;
 	private Order order;
+	private User user;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -53,12 +54,16 @@ public class MainUI extends UI {
     	// Initialize the order with an empty List of Basket
     	order = new Order();
     	
+    	//Initialize user
+    	user = new User();
+    	
     	// Create a navigator to control the views
         navigator = new Navigator(this, layoutContentArea);
 
         // Create and register the views
         navigator.addView(EcomealConstants.BASKET_CATEGORY_VIEW, new BasketCategoryView(navigator));
         navigator.addView(EcomealConstants.MAIN_VIEW, new MainView(navigator));
+        navigator.addView(EcomealConstants.CONNECTION_VIEW, new ConnectionView(navigator));
         navigator.addView(EcomealConstants.HORAIRE_VIEW, new ScheduleView(navigator));
         navigator.addView(EcomealConstants.RECAP_VIEW, new RecapView(navigator));
         
@@ -91,8 +96,13 @@ public class MainUI extends UI {
     		addWindow(new OrderPopin(navigator, this));
     	});
     	orderButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
+    	Button connectionButton = new Button("Déconnexion");
+    	connectionButton.addClickListener(e -> {
+    		navigator.navigateTo(EcomealConstants.CONNECTION_VIEW);
+    	});
+    	connectionButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
     	menuItemsLayout.addStyleName("ecomeal-menu");
-    	menuItemsLayout.addComponents(logoIcon, homeButton, orderButton);
+    	menuItemsLayout.addComponents(logoIcon, homeButton, orderButton, connectionButton);
     	return menu;
     }
     
@@ -118,7 +128,15 @@ public class MainUI extends UI {
 		);
     }
 
-    @WebServlet(urlPatterns = "/*", name = "MyMainServlet", asyncSupported = true)
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	@WebServlet(urlPatterns = "/*", name = "MyMainServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MainUI.class, productionMode = false)
     public static class MyMainServlet extends VaadinServlet {
 

@@ -7,6 +7,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.PresetBasket;
 import ecomeal.client.entity.Product;
 import ecomeal.client.tools.JsonTool;
@@ -35,7 +36,7 @@ public class BasketService extends AbstractService {
 		
 		String result;
 		try {
-			result = jsonTool.readJson(new UrlWrapper("http://vps434333.ovh.net/api/basket"));
+			result = jsonTool.readJson(new UrlWrapper(EcomealConstants.URL_ECOMEAL + "/api/basket"));
 			//String result = inputStreamToString(inputStream, 8096);
 		
 			JSONArray array = new JSONArray(result);
@@ -83,7 +84,7 @@ public class BasketService extends AbstractService {
 		
 		String result;
 		try {
-			result = jsonTool.readJson(new UrlWrapper("http://vps434333.ovh.net/api/basket/category/" + categoryId));
+			result = jsonTool.readJson(new UrlWrapper(EcomealConstants.URL_ECOMEAL + "/api/basket/category/" + categoryId));
 			//String result = inputStreamToString(inputStream, 8096);
 		
 			JSONArray array = new JSONArray(result);

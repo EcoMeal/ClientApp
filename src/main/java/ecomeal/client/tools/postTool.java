@@ -18,6 +18,8 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 
+import ecomeal.client.ui.MainUI;
+
 public class postTool {
 	
 	public postTool(){
@@ -31,7 +33,7 @@ public class postTool {
 	 * @param Oldparams
 	 * @return
 	 */
-	public String postMessage(UrlWrapper url, String json){	
+	public String postMessage(UrlWrapper url, String json, String token){	
 		
 		try {
 				
@@ -39,6 +41,9 @@ public class postTool {
 
 			HttpClient client = HttpClients.createDefault();
 			HttpPost postMethod = new HttpPost(url.getUrl().toURI());
+			if(!token.equals("")){				
+				postMethod.setHeader("X-Auth_Token", token);
+			}
 			postMethod.setEntity(requestEntity);
 
 			HttpResponse response = client.execute(postMethod);
@@ -47,7 +52,7 @@ public class postTool {
 	        BufferedReader buf = new BufferedReader(new InputStreamReader(ips,"UTF-8"));
 	        if(response.getStatusLine().getStatusCode() != HttpStatus.SC_OK)
 	        {
-	            throw new Exception(response.getStatusLine().getReasonPhrase());
+	        	return "PROBLEME";
 	        }
 	        StringBuilder sb = new StringBuilder();
 	        String s;

@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Slider;
 
+import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Order;
 import ecomeal.client.tools.JsonTool;
@@ -46,7 +47,7 @@ public class ScheduleService extends AbstractService{
 				
 		String result = "";
 		try {
-			result = jsonTool.readJson(new UrlWrapper("http://vps434333.ovh.net/api/dtime_calculation"),params);
+			result = jsonTool.readJson(new UrlWrapper(EcomealConstants.URL_ECOMEAL + "/api/dtime_calculation"),params);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 			valideCommand.setVisible(false);
@@ -145,7 +146,7 @@ public class ScheduleService extends AbstractService{
 		return hour + minute;
 	}
 
-	public void validateOrder(Order order, long deliveryTime){
+	public boolean validateOrder(Order order, long deliveryTime, String token){
 		postTool tool = new postTool();
 		
     	order.setDeliveryTime(deliveryTime);
@@ -153,7 +154,7 @@ public class ScheduleService extends AbstractService{
 		order.setOrderTime(getTimestampNow());
 		
 		JSONObject jobj = new JSONObject();
-        jobj.put("username","Kadoc");
+        jobj.put("username","Test");
         jobj.put("order_time", "" + order.getOrderTime());
         jobj.put("delivery_time", "" + order.getDeliveryTime());
         ArrayList<Integer> list = new ArrayList<Integer>();
@@ -165,13 +166,21 @@ public class ScheduleService extends AbstractService{
         jobj.put("content", "" + list.toString());
         String result = "";
         try {
-			result = tool.postMessage(new UrlWrapper("http://vps434333.ovh.net/api/basket_order"), jobj.toString());
+			result = tool.postMessage(new UrlWrapper(EcomealConstants.URL_ECOMEAL + "/api/basket_order"), jobj.toString(), token);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
+			System.out.println("Probleme d'url");
+			return false;
 		}
-        JSONObject resultJson = new JSONObject(result);
+        if(result.equals("PROBLEME")){
+        	return false;
+        }else{
+        	JSONObject resultJson = new JSONObject(result);
+            System.out.println("order_id : " + resultJson.getInt("order_id"));
+    		order.setId(resultJson.getInt("order_id"));
+    		return true;
+        }
         
-		order.setId(resultJson.getInt("order_id"));
 		
 		
 	}
