@@ -2,7 +2,7 @@ package ecomeal.client.entity;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.List;
 
@@ -11,7 +11,9 @@ import org.apache.commons.io.FileUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public abstract class Basket {
+public abstract class Basket implements Serializable {
+	
+	private static final long serialVersionUID = -4467743392441964232L;
 	
 	private int id;
 	private String name;
