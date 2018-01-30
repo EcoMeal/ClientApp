@@ -5,14 +5,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.google.zxing.qrcode.encoder.ByteMatrix;
-import com.google.zxing.qrcode.encoder.Encoder;
-import com.google.zxing.qrcode.encoder.QRCode;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -28,9 +22,7 @@ import ecomeal.client.components.BasketComponent;
 import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Order;
-import ecomeal.client.entity.Recap;
 import ecomeal.client.services.ScheduleService;
-import ecomeal.client.tools.EmailSender;
 import ecomeal.client.tools.JsonTool;
 import ecomeal.client.tools.QRCodeEncoder;
 import ecomeal.client.ui.MainUI;
@@ -145,14 +137,13 @@ public class RecapView extends HorizontalLayout implements View{
 		);
 		
 		// TODO Maxime : Generate QR Code
-		try {
-			QRCodeEncoder.encodeObjectToString("test-file", myOrder);
-		} catch(IOException e) {
+		byte[] data = QRCodeEncoder.encodeObjectToString(myOrder);
+		if(data == null) {
 			System.err.println("Failed to encode data");
-        }
+		}
 		BitMatrix bitMatrix;
 		try {
-			bitMatrix = QRCodeEncoder.generateMatrix("test-file");
+			bitMatrix = QRCodeEncoder.generateMatrix(new String(data));
 			if(bitMatrix == null) {
 				// TODO : make better error log message
 				System.err.println("Failed to generate QRCode byte matrix");
