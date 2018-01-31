@@ -23,7 +23,7 @@ public class BasketCategoryService extends AbstractService {
 	/**
 	 * @return all available BasketCategory objects.
 	 */
-	public synchronized List<BasketCategory> findAll() {
+	public synchronized List<BasketCategory> findAll(String token) {
 
 		List<BasketCategory> res = new ArrayList<BasketCategory>();
 
@@ -36,7 +36,7 @@ public class BasketCategoryService extends AbstractService {
 
 		String result = "";
 		try {
-			result = jsonTool.readJson(new UrlWrapper(EcomealConstants.URL_ECOMEAL + "/api/basket_category"));
+			result = jsonTool.readJson(new UrlWrapper(EcomealConstants.URL_ECOMEAL + "/api/basket_category"), token);
 			System.out.println(result);
 	        if(result.equals("PROBLEME")){
 	        	return res;

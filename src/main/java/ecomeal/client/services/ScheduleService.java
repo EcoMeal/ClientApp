@@ -35,7 +35,7 @@ public class ScheduleService extends AbstractService{
 	 * Methode permettant de retourner une horraire valide via un appel à l'API
 	 * @return
 	 */
-	public long findAGoodSchedule(Button valideCommand, Slider from, Slider to) {
+	public long findAGoodSchedule(Button valideCommand, Slider from, Slider to, String token) {
 		
 		Map<String,String> params = new HashMap<String,String>();
 		
@@ -47,7 +47,7 @@ public class ScheduleService extends AbstractService{
 				
 		String result = "";
 		try {
-			result = jsonTool.readJson(new UrlWrapper(EcomealConstants.URL_ECOMEAL + "/api/dtime_calculation"),params);
+			result = jsonTool.readJson(new UrlWrapper(EcomealConstants.URL_ECOMEAL + "/api/dtime_calculation"),params, token);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 			valideCommand.setVisible(false);

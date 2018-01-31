@@ -25,7 +25,7 @@ public class BasketService extends AbstractService {
 	/**
 	 * @return all available Basket objects.
 	 */
-	public synchronized List<PresetBasket> findAll() {
+	public synchronized List<PresetBasket> findAll(String token) {
 		
 		List<PresetBasket> res = new ArrayList<PresetBasket>();
 		
@@ -36,7 +36,7 @@ public class BasketService extends AbstractService {
 		
 		String result;
 		try {
-			result = jsonTool.readJson(new UrlWrapper(EcomealConstants.URL_ECOMEAL + "/api/basket"));
+			result = jsonTool.readJson(new UrlWrapper(EcomealConstants.URL_ECOMEAL + "/api/basket"), token);
 			//String result = inputStreamToString(inputStream, 8096);
 		
 			JSONArray array = new JSONArray(result);
@@ -73,7 +73,7 @@ public class BasketService extends AbstractService {
 	/**
 	 * @return all available Basket objects.
 	 */
-	public synchronized List<PresetBasket> findBasketsByCategory(final int categoryId) {
+	public synchronized List<PresetBasket> findBasketsByCategory(final int categoryId, String token) {
 		
 		List<PresetBasket> res = new ArrayList<PresetBasket>();
 		
@@ -84,7 +84,7 @@ public class BasketService extends AbstractService {
 		
 		String result;
 		try {
-			result = jsonTool.readJson(new UrlWrapper(EcomealConstants.URL_ECOMEAL + "/api/basket/category/" + categoryId));
+			result = jsonTool.readJson(new UrlWrapper(EcomealConstants.URL_ECOMEAL + "/api/basket/category/" + categoryId), token);
 			//String result = inputStreamToString(inputStream, 8096);
 		
 			JSONArray array = new JSONArray(result);

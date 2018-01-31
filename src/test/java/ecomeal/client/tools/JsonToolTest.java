@@ -58,7 +58,7 @@ public class JsonToolTest {
 		HttpURLConnection conn= (HttpURLConnection) url.openConnection();
 		
 		Mockito.when(jsonToolSpy.inputStreamToString(conn.getInputStream())).thenReturn(jsonExample);
-		jsonToolSpy.readJson(urlSpy);
+		jsonToolSpy.readJson(urlSpy,"");
 		Mockito.verify(urlSpy).openConnection();
 		Mockito.verify(connection).connect();
 		Mockito.verify(connection).getInputStream();
@@ -78,7 +78,7 @@ public class JsonToolTest {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("start_time", "");
 		map.put("end_time", "");
-		jsonToolSpy.readJson(urlSpy, map);
+		jsonToolSpy.readJson(urlSpy, map,"");
 		Mockito.verify(urlSpy).setUrl(Mockito.anyString());
 		Mockito.verify(urlSpy).openConnection();
 		Mockito.verify(connection).connect();
@@ -95,7 +95,7 @@ public class JsonToolTest {
 	@Test
 	public void testReadJsonMalformedURLException() throws IOException {
 		Mockito.when(urlSpy.openConnection()).thenThrow(IOException.class);
-		assertNull(jsonTool.readJson(urlSpy, new HashMap<String, String>()));
+		assertNull(jsonTool.readJson(urlSpy, new HashMap<String, String>(),""));
 	}
 
 }

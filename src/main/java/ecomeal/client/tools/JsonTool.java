@@ -34,8 +34,8 @@ public class JsonTool {
 	 * @param url the url from the server api
 	 * @return JSON as String format
 	 */
-	public String readJson(UrlWrapper url) {
-		return readJson(url, new HashMap<String,String>());
+	public String readJson(UrlWrapper url, String token) {
+		return readJson(url, new HashMap<String,String>(), token);
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class JsonTool {
 	 * @param url the url from the server api
 	 * @return JSON as String format
 	 */
-	public String readJson(UrlWrapper url, Map<String,String> params) {
+	public String readJson(UrlWrapper url, Map<String,String> params, String token) {
 		try {
 			// Adapt URL if there is some parameters
 			if(!params.isEmpty()) {				
@@ -57,6 +57,7 @@ public class JsonTool {
 			}
 			System.out.println("URL = '" + url.getPath() +"'");
 			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestProperty("X-Auth-Token", token);
 			connection.connect();
 			inputStream = connection.getInputStream();
 			return inputStreamToString(inputStream);
