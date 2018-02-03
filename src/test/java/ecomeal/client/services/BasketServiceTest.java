@@ -35,7 +35,7 @@ public class BasketServiceTest {
 	public void testFindAll() {
 		
 		// INIT MOCKS
-		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), "")).thenReturn(readExampleJson());
+		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), Mockito.anyString())).thenReturn(readExampleJson());
 		
 		
 		// INIT EXPECTED RESULT
@@ -58,9 +58,10 @@ public class BasketServiceTest {
 		assertEquals(result.get(0).getProducts().get(0).getCategory(), product.getCategory());
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testFindAllMalformedURLException() {
-		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), "")).thenThrow(MalformedURLException.class);
+		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), Mockito.anyString())).thenThrow(MalformedURLException.class);
 		assertEquals(null, service.findAll(""));
 	}
 	

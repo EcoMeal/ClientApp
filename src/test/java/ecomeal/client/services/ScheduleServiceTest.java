@@ -28,7 +28,7 @@ public class ScheduleServiceTest {
 	@Test
 	public void findAGoodScheduleGoodTest(){
 		jsonTool = Mockito.mock(JsonTool.class);
-		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), Mockito.anyMapOf(String.class, String.class), "")).thenReturn("{'deliveryTime':1512918000}");
+		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), Mockito.anyMapOf(String.class, String.class), Mockito.anyString())).thenReturn("{'deliveryTime':1512918000}");
 		service = new ScheduleService(jsonTool);
 		Button b = new Button("ButtonTest");
 		Slider from = new Slider(960, 1350);
@@ -40,7 +40,7 @@ public class ScheduleServiceTest {
 	@Test
 	public void findAGoodSchedulePasGoodTest(){
 		jsonTool = Mockito.mock(JsonTool.class);
-		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), Mockito.anyMapOf(String.class, String.class), "")).thenReturn("{'deliveryTime':0}");
+		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), Mockito.anyMapOf(String.class, String.class), Mockito.anyString())).thenReturn("{'deliveryTime':0}");
 		service = new ScheduleService(jsonTool);
 		Button b = new Button("ButtonTest");
 		Slider from = new Slider(960, 1350);
@@ -50,6 +50,7 @@ public class ScheduleServiceTest {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void findAGoodScheduleMalformedURLExceptionTest(){ 
 		jsonTool = Mockito.mock(JsonTool.class);
@@ -57,7 +58,7 @@ public class ScheduleServiceTest {
 		Button b = new Button("ButtonTest");
 		Slider from = new Slider(960, 1350);
 		Slider to = new Slider(990, 1380);
-		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), Mockito.anyMapOf(String.class, String.class),"")).thenThrow(MalformedURLException.class);
+		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), Mockito.anyMapOf(String.class, String.class),Mockito.anyString())).thenThrow(MalformedURLException.class);
 		assertEquals(service.findAGoodSchedule(b, from, to,""),-2, 0.001);
 	}
 	
@@ -68,7 +69,7 @@ public class ScheduleServiceTest {
 		Button b = new Button("ButtonTest");
 		Slider from = new Slider(960, 1350);
 		Slider to = new Slider(990, 1380);
-		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), Mockito.anyMapOf(String.class, String.class),"")).thenReturn("");
+		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), Mockito.anyMapOf(String.class, String.class),Mockito.anyString())).thenReturn("");
 		assertEquals(service.findAGoodSchedule(b, from, to,""),-1, 0.001);
 	}
 	

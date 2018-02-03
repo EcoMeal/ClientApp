@@ -7,8 +7,6 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-import ecomeal.client.constants.EcomealConstants;
-
 /**
  * The Home Page of the application
  */

@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -92,10 +91,11 @@ public class JsonToolTest {
 		assertEquals(jsonExample, jsonTool.inputStreamToString(stream));
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testReadJsonMalformedURLException() throws IOException {
 		Mockito.when(urlSpy.openConnection()).thenThrow(IOException.class);
-		assertNull(jsonTool.readJson(urlSpy, new HashMap<String, String>(),""));
+		assertEquals(jsonTool.readJson(urlSpy, new HashMap<String, String>(),""),"PROBLEME");
 	}
 
 }

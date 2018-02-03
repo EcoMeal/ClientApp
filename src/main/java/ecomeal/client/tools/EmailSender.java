@@ -2,72 +2,84 @@ package ecomeal.client.tools;
 
 import java.util.Properties;
 
-import javax.mail.Folder;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
-import javax.mail.Store;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+
+import ecomeal.client.entity.Order;
 
 public class EmailSender {
 
 	public static void main(String[] args) {
-		String host = "pop.gmail.com";// change accordingly
-		String mailStoreType = "pop3";
+		
+
+		sendRecap("charpentieraurelien@gmail.com",new Order(), "./src/main/resources/logoIcon.png");
+	}
+	
+	private static void sendRecap(String to, Order order, String pathToQRCode) {
+		
 		String username = "ecomealsociete@gmail.com";// change accordingly
 		String password = "jambonbeurre";// change accordingly
 
-		check(host, mailStoreType, username, password);
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
 
-	}
+		Session session = Session.getInstance(props,
+		  new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		  });
 
-
-	public static void check(String host, String storeType, String user,
-			String password) 
-	{
 		try {
 
-			//create properties field
-			Properties properties = new Properties();
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("Ecomeal"));
+			message.setRecipients(Message.RecipientType.TO,
+				InternetAddress.parse(to));
+			message.setSubject("Fiche Récapitulative de votre commande");
+			
+			Multipart multipart = new MimeMultipart();
+			
+			MimeBodyPart textBodyPart = new MimeBodyPart();
+			
+	        textBodyPart.setText("Voici votre commande,"
+				+ "\n\n Vous avez commandé ça, ça et ça."
+				+ "\n\n Venez la chercher à XXhXX."
+				+ "\n\n Scanner le QRCode pour retirer votre commande."
+				+ "\n\n On se retrouve très vite !"
+				+ "\n\n Equipe Ecomeal.");
+	        
+	        MimeBodyPart attachmentBodyPart= new MimeBodyPart();
+	        DataSource source = new FileDataSource(pathToQRCode); // ex : "C:\\test.pdf"
+	        attachmentBodyPart.setDataHandler(new DataHandler(source));
+	        attachmentBodyPart.setFileName("QRCode.png"); // ex : "test.pdf"
 
-			properties.put("mail.pop3.host", host);
-			properties.put("mail.pop3.port", "995");
-			properties.put("mail.pop3.starttls.enable", "true");
-			Session emailSession = Session.getDefaultInstance(properties);
+	        multipart.addBodyPart(textBodyPart);  // add the text part
+	        multipart.addBodyPart(attachmentBodyPart); // add the attachement part
 
-			//create the POP3 store object and connect with the pop server
-			Store store = emailSession.getStore("pop3");
+	        message.setContent(multipart);
 
-			store.connect(host, user, password);
+			Transport.send(message);
 
-			//create the folder object and open it
-			Folder emailFolder = store.getFolder("INBOX");
-			emailFolder.open(Folder.READ_ONLY);
+			System.out.println("Done");
 
-			// retrieve the messages from the folder in an array and print it
-			Message[] messages = emailFolder.getMessages();
-			System.out.println("messages.length---" + messages.length);
-
-			for (int i = 0, n = messages.length; i < n; i++) {
-				Message message = messages[i];
-				System.out.println("---------------------------------");
-				System.out.println("Email Number " + (i + 1));
-				System.out.println("Subject: " + message.getSubject());
-				System.out.println("From: " + message.getFrom()[0]);
-				System.out.println("Text: " + message.getContent().toString());
-
-			}
-
-			//close the store and folder objects
-			emailFolder.close(false);
-			store.close();
-
-		} catch (NoSuchProviderException e) {
-			e.printStackTrace();
 		} catch (MessagingException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 }
