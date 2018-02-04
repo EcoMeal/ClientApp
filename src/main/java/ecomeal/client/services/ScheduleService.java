@@ -154,7 +154,7 @@ public class ScheduleService extends AbstractService{
 		order.setOrderTime(getTimestampNow());
 		
 		JSONObject jobj = new JSONObject();
-        jobj.put("username","Test");
+        jobj.put("username","test1000");
         jobj.put("order_time", "" + order.getOrderTime());
         jobj.put("delivery_time", "" + order.getDeliveryTime());
         ArrayList<Integer> list = new ArrayList<Integer>();
@@ -164,6 +164,7 @@ public class ScheduleService extends AbstractService{
         	}
         }
         jobj.put("content", "" + list.toString());
+        System.out.println(jobj.toString());
         String result = "";
         try {
 			result = tool.postMessage(new UrlWrapper(EcomealConstants.URL_ECOMEAL + "/api/basket_order"), jobj.toString(), token);
@@ -173,6 +174,7 @@ public class ScheduleService extends AbstractService{
 			return false;
 		}
         if(result.equals("PROBLEME")){
+        	System.out.println("PostTool Probleme");
         	return false;
         }else{
         	JSONObject resultJson = new JSONObject(result);

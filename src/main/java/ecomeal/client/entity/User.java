@@ -15,11 +15,13 @@ public class User {
 		this.lastName = lastName;
 		this.login = login;
 		this.email = email;
+		this.token = "";
 	}
 	
 	public User(){
 		this.id = 0;
 		this.login = "";
+		this.token = "";
 	}
 	
 	public int getId() {

@@ -42,7 +42,9 @@ public class postTool {
 			HttpClient client = HttpClients.createDefault();
 			HttpPost postMethod = new HttpPost(url.getUrl().toURI());
 			if(!token.equals("")){				
+				System.out.println("Je passe bien ici");
 				postMethod.setHeader("X-Auth_Token", token);
+				System.out.println("Header X-Auth_Token : " + postMethod.getHeaders("X-Auth_Token").toString());
 			}
 			postMethod.setEntity(requestEntity);
 
@@ -52,6 +54,7 @@ public class postTool {
 	        BufferedReader buf = new BufferedReader(new InputStreamReader(ips,"UTF-8"));
 	        if(response.getStatusLine().getStatusCode() != HttpStatus.SC_OK)
 	        {
+	        	System.out.println("Code error PostTool : " + response.getStatusLine().getStatusCode());
 	        	return "PROBLEME";
 	        }
 	        StringBuilder sb = new StringBuilder();

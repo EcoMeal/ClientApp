@@ -37,7 +37,7 @@ public class BasketCategoryService extends AbstractService {
 		String result = "";
 		try {
 			result = jsonTool.readJson(new UrlWrapper(EcomealConstants.URL_ECOMEAL + "/api/basket_category"), token);
-			System.out.println(result);
+			System.out.println("JsonTollResult : " + result);
 	        if(result.equals("PROBLEME")){
 	        	return res;
 	        }else{

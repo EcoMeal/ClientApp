@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
 import com.vaadin.ui.CssLayout;
@@ -22,6 +23,8 @@ public class BasketCategoryView extends HorizontalLayout implements View {
 
 	private BasketCategoryService service;
 	private MainUI ui;
+	private List<BasketCategory> basketCategories;
+	private CssLayout css;
 	
 	/**
 	 * Constructor of the Basket Category View that initialize the page
@@ -32,29 +35,43 @@ public class BasketCategoryView extends HorizontalLayout implements View {
 		ui = (MainUI) navigator.getUI();
 		service = new BasketCategoryService(new JsonTool());
 		
-		// For the vertical scrollbar
-        setHeight(null);
-        setWidth("100%");
-        
-        // Get all the basket categories
-        List<BasketCategory> basketCategories = service.findAll(ui.getUser().getToken());
-        
-        // Css Layout allow the auto line return for BasketCategory Image when we resize the window
-        CssLayout css = new CssLayout();
-        for(BasketCategory basketCategory : basketCategories) {
-        	css.addComponent(new BasketCategoryComponent(navigator, basketCategory));
-        }
-        
-        
-        VerticalLayout vertical = new VerticalLayout(css);
-        vertical.setResponsive(true);
-        
-        addComponents(vertical);
+		navigator.addViewChangeListener(new ViewChangeListener() {
+			
+			private static final long serialVersionUID = -7219053322465512034L;
+
+			@Override
+			public boolean beforeViewChange(ViewChangeEvent event) {
+				if(!ui.getUser().getToken().equals("")) {
+					// For the vertical scrollbar
+			        setHeight(null);
+			        setWidth("100%");
+			        
+			        removeAllComponents();
+					
+					// Get all the basket categories
+			        basketCategories = service.findAll(ui.getUser().getToken());
+			        
+			        css = new CssLayout();
+			        for(BasketCategory basketCategory : basketCategories) {
+			        	css.addComponent(new BasketCategoryComponent(navigator, basketCategory));
+			        }
+			        
+			        VerticalLayout vertical = new VerticalLayout(css);
+			        vertical.setResponsive(true);
+			        
+			        addComponents(vertical);
+					return true;
+				}
+				return true;
+			}
+			
+		});
         
     }
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
+		
 		// Set background color for Basket Components
 		Page.getCurrent().getJavaScript().execute(
 				"var elements = document.getElementsByClassName('" + BasketCategoryComponent.javaScriptClassName + "');" +
@@ -71,7 +88,7 @@ public class BasketCategoryView extends HorizontalLayout implements View {
 				"		}" +
 				"	}" +
 				"}"
-		);	
+		);
 	}
 
 }
