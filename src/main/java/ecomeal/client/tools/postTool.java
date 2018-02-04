@@ -42,9 +42,7 @@ public class postTool {
 			HttpClient client = HttpClients.createDefault();
 			HttpPost postMethod = new HttpPost(url.getUrl().toURI());
 			if(!token.equals("")){				
-				System.out.println("Je passe bien ici");
-				postMethod.setHeader("X-Auth_Token", token);
-				System.out.println("Header X-Auth_Token : " + postMethod.getHeaders("X-Auth_Token").toString());
+				postMethod.setHeader("X-Auth-Token", token);
 			}
 			postMethod.setEntity(requestEntity);
 
