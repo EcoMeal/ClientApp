@@ -23,7 +23,7 @@ import ecomeal.client.services.ScheduleService;
 
 public class EmailSender {
 	
-	public void sendRecap(String to, Order order, String pathToQRCode) {
+	public static void sendRecap(String to, Order order, String pathToQRCode) {
 		
 		String username = "ecomealsociete@gmail.com";// change accordingly
 		String password = "jambonbeurre";// change accordingly

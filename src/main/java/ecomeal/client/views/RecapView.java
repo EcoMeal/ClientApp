@@ -26,6 +26,7 @@ import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Order;
 import ecomeal.client.services.ScheduleService;
+import ecomeal.client.tools.EmailSender;
 import ecomeal.client.tools.JsonTool;
 import ecomeal.client.tools.QRCodeEncoder;
 import ecomeal.client.ui.MainUI;
@@ -129,8 +130,9 @@ public class RecapView extends HorizontalLayout implements View{
 		        removeAllComponents();
 		        addComponents(vertical);
 		        
-		        // TODO Alexandre : Send email
-		        //EmailSender.sendEmail("alexandre.d.info@gmail.com", "Nouvelle commande", "Vous avez une nouvelle commande d'Ecomeal");
+		        if(!ui.getUser().getToken().equals("")){		        	
+		        	EmailSender.sendRecap(ui.getUser().getEmail(), myOrder,"./order" + myOrder.getId() + ".png");
+		        }
 		        
 		        
 				return true;
