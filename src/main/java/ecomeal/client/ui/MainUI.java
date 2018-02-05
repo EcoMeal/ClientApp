@@ -145,7 +145,8 @@ public class MainUI extends UI {
     		disconnectionButton = new Button("Déconnexion");
     		disconnectionButton.addClickListener(e -> {
     			showButtons(false);
-    			// TODO : Vider le User
+    			user = new User();
+    			order.clearOrder();
     			navigator.navigateTo(EcomealConstants.CONNECTION_VIEW);
     		});
     		disconnectionButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
