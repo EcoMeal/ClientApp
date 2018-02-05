@@ -40,6 +40,13 @@ public class MainUI extends UI {
 	private Navigator navigator;
 	private Order order;
 	private User user;
+	
+	private Button presentationButton;
+	private Button homeButton;
+	private Button connectionButton;
+	private Button createAccountButton;
+	private Button orderButton;
+	private Button disconnectionButton;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -62,6 +69,7 @@ public class MainUI extends UI {
 
         // Create and register the views
         navigator.addView(EcomealConstants.BASKET_CATEGORY_VIEW, new BasketCategoryView(navigator));
+        navigator.addView(EcomealConstants.PRESENTATION_VIEW,  new PresentationView(navigator));
         navigator.addView(EcomealConstants.MAIN_VIEW, new MainView(navigator));
         navigator.addView(EcomealConstants.CONNECTION_VIEW, new ConnectionView(navigator));
         navigator.addView(EcomealConstants.CREATE_ACCOUNT_VIEW, new CreateAccountView(navigator));
@@ -81,6 +89,16 @@ public class MainUI extends UI {
     	layout.addMenu(buildMenu(connected));
     }
     
+    public void showButtons(final boolean connected) {
+    	presentationButton.setVisible(!connected);
+    	homeButton.setVisible(connected);
+    	connectionButton.setVisible(!connected);
+    	createAccountButton.setVisible(!connected);
+    	orderButton.setVisible(connected);
+    	disconnectionButton.setVisible(connected);
+    	setMenuTextSize();
+    }
+    
     private CssLayout buildMenu(final boolean connected) {
     	CssLayout menu = new CssLayout();
     	HorizontalLayout menuItemsLayout = new HorizontalLayout();
@@ -96,35 +114,44 @@ public class MainUI extends UI {
     	} catch (Exception e) {
     		System.err.println("Icon image not found :" + e.getStackTrace());
     	}
-    	if(connected) {    		
-    		Button homeButton = new Button("Accueil");
+    	if(connected) {
+    		presentationButton = new Button("Accueil");
+    		presentationButton.addClickListener(e -> {
+    			navigator.navigateTo(EcomealConstants.PRESENTATION_VIEW);
+    		});
+    		presentationButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
+    		homeButton = new Button("Accueil");
     		homeButton.addClickListener(e -> {
     			navigator.navigateTo(EcomealConstants.MAIN_VIEW);
     		});
     		homeButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
-    		Button connectionButton = new Button("Connexion");
+    		homeButton.setVisible(false);
+    		connectionButton = new Button("Connexion");
     		connectionButton.addClickListener(e -> {
     			navigator.navigateTo(EcomealConstants.CONNECTION_VIEW);
     		});
     		connectionButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
-    		Button createAccountButton = new Button("Créer un compte");
+    		createAccountButton = new Button("Créer un compte");
     		createAccountButton.addClickListener(e -> {
     			navigator.navigateTo(EcomealConstants.CREATE_ACCOUNT_VIEW);
     		});
     		createAccountButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
-    		Button orderButton = new Button("Commande");
+    		orderButton = new Button("Commande");
     		orderButton.addClickListener(e -> {
     			addWindow(new OrderPopin(navigator, this));
     		});
     		orderButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
-    		Button disconnectionButton = new Button("Déconnexion");
+    		orderButton.setVisible(false);
+    		disconnectionButton = new Button("Déconnexion");
     		disconnectionButton.addClickListener(e -> {
-    			// Vider le User
+    			showButtons(false);
+    			// TODO : Vider le User
     			navigator.navigateTo(EcomealConstants.CONNECTION_VIEW);
     		});
     		disconnectionButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
+    		disconnectionButton.setVisible(false);
     		menuItemsLayout.addStyleName("ecomeal-menu");
-    		menuItemsLayout.addComponents(logoIcon, homeButton, connectionButton, createAccountButton, orderButton, disconnectionButton);
+    		menuItemsLayout.addComponents(logoIcon, presentationButton, homeButton, connectionButton, createAccountButton, orderButton, disconnectionButton);
     	}
     	
     	else {

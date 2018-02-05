@@ -76,6 +76,7 @@ public class ConnectionService {
         	ui.getUser().setToken(token);
         	ui.getUser().setEmail(mail);
         	ui.getUser().setLogin(login);
+        	ui.showButtons(true);
         	return true;        	
         }
         

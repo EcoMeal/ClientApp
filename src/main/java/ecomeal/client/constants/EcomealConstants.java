@@ -2,7 +2,8 @@ package ecomeal.client.constants;
 
 public class EcomealConstants {
 
-	public static final String MAIN_VIEW = "";
+	public static final String PRESENTATION_VIEW = "";
+	public static final String MAIN_VIEW = "Home";
 	public static final String BASKET_VIEW = "Paniers";
 	public static final String BASKET_CATEGORY_VIEW = "CategoriesPanier";
 	public static final String PRODUCT_VIEW = "Produits";
