@@ -9,6 +9,8 @@ import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 
+import ecomeal.client.constants.EcomealConstants;
+
 /**
  * Class used to parse data from server as JSON format
  */
@@ -32,8 +34,8 @@ public class JsonTool {
 	 * @param url the url from the server api
 	 * @return JSON as String format
 	 */
-	public String readJson(UrlWrapper url) {
-		return readJson(url, new HashMap<String,String>());
+	public String readJson(UrlWrapper url, String token) {
+		return readJson(url, new HashMap<String,String>(), token);
 	}
 	
 	/**
@@ -42,7 +44,7 @@ public class JsonTool {
 	 * @param url the url from the server api
 	 * @return JSON as String format
 	 */
-	public String readJson(UrlWrapper url, Map<String,String> params) {
+	public String readJson(UrlWrapper url, Map<String,String> params, String token) {
 		try {
 			// Adapt URL if there is some parameters
 			if(!params.isEmpty()) {				
@@ -51,16 +53,17 @@ public class JsonTool {
 					urlString = urlString + key + "=" + params.get(key) + "&";
 				}
 				urlString = urlString.substring(0, urlString.length() - 1);
-				url.setUrl("http://vps434333.ovh.net" + urlString);
+				url.setUrl(EcomealConstants.URL_ECOMEAL + urlString);
 			}
 			System.out.println("URL = '" + url.getPath() +"'");
 			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestProperty("X-Auth-Token", token);
 			connection.connect();
 			inputStream = connection.getInputStream();
 			return inputStreamToString(inputStream);
 		} catch (IOException e) {
 			e.printStackTrace();
-			return null;
+			return "PROBLEME";
 		}
 	}
 	

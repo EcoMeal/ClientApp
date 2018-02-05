@@ -35,7 +35,7 @@ public class BasketServiceTest {
 	public void testFindAll() {
 		
 		// INIT MOCKS
-		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class))).thenReturn(readExampleJson());
+		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), Mockito.anyString())).thenReturn(readExampleJson());
 		
 		
 		// INIT EXPECTED RESULT
@@ -48,7 +48,7 @@ public class BasketServiceTest {
 		
 		
 		// TEST
-		List<PresetBasket> result = service.findAll();
+		List<PresetBasket> result = service.findAll("");
 		assertEquals(result.size(), baskets.size());
 		assertEquals(result.get(0).getName(), basket.getName());
 		assertEquals(result.get(0).getPrice(), basket.getPrice());
@@ -58,10 +58,11 @@ public class BasketServiceTest {
 		assertEquals(result.get(0).getProducts().get(0).getCategory(), product.getCategory());
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testFindAllMalformedURLException() {
-		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class))).thenThrow(MalformedURLException.class);
-		assertEquals(null, service.findAll());
+		Mockito.when(jsonTool.readJson(Mockito.any(UrlWrapper.class), Mockito.anyString())).thenThrow(MalformedURLException.class);
+		assertEquals(null, service.findAll(""));
 	}
 	
 	private String readExampleJson() {
@@ -82,6 +83,11 @@ public class BasketServiceTest {
 			e.printStackTrace();
 		}
 		return builder.toString();
+	}
+	
+	@Test
+	public void testFindBasketsByCategory() {
+		
 	}
 
 }

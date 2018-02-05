@@ -4,6 +4,8 @@ import java.util.List;
 
 public class PresetBasket extends Basket {
 
+	private static final long serialVersionUID = 8016189837067534406L;
+
 	public PresetBasket(int id, String name, Integer price, String category, String category_image, List<Product> products) {
 		super(id, name, price, category, category_image, products);
 	}

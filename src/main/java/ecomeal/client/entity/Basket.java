@@ -2,13 +2,18 @@ package ecomeal.client.entity;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 
-public abstract class Basket {
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public abstract class Basket implements Serializable {
+	
+	private static final long serialVersionUID = -4467743392441964232L;
 	
 	private int id;
 	private String name;
@@ -84,5 +89,16 @@ public abstract class Basket {
 	}
 	
 	public abstract boolean equals(Basket basket);
+	
+	public String toString() {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String jsonInString = mapper.writeValueAsString(this);
+			return jsonInString;
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 }

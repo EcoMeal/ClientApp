@@ -37,11 +37,14 @@ public class ScheduleView extends HorizontalLayout implements View {
 	
 	private long deliveryTime;
 	
+	private MainUI ui;
+	
 	/**
 	 * Constructeur de HoraireView
 	 * @param navigator
 	 */
 	public ScheduleView(Navigator navigator) {
+		ui = (MainUI) navigator.getUI();
 		
 		navigator.addViewChangeListener(new ViewChangeListener(){
 
@@ -101,7 +104,7 @@ public class ScheduleView extends HorizontalLayout implements View {
         valideHoraire.addStyleName("ecomeal-button");
         valideHoraire.addClickListener(e -> {
         	goodHoraire.setVisible(true);
-        	goodHoraire.setValue(service.ScheduleToString(deliveryTime = service.findAGoodSchedule(valideCommand, from, to)));
+        	goodHoraire.setValue(service.ScheduleToString(deliveryTime = service.findAGoodSchedule(valideCommand, from, to, ui.getUser().getToken())));
         });
         goodHoraire.setVisible(false);
         horaireButton.addComponents(valideHoraire, goodHoraire);
@@ -110,9 +113,12 @@ public class ScheduleView extends HorizontalLayout implements View {
         valideCommand.addStyleName("ecomeal-button");
         valideCommand.setVisible(false);
         valideCommand.addClickListener(e -> {
-        	service.validateOrder(ui.getOrder(), deliveryTime);
-        	navigator.navigateTo(EcomealConstants.RECAP_VIEW);
-        	ui.getOrder().clearOrder();
+        	if(service.validateOrder(ui.getOrder(), deliveryTime, ui.getUser().getToken())){
+        		navigator.navigateTo(EcomealConstants.RECAP_VIEW);
+        		ui.getOrder().clearOrder();        		
+        	}else{
+        		//TODO Popup de problem
+        	}
         });
         
         // Boutton de retour
