@@ -72,6 +72,7 @@ public class ConnectionService {
             
         	String token = resultJson.getString("X-Auth_Token");
         	String mail = resultJson.getString("mail");
+        	System.err.println("Token :" +  token);
         	ui.getUser().setToken(token);
         	ui.getUser().setEmail(mail);
         	ui.getUser().setLogin(login);

@@ -130,7 +130,7 @@ public class RecapView extends HorizontalLayout implements View{
 		        removeAllComponents();
 		        addComponents(vertical);
 		        
-		        if(!ui.getUser().getToken().equals("")){		        	
+		        if(ui.getOrder().getId() != -1 && false){		        	
 		        	EmailSender.sendRecap(ui.getUser().getEmail(), myOrder,"./order" + myOrder.getId() + ".png");
 		        }
 		        

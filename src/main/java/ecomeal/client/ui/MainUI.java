@@ -45,7 +45,7 @@ public class MainUI extends UI {
     protected void init(VaadinRequest vaadinRequest) {
     	getPage().setTitle("EcoMeal");
     	setTheme("mytheme");
-    	resetMenuLayout(false);
+    	resetMenuLayout(true);
 //    	layout.setHeight(null);
 //        layout.setWidth("100%");
 //    	layout.addMenu(buildMenu());
