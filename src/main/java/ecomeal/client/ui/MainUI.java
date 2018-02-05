@@ -64,6 +64,7 @@ public class MainUI extends UI {
         navigator.addView(EcomealConstants.BASKET_CATEGORY_VIEW, new BasketCategoryView(navigator));
         navigator.addView(EcomealConstants.MAIN_VIEW, new MainView(navigator));
         navigator.addView(EcomealConstants.CONNECTION_VIEW, new ConnectionView(navigator));
+        navigator.addView(EcomealConstants.CREATE_ACCOUNT_VIEW, new CreateAccountView(navigator));
         navigator.addView(EcomealConstants.HORAIRE_VIEW, new ScheduleView(navigator));
         navigator.addView(EcomealConstants.RECAP_VIEW, new RecapView(navigator));
         
@@ -106,6 +107,11 @@ public class MainUI extends UI {
     			navigator.navigateTo(EcomealConstants.CONNECTION_VIEW);
     		});
     		connectionButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
+    		Button createAccountButton = new Button("Créer un compte");
+    		createAccountButton.addClickListener(e -> {
+    			navigator.navigateTo(EcomealConstants.CREATE_ACCOUNT_VIEW);
+    		});
+    		createAccountButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
     		Button orderButton = new Button("Commande");
     		orderButton.addClickListener(e -> {
     			addWindow(new OrderPopin(navigator, this));
@@ -118,7 +124,7 @@ public class MainUI extends UI {
     		});
     		disconnectionButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
     		menuItemsLayout.addStyleName("ecomeal-menu");
-    		menuItemsLayout.addComponents(logoIcon, homeButton, connectionButton, orderButton, disconnectionButton);
+    		menuItemsLayout.addComponents(logoIcon, homeButton, connectionButton, createAccountButton, orderButton, disconnectionButton);
     	}
     	
     	else {

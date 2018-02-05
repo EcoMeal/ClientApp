@@ -9,5 +9,6 @@ public class EcomealConstants {
 	public static final String HORAIRE_VIEW = "Horaire";
 	public static final String RECAP_VIEW = "Recap";
 	public static final String CONNECTION_VIEW = "Connection";
+	public static final String CREATE_ACCOUNT_VIEW = "Register";
 	public static final String URL_ECOMEAL = "http://vps434333.ovh.net";
 }
