@@ -1,5 +1,6 @@
 package ecomeal.client.tools;
 
+import java.util.Map;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -16,17 +17,13 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Order;
+import ecomeal.client.services.ScheduleService;
 
 public class EmailSender {
-
-	public static void main(String[] args) {
-		
-
-		sendRecap("charpentieraurelien@gmail.com",new Order(), "./src/main/resources/logoIcon.png");
-	}
 	
-	private static void sendRecap(String to, Order order, String pathToQRCode) {
+	public void sendRecap(String to, Order order, String pathToQRCode) {
 		
 		String username = "ecomealsociete@gmail.com";// change accordingly
 		String password = "jambonbeurre";// change accordingly
@@ -57,12 +54,23 @@ public class EmailSender {
 			
 			MimeBodyPart textBodyPart = new MimeBodyPart();
 			
-	        textBodyPart.setText("Voici votre commande,"
-				+ "\n\n Vous avez commandé ça, ça et ça."
-				+ "\n\n Venez la chercher à XXhXX."
-				+ "\n\n Scanner le QRCode pour retirer votre commande."
-				+ "\n\n On se retrouve très vite !"
-				+ "\n\n Equipe Ecomeal.");
+			String text = "Voici votre commande,"
+					+ "\n\n Vous avez commandé :";
+			
+			Map<Basket,Integer> basketMap = order.getBaskets();
+			
+			for(Map.Entry<Basket, Integer> entry : basketMap.entrySet()){
+				text += "\n\n " + entry.getValue().toString() + " " +  entry.getKey().getName() + ".";
+			}
+			
+			ScheduleService service = new ScheduleService(new JsonTool());
+			
+			text += "Votre commande sera prête pour " + service.ScheduleToString(order.getDeliveryTime())
+					+ "\n\n Scanner le QRCode pour retirer votre commande."
+					+ "\n\n On se retrouve très vite !"
+					+ "\n\n Equipe Ecomeal.";
+			
+	        textBodyPart.setText(text);
 	        
 	        MimeBodyPart attachmentBodyPart= new MimeBodyPart();
 	        DataSource source = new FileDataSource(pathToQRCode); // ex : "C:\\test.pdf"
