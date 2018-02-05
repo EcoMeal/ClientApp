@@ -101,18 +101,24 @@ public class MainUI extends UI {
     			navigator.navigateTo(EcomealConstants.MAIN_VIEW);
     		});
     		homeButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
+    		Button connectionButton = new Button("Connexion");
+    		connectionButton.addClickListener(e -> {
+    			navigator.navigateTo(EcomealConstants.CONNECTION_VIEW);
+    		});
+    		connectionButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
     		Button orderButton = new Button("Commande");
     		orderButton.addClickListener(e -> {
     			addWindow(new OrderPopin(navigator, this));
     		});
     		orderButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
-    		Button connectionButton = new Button("Déconnexion");
-    		connectionButton.addClickListener(e -> {
+    		Button disconnectionButton = new Button("Déconnexion");
+    		disconnectionButton.addClickListener(e -> {
+    			// Vider le User
     			navigator.navigateTo(EcomealConstants.CONNECTION_VIEW);
     		});
-    		connectionButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
+    		disconnectionButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
     		menuItemsLayout.addStyleName("ecomeal-menu");
-    		menuItemsLayout.addComponents(logoIcon, homeButton, orderButton, connectionButton);
+    		menuItemsLayout.addComponents(logoIcon, homeButton, connectionButton, orderButton, disconnectionButton);
     	}
     	
     	else {
