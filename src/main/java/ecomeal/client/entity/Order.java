@@ -93,6 +93,9 @@ public class Order implements Serializable {
 	
 	public void clearOrder() {
 		baskets.clear();
+		id = -1;
+		orderTime = -1;
+		deliveryTime = -1;
 	}
 	
 	public int getPrice() {
