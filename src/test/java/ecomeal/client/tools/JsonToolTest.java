@@ -54,9 +54,6 @@ public class JsonToolTest {
 		Mockito.doNothing().when(connection).connect();
 		Mockito.when(connection.getInputStream()).thenReturn(inputStream);
 		
-		HttpURLConnection conn= (HttpURLConnection) url.openConnection();
-		
-		Mockito.when(jsonToolSpy.inputStreamToString(conn.getInputStream())).thenReturn(jsonExample);
 		jsonToolSpy.readJson(urlSpy,"");
 		Mockito.verify(urlSpy).openConnection();
 		Mockito.verify(connection).connect();
@@ -71,9 +68,6 @@ public class JsonToolTest {
 		Mockito.doNothing().when(connection).connect();
 		Mockito.when(connection.getInputStream()).thenReturn(inputStream);
 		
-		HttpURLConnection conn= (HttpURLConnection) url.openConnection();
-		
-		Mockito.when(jsonToolSpy.inputStreamToString(conn.getInputStream())).thenReturn(jsonExample);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("start_time", "");
 		map.put("end_time", "");
