@@ -60,12 +60,12 @@ public class EmailSender {
 			Map<Basket,Integer> basketMap = order.getBaskets();
 			
 			for(Map.Entry<Basket, Integer> entry : basketMap.entrySet()){
-				text += "\n\n " + entry.getValue().toString() + " " +  entry.getKey().getName() + ".";
+				text += "\n\n " + entry.getValue().toString() + " \"" +  entry.getKey().getName() + "\".";
 			}
 			
 			ScheduleService service = new ScheduleService(new JsonTool());
 			
-			text += "Votre commande sera prête pour " + service.ScheduleToString(order.getDeliveryTime())
+			text += "\n\n Votre commande sera prête pour " + service.ScheduleToString(order.getDeliveryTime())
 					+ "\n\n Scanner le QRCode pour retirer votre commande."
 					+ "\n\n On se retrouve très vite !"
 					+ "\n\n Equipe Ecomeal.";
