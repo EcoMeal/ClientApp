@@ -7,6 +7,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.PresetBasket;
 import ecomeal.client.entity.Product;
 import ecomeal.client.tools.JsonTool;
@@ -24,7 +25,7 @@ public class BasketService extends AbstractService {
 	/**
 	 * @return all available Basket objects.
 	 */
-	public synchronized List<PresetBasket> findAll() {
+	public synchronized List<PresetBasket> findAll(String token) {
 		
 		List<PresetBasket> res = new ArrayList<PresetBasket>();
 		
@@ -35,7 +36,7 @@ public class BasketService extends AbstractService {
 		
 		String result;
 		try {
-			result = jsonTool.readJson(new UrlWrapper("http://vps434333.ovh.net/api/basket"));
+			result = jsonTool.readJson(new UrlWrapper(EcomealConstants.URL_ECOMEAL + "/api/basket"), token);
 			//String result = inputStreamToString(inputStream, 8096);
 		
 			JSONArray array = new JSONArray(result);
@@ -72,7 +73,7 @@ public class BasketService extends AbstractService {
 	/**
 	 * @return all available Basket objects.
 	 */
-	public synchronized List<PresetBasket> findBasketsByCategory(final int categoryId) {
+	public synchronized List<PresetBasket> findBasketsByCategory(final int categoryId, String token) {
 		
 		List<PresetBasket> res = new ArrayList<PresetBasket>();
 		
@@ -83,7 +84,7 @@ public class BasketService extends AbstractService {
 		
 		String result;
 		try {
-			result = jsonTool.readJson(new UrlWrapper("http://vps434333.ovh.net/api/basket/category/" + categoryId));
+			result = jsonTool.readJson(new UrlWrapper(EcomealConstants.URL_ECOMEAL + "/api/basket/category/" + categoryId), token);
 			//String result = inputStreamToString(inputStream, 8096);
 		
 			JSONArray array = new JSONArray(result);

@@ -26,7 +26,7 @@ import ecomeal.client.components.EcomealMenuLayout;
 import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
 import ecomeal.client.entity.Order;
-
+import ecomeal.client.entity.User;
 import ecomeal.client.views.*;
 
 @Theme("mytheme")
@@ -34,31 +34,45 @@ public class MainUI extends UI {
 
 	private static final long serialVersionUID = 2259839686859669777L;
 	
-	private final EcomealMenuLayout layout = new EcomealMenuLayout();
+	private EcomealMenuLayout layout = new EcomealMenuLayout();
 	private ComponentContainer layoutContentArea = layout.getContentArea();
 
 	private Navigator navigator;
 	private Order order;
+	private User user;
+	
+	private Button presentationButton;
+	private Button homeButton;
+	private Button connectionButton;
+	private Button createAccountButton;
+	private Button orderButton;
+	private Button disconnectionButton;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
     	getPage().setTitle("EcoMeal");
     	setTheme("mytheme");
-    	setContent(layout);
-    	layout.setHeight(null);
-        layout.setWidth("100%");
-    	layout.addMenu(buildMenu());
+    	resetMenuLayout(true);
+//    	layout.setHeight(null);
+//        layout.setWidth("100%");
+//    	layout.addMenu(buildMenu());
     	addStyleName(ValoTheme.UI_WITH_MENU);
     	
     	// Initialize the order with an empty List of Basket
     	order = new Order();
+    	
+    	//Initialize user
+    	user = new User();
     	
     	// Create a navigator to control the views
         navigator = new Navigator(this, layoutContentArea);
 
         // Create and register the views
         navigator.addView(EcomealConstants.BASKET_CATEGORY_VIEW, new BasketCategoryView(navigator));
+        navigator.addView(EcomealConstants.PRESENTATION_VIEW,  new PresentationView(navigator));
         navigator.addView(EcomealConstants.MAIN_VIEW, new MainView(navigator));
+        navigator.addView(EcomealConstants.CONNECTION_VIEW, new ConnectionView(navigator));
+        navigator.addView(EcomealConstants.CREATE_ACCOUNT_VIEW, new CreateAccountView(navigator));
         navigator.addView(EcomealConstants.HORAIRE_VIEW, new ScheduleView(navigator));
         navigator.addView(EcomealConstants.RECAP_VIEW, new RecapView(navigator));
         
@@ -66,7 +80,26 @@ public class MainUI extends UI {
         
     }
     
-    private CssLayout buildMenu() {
+    private void resetMenuLayout(final boolean connected) {
+    	layout = new EcomealMenuLayout();
+    	layoutContentArea = layout.getContentArea();
+    	setContent(layout);
+    	layout.setHeight(null);
+        layout.setWidth("100%");
+    	layout.addMenu(buildMenu(connected));
+    }
+    
+    public void showButtons(final boolean connected) {
+    	presentationButton.setVisible(!connected);
+    	homeButton.setVisible(connected);
+    	connectionButton.setVisible(!connected);
+    	createAccountButton.setVisible(!connected);
+    	orderButton.setVisible(connected);
+    	disconnectionButton.setVisible(connected);
+    	setMenuTextSize();
+    }
+    
+    private CssLayout buildMenu(final boolean connected) {
     	CssLayout menu = new CssLayout();
     	HorizontalLayout menuItemsLayout = new HorizontalLayout();
     	menuItemsLayout.setPrimaryStyleName("valo-menuitems");
@@ -81,18 +114,50 @@ public class MainUI extends UI {
     	} catch (Exception e) {
     		System.err.println("Icon image not found :" + e.getStackTrace());
     	}
-    	Button homeButton = new Button("Accueil");
-    	homeButton.addClickListener(e -> {
-    		navigator.navigateTo(EcomealConstants.MAIN_VIEW);
-    	});
-    	homeButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
-    	Button orderButton = new Button("Commande");
-    	orderButton.addClickListener(e -> {
-    		addWindow(new OrderPopin(navigator, this));
-    	});
-    	orderButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
-    	menuItemsLayout.addStyleName("ecomeal-menu");
-    	menuItemsLayout.addComponents(logoIcon, homeButton, orderButton);
+    	if(connected) {
+    		presentationButton = new Button("Accueil");
+    		presentationButton.addClickListener(e -> {
+    			navigator.navigateTo(EcomealConstants.PRESENTATION_VIEW);
+    		});
+    		presentationButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
+    		homeButton = new Button("Accueil");
+    		homeButton.addClickListener(e -> {
+    			navigator.navigateTo(EcomealConstants.MAIN_VIEW);
+    		});
+    		homeButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
+    		homeButton.setVisible(false);
+    		connectionButton = new Button("Connexion");
+    		connectionButton.addClickListener(e -> {
+    			navigator.navigateTo(EcomealConstants.CONNECTION_VIEW);
+    		});
+    		connectionButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
+    		createAccountButton = new Button("Créer un compte");
+    		createAccountButton.addClickListener(e -> {
+    			navigator.navigateTo(EcomealConstants.CREATE_ACCOUNT_VIEW);
+    		});
+    		createAccountButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
+    		orderButton = new Button("Commande");
+    		orderButton.addClickListener(e -> {
+    			addWindow(new OrderPopin(navigator, this));
+    		});
+    		orderButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
+    		orderButton.setVisible(false);
+    		disconnectionButton = new Button("Déconnexion");
+    		disconnectionButton.addClickListener(e -> {
+    			showButtons(false);
+    			user = new User();
+    			order.clearOrder();
+    			navigator.navigateTo(EcomealConstants.CONNECTION_VIEW);
+    		});
+    		disconnectionButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
+    		disconnectionButton.setVisible(false);
+    		menuItemsLayout.addStyleName("ecomeal-menu");
+    		menuItemsLayout.addComponents(logoIcon, presentationButton, homeButton, connectionButton, createAccountButton, orderButton, disconnectionButton);
+    	}
+    	
+    	else {
+    		menuItemsLayout.addComponents(logoIcon);
+    	}
     	return menu;
     }
     
@@ -118,7 +183,15 @@ public class MainUI extends UI {
 		);
     }
 
-    @WebServlet(urlPatterns = "/*", name = "MyMainServlet", asyncSupported = true)
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	@WebServlet(urlPatterns = "/*", name = "MyMainServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MainUI.class, productionMode = false)
     public static class MyMainServlet extends VaadinServlet {
 

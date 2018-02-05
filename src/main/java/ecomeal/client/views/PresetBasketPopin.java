@@ -22,7 +22,7 @@ import ecomeal.client.ui.MainUI;
 
 public class PresetBasketPopin extends Window {
 	
-	private PresetBasket basket;
+	private static final long serialVersionUID = 135206551551771894L;
 	
 	public PresetBasketPopin(Navigator navigator, PresetBasket basket, boolean ordering) {
 		center();

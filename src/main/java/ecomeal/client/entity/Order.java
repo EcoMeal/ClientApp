@@ -1,11 +1,17 @@
 package ecomeal.client.entity;
 
-import java.sql.Timestamp;
+import java.awt.Color;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Order {
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class Order implements Serializable {
 	
+	private static final long serialVersionUID = -155648826452298695L;
+
 	/* The ID must be set when the order has been validated */
 	private Integer id;
 	
@@ -102,6 +108,17 @@ public class Order {
 			if(entry.getKey().getId() == basketId) {
 				entry.setValue(quantity);
 			}
+		}
+	}
+	
+	public String toString() {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String jsonInString = mapper.writeValueAsString(this);
+			return jsonInString;
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 	
