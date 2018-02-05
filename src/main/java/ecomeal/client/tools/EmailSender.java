@@ -87,7 +87,8 @@ public class EmailSender {
 			System.out.println("Done");
 
 		} catch (MessagingException e) {
-			throw new RuntimeException(e);
+			System.err.println("Failed to send email");
+			//throw new RuntimeException(e);
 		}
 	}
 }
