@@ -34,7 +34,7 @@ public class MainUI extends UI {
 
 	private static final long serialVersionUID = 2259839686859669777L;
 	
-	private final EcomealMenuLayout layout = new EcomealMenuLayout();
+	private EcomealMenuLayout layout = new EcomealMenuLayout();
 	private ComponentContainer layoutContentArea = layout.getContentArea();
 
 	private Navigator navigator;
@@ -45,10 +45,10 @@ public class MainUI extends UI {
     protected void init(VaadinRequest vaadinRequest) {
     	getPage().setTitle("EcoMeal");
     	setTheme("mytheme");
-    	setContent(layout);
-    	layout.setHeight(null);
-        layout.setWidth("100%");
-    	layout.addMenu(buildMenu());
+    	resetMenuLayout(false);
+//    	layout.setHeight(null);
+//        layout.setWidth("100%");
+//    	layout.addMenu(buildMenu());
     	addStyleName(ValoTheme.UI_WITH_MENU);
     	
     	// Initialize the order with an empty List of Basket
@@ -71,7 +71,16 @@ public class MainUI extends UI {
         
     }
     
-    private CssLayout buildMenu() {
+    private void resetMenuLayout(final boolean connected) {
+    	layout = new EcomealMenuLayout();
+    	layoutContentArea = layout.getContentArea();
+    	setContent(layout);
+    	layout.setHeight(null);
+        layout.setWidth("100%");
+    	layout.addMenu(buildMenu(connected));
+    }
+    
+    private CssLayout buildMenu(final boolean connected) {
     	CssLayout menu = new CssLayout();
     	HorizontalLayout menuItemsLayout = new HorizontalLayout();
     	menuItemsLayout.setPrimaryStyleName("valo-menuitems");
@@ -86,23 +95,29 @@ public class MainUI extends UI {
     	} catch (Exception e) {
     		System.err.println("Icon image not found :" + e.getStackTrace());
     	}
-    	Button homeButton = new Button("Accueil");
-    	homeButton.addClickListener(e -> {
-    		navigator.navigateTo(EcomealConstants.MAIN_VIEW);
-    	});
-    	homeButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
-    	Button orderButton = new Button("Commande");
-    	orderButton.addClickListener(e -> {
-    		addWindow(new OrderPopin(navigator, this));
-    	});
-    	orderButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
-    	Button connectionButton = new Button("Déconnexion");
-    	connectionButton.addClickListener(e -> {
-    		navigator.navigateTo(EcomealConstants.CONNECTION_VIEW);
-    	});
-    	connectionButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
-    	menuItemsLayout.addStyleName("ecomeal-menu");
-    	menuItemsLayout.addComponents(logoIcon, homeButton, orderButton, connectionButton);
+    	if(connected) {    		
+    		Button homeButton = new Button("Accueil");
+    		homeButton.addClickListener(e -> {
+    			navigator.navigateTo(EcomealConstants.MAIN_VIEW);
+    		});
+    		homeButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
+    		Button orderButton = new Button("Commande");
+    		orderButton.addClickListener(e -> {
+    			addWindow(new OrderPopin(navigator, this));
+    		});
+    		orderButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
+    		Button connectionButton = new Button("Déconnexion");
+    		connectionButton.addClickListener(e -> {
+    			navigator.navigateTo(EcomealConstants.CONNECTION_VIEW);
+    		});
+    		connectionButton.setPrimaryStyleName(ValoTheme.MENU_ITEM);
+    		menuItemsLayout.addStyleName("ecomeal-menu");
+    		menuItemsLayout.addComponents(logoIcon, homeButton, orderButton, connectionButton);
+    	}
+    	
+    	else {
+    		menuItemsLayout.addComponents(logoIcon);
+    	}
     	return menu;
     }
     
