@@ -1,5 +1,6 @@
 package ecomeal.client.views;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -11,10 +12,12 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
@@ -99,10 +102,36 @@ public class RecapView extends HorizontalLayout implements View{
 		        	navigator.navigateTo(EcomealConstants.MAIN_VIEW);
 		        });
 		        
-		        VerticalLayout vertical = new VerticalLayout(title,FirstPhrase, css, SecondPhrase, ThirdPhrase, FourthPhrase, returnButton);
+		     // TODO Maxime : Generate QR Code
+				byte[] data = QRCodeEncoder.encodeObjectToString(myOrder);
+				if(data == null) {
+					System.err.println("Failed to encode data");
+				}
+				BitMatrix bitMatrix;
+				try {
+					bitMatrix = QRCodeEncoder.generateMatrix(new String(data));
+					if(bitMatrix == null) {
+						// TODO : make better error log message
+						System.err.println("Failed to generate QRCode byte matrix");
+					}
+					FileOutputStream fileOutputStream = new FileOutputStream("order" + myOrder.getId() + ".png");
+			        MatrixToImageWriter.writeToStream(bitMatrix, "png", fileOutputStream);
+			        fileOutputStream.close();
+				} catch (IOException e) {
+					System.err.println("Failed to generate QRCode");
+				}
+				
+				Image qrCodeImage = new Image();
+				qrCodeImage.setSource(new FileResource(new File("order" + myOrder.getId() + ".png")));
+		        
+		        VerticalLayout vertical = new VerticalLayout(title,FirstPhrase, css, SecondPhrase, ThirdPhrase, FourthPhrase, qrCodeImage, returnButton);
 		        vertical.setResponsive(true);
 		        removeAllComponents();
 		        addComponents(vertical);
+		        
+		        // TODO Alexandre : Send email
+		        //EmailSender.sendEmail("alexandre.d.info@gmail.com", "Nouvelle commande", "Vous avez une nouvelle commande d'Ecomeal");
+		        
 		        
 				return true;
 			}
@@ -136,28 +165,7 @@ public class RecapView extends HorizontalLayout implements View{
 				"}"
 		);
 		
-		// TODO Maxime : Generate QR Code
-		byte[] data = QRCodeEncoder.encodeObjectToString(myOrder);
-		if(data == null) {
-			System.err.println("Failed to encode data");
-		}
-		BitMatrix bitMatrix;
-		try {
-			bitMatrix = QRCodeEncoder.generateMatrix(new String(data));
-			if(bitMatrix == null) {
-				// TODO : make better error log message
-				System.err.println("Failed to generate QRCode byte matrix");
-			}
-			FileOutputStream fileOutputStream = new FileOutputStream("test-qrcode.png");
-	        MatrixToImageWriter.writeToStream(bitMatrix, "png", fileOutputStream);
-	        fileOutputStream.close();
-		} catch (IOException e) {
-			System.err.println("Failed to generate QRCode");
-		}
 		
-		
-		// TODO Alexandre : Send email
-		//EmailSender.sendEmail("alexandre.d.info@gmail.com", "Nouvelle commande", "Vous avez une nouvelle commande d'Ecomeal");
 			
 	}
 
