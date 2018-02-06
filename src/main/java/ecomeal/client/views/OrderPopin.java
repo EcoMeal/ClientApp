@@ -19,7 +19,6 @@ import com.vaadin.ui.themes.ValoTheme;
 import ecomeal.client.components.IntegerField;
 import ecomeal.client.constants.EcomealConstants;
 import ecomeal.client.entity.Basket;
-import ecomeal.client.entity.Order;
 import ecomeal.client.entity.OrderGridRow;
 import ecomeal.client.ui.MainUI;
 
@@ -36,7 +35,7 @@ public class OrderPopin extends Window {
 	private final Button deleteBasket;
 	private OrderGridRow selectedRow = null;
 	
-	private int totalPrice;
+	private double totalPrice;
 	private Label totalPriceLabel;
 	
 	public OrderPopin(Navigator navigator, MainUI ui) {
@@ -63,7 +62,7 @@ public class OrderPopin extends Window {
 			String basketName = basket.getName();
 			String basketCategory = basket.getCategory();
 			Integer quantity = entry.getValue();
-			Integer unitPrice = basket.getPrice();
+			Double unitPrice = basket.getPrice();
 			totalPrice += (unitPrice * quantity);
 			rows.add(new OrderGridRow(basketId, basketName, basketCategory, quantity, unitPrice));
 		}
@@ -157,7 +156,7 @@ public class OrderPopin extends Window {
 			String basketName = basket.getName();
 			String basketCategory = basket.getCategory();
 			Integer quantity = entry.getValue();
-			Integer unitPrice = basket.getPrice();
+			Double unitPrice = basket.getPrice();
 			totalPrice += (unitPrice * quantity);
 			rows.add(new OrderGridRow(basketId, basketName, basketCategory, quantity, unitPrice));
 		}

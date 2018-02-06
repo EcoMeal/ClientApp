@@ -17,12 +17,12 @@ public abstract class Basket implements Serializable {
 	
 	private int id;
 	private String name;
-	private Integer price;
+	private Double price;
 	private String category;
 	private List<Product> products;
 	private File image;
 	
-	public Basket(int id,String name, Integer price, String category, String category_image, List<Product> products) {
+	public Basket(int id,String name, Double price, String category, String category_image, List<Product> products) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
@@ -56,11 +56,11 @@ public abstract class Basket implements Serializable {
 		this.name = name;
 	}
 	
-	public Integer getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(Integer price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 

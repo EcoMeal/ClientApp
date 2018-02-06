@@ -45,7 +45,7 @@ public class BasketService extends AbstractService {
 				obj = array.getJSONObject(i);
 				int basketId = obj.getInt("id");
 				String basketName = obj.getString("name");
-				Integer basketPrice = obj.getInt("price");
+				Double basketPrice = obj.getDouble("price");
 				String basketCategory = obj.getString("category");
 				String basketCategoryImage = obj.get("category_image").equals(null) ? "" : obj.getString("category_image");
 				
@@ -93,7 +93,7 @@ public class BasketService extends AbstractService {
 				obj = array.getJSONObject(i);
 				int basketId = obj.getInt("id");
 				String basketName = obj.getString("name");
-				Integer basketPrice = obj.getInt("price");
+				Double basketPrice = obj.getDouble("price");
 				String basketCategory = obj.getString("category");
 				String basketCategoryImage = obj.get("category_image").equals(null) ? "" : obj.getString("category_image");
 				

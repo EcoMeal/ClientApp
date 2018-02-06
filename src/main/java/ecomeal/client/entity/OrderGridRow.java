@@ -3,12 +3,12 @@ package ecomeal.client.entity;
 public class OrderGridRow {
 	
 	private final int id;
-	private final Integer unitPrice;
+	private final Double unitPrice;
 	private Integer quantity;
 	private final String type;
 	private final String basketName;
 	
-	public OrderGridRow(final int id, final String basketName, final String type, final Integer quantity, final Integer unitPrice) {
+	public OrderGridRow(final int id, final String basketName, final String type, final Integer quantity, final Double unitPrice) {
 		this.id = id;
 		this.basketName = basketName;
 		this.type = type;
@@ -20,7 +20,7 @@ public class OrderGridRow {
 		return id;
 	}
 	
-	public Integer getUnitPrice() {
+	public Double getUnitPrice() {
 		return unitPrice;
 	}
 	

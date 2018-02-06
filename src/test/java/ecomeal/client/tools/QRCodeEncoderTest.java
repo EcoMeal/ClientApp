@@ -20,7 +20,7 @@ public class QRCodeEncoderTest {
 		Product product = new Product("Steak", "Viande");
 		List<Product> products = new ArrayList<Product>();
 		products.add(product);
-		Basket basket = new PresetBasket(1, "panier test", 5, "category test", "", products);
+		Basket basket = new PresetBasket(1, "panier test", 5.0, "category test", "", products);
 		Order order = new Order();
 		order.setId(1);
 		order.setOrderTime(1);
