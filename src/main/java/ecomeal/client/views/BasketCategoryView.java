@@ -49,8 +49,9 @@ public class BasketCategoryView extends HorizontalLayout implements View {
 			        removeAllComponents();
 					
 					// Get all the basket categories
-			        basketCategories = service.findAll(ui.getUser().getToken());
-			        
+			        if(!ui.getUser().getToken().equals("")){
+			        	basketCategories = service.findAll(ui.getUser().getToken());
+			        }
 			        css = new CssLayout();
 			        for(BasketCategory basketCategory : basketCategories) {
 			        	css.addComponent(new BasketCategoryComponent(navigator, basketCategory));
