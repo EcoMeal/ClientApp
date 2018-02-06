@@ -52,11 +52,12 @@ public class BasketView extends HorizontalLayout implements View {
         // Get all the baskets
         System.out.println(categoryId);
     	List<PresetBasket> baskets = new ArrayList<PresetBasket>();
-        if(categoryId > 0)
-        	baskets = service.findBasketsByCategory(categoryId,ui.getUser().getToken());
-        else 
-        	baskets = service.findAll(ui.getUser().getToken());
-        
+    	if(!ui.getUser().getToken().equals("")){
+	        if(categoryId > 0)
+	        	baskets = service.findBasketsByCategory(categoryId,ui.getUser().getToken());
+	        else 
+	        	baskets = service.findAll(ui.getUser().getToken());
+    	}
         // Css Layout allow the auto line return for Basket Image when we resize the window
         CssLayout css = new CssLayout();
         for(PresetBasket basket : baskets) {
